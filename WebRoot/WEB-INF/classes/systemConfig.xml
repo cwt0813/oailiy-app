@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!-- 支付宝相关 -->
+<properties>
+    <!-- 推流地址 -->
+    <entry key="play_addr">rtmp://yiliao07.pullyl.3ttech.cn/yiliao07/</entry>
+    <!-- 项目名称 -->
+    <entry key="projectName">demo</entry>
+    <!-- 支付宝回调地址 -->
+    <entry key="alipayNotifyUrl">http://app.1-liao.cn/pay/alipay_callback.html</entry>
+    <!-- 微信支付回调地址 -->
+    <entry key="weixinNotifyUrl">http://app.1-liao.cn/pay/wxPayCallBack.html</entry>
+    <!-- 微信支付IP地址 -->
+    <entry key="spbill_create_ip">106.15.88.38</entry>
+    <!-- 推送相关 -->
+    <entry key="app_key">40f7d4d87dd5a8397fc9af4a</entry>
+    
+    <entry key="master_secret">2ee10b360f319b547be543c5</entry>
+    
+    <!-- 渠道推广背景图片存储路径   windows -->
+	<entry key="windows_speed_fileUrl">D:/speed/img/</entry>
+	<!-- 渠道推广背景图片存储路径   centos -->
+	<entry key="centos_speed_fileUrl">/speed/img/</entry>
+	<!-- 配置图片房间地址 -->
+	<entry key="spreed_img_url">http://admin.1-liao.cn/upload/</entry>
+	<!-- 分享链接 -->
+	<entry key="share_url">http://app.1-liao.cn/share/jumpShare.html?userId=</entry>
+	<!--加密 公钥 -->
+	<entry key="encrypt_public">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEX8uKgV3qbs+JjOGldH+OXA/7S7KtgWu2DHydcrUS+pwDtAw5cA8gRSHlVk8vVxSn89gy3Nhz0EA2qfxPB1hciWTy4lziKPEsCJcGq1ri/bADHj2CXiYLOkM6RxWhgFDiT+Afcu4XnYRCL5gFGaEvyVk3UV369qjG7y3ijhUHGwIDAQAB</entry>
+	<!--解密 私钥 -->
+	<entry key="encrypt_private">MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIRfy4qBXepuz4mM4aV0f45cD/tLsq2Ba7YMfJ1ytRL6nAO0DDlwDyBFIeVWTy9XFKfz2DLc2HPQQDap/E8HWFyJZPLiXOIo8SwIlwarWuL9sAMePYJeJgs6QzpHFaGAUOJP4B9y7hedhEIvmAUZoS/JWTdRXfr2qMbvLeKOFQcbAgMBAAECgYAmDsycI5l2vykX6NMvGJFbwogtvZO/YogvLOPe+I2qyTZ1shwZn2gZ5QZbwza865JavzaXWPs6QNNVZAXQStJSTjqGLHiOK9kQWflF7XtZtBoAVAKP9lLveyBXtTrII/3LSzIvMECdT5YYYLzU91vpolg9+0WpzEHtRdtbDIyLEQJBAMm5ofn6kpQ88IW7ypMcZ5RFy46XPxeaZhmAQwSONYzGVArpjHfe3wKC5QxqfGThHT2YCPSFukhvsLN6etF537cCQQCn/W2ruSXrLhMy8dgkEwQL+EX9cd97qDvpd1u5u1TQ+kZo3cJ5SEONucM3YN5Tnu9FfG2aBEk9wZywl4pNcgu9AkEAvRVphJ2hA55TfadW7Kn1VQBPG2sd0owBI+ob54s9GqVUZZ4g8sNPmlUDSa4Ox6hS9kcqLbmjsP4wTSuDMBLi5QJARqbceCufWgD/zB5QxCNHQW2Cqiw5TL2drPwpFL1H17ha4oHZ575PwwyMoP7ZopumkDfbtLn2v8VtDAw/+4BqlQJAKlzcv+cjy+aA41gX68QeDr3sBx6LxtmJMhblwNGRsU1Y+AX0dAMFNLxss+sYQC9MiPW/LDkmyHPrAtAD9F/ASw==</entry>
+
+</properties>
