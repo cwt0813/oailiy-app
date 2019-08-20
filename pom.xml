@@ -347,7 +347,7 @@
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 					<compilerArguments>
-						<extdirs>/WebRoot/WEB-INF/lib</extdirs><!--指定外部lib -->
+						<extdirs>lib</extdirs><!--指定外部lib -->
 					</compilerArguments>
 				</configuration>
 			</plugin>
