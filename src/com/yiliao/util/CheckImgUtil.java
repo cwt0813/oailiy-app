@@ -60,7 +60,7 @@ public class CheckImgUtil {
 
 	public static void main(String[] args) {
 
-	        ImageClient imageClient = new ImageClient(appId, secretId, secretKey);
+	        ImageClient imageClient = new ImageClient(appId, secretId, secretKey, bucketName);
 
 	        /*设置代理服务器*/
 	        //Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("127.0.0.1", 8080));
@@ -130,20 +130,20 @@ public class CheckImgUtil {
 	        System.out.println("====================================================");
 	        String imageUrl = "http://open.youtu.qq.com/app/img/experience/face_img/face_34.jpg";//照片url
 	        request = new FaceLiveDetectPictureRequest(bucketName, imageUrl);
-	        result = imageClient.faceLiveDetectPicture(request, useNewDomain);
+	        result = imageClient.faceLiveDetectPicture(request);
 	        System.out.println("face  live detect picture result:" + result);
 
 	        //2. 图片内容方式
 	        System.out.println("====================================================");
 	        File image = new File("assets", "face_34.jpg");
 	        request = new FaceLiveDetectPictureRequest(bucketName, image);
-	        result = imageClient.faceLiveDetectPicture(request, useNewDomain);
+	        result = imageClient.faceLiveDetectPicture(request);
 	        System.out.println("face  live detect picture result:" + result);
 	        
 	        //3. 图片内容方式(byte[])
 	        System.out.println("====================================================");
 	        request = new FaceLiveDetectPictureRequest(bucketName, getFileBytes(image));
-	        result = imageClient.faceLiveDetectPicture(request, useNewDomain);
+	        result = imageClient.faceLiveDetectPicture(request);
 	        System.out.println("face  live detect picture result:" + result);
 	    }
 
@@ -262,14 +262,14 @@ public class CheckImgUtil {
 	        System.out.println("====================================================");
 	        String imageUrl = "http://youtu.qq.com/app/img/experience/face_img/icon_face_01.jpg";
 	        request = new FaceMultiIdentifyRequest(bucketName, imageUrl, "tencent", "group_id_A", "group_id_B", "group_id_C");
-	        result = imageClient.faceMultiIdentify(request, false);
+	        result = imageClient.faceMultiIdentify(request);
 	        System.out.println("face compare result:" + result);
 
 	        //2. 图片内容方式
 	        System.out.println("====================================================");
 	        File imageFile = new File("assets","icon_face_01.jpg");
 	        request = new FaceMultiIdentifyRequest(bucketName, imageFile, "tencent", "group_id_A", "group_id_B", "group_id_C");
-	        result = imageClient.faceMultiIdentify(request, false);
+	        result = imageClient.faceMultiIdentify(request);
 	        System.out.println("face compare result:" + result);
 	    }
 
@@ -398,7 +398,7 @@ public class CheckImgUtil {
 	        System.out.println("====================================================");
 	        FaceAddGroupIdsRequest request = new FaceAddGroupIdsRequest(bucketName, "personId1", "group2");
 
-	        ret = imageClient.faceAddGroupIds(request, false);
+	        ret = imageClient.faceAddGroupIds(request);
 	        System.out.println("face add group ids  ret:" + ret);
 	    }
 
@@ -410,7 +410,7 @@ public class CheckImgUtil {
 	        System.out.println("====================================================");
 	        FaceDelGroupIdsRequest request = new FaceDelGroupIdsRequest(bucketName, "personId1", "group2");
 
-	        ret = imageClient.faceDelGroupIds(request, false);
+	        ret = imageClient.faceDelGroupIds(request);
 	        System.out.println("face del group ids  ret:" + ret);
 	    }
 
@@ -789,7 +789,7 @@ public class CheckImgUtil {
 	     */
 	    public static Map<String, Object> imagePorn(String[] urls,String appId,String secretId,String secretKey,String bucketName) {
 	    	
-	    	ImageClient imageClient = new ImageClient(appId, secretId, secretKey);
+	    	ImageClient imageClient = new ImageClient(appId, secretId, secretKey, bucketName);
 	        String ret;
 	        // 1. url方式
 	        System.out.println("====================================================");
