@@ -119,11 +119,11 @@
 			<version>10.2.0.4.0</version> </dependency> -->
 
 		<!-- -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>net.sf.ehcache</groupId> -->
-<!-- 			<artifactId>ehcache</artifactId> -->
-<!-- 			<version>1.5.0</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>net.sf.ehcache</groupId> -->
+		<!-- <artifactId>ehcache</artifactId> -->
+		<!-- <version>1.5.0</version> -->
+		<!-- </dependency> -->
 		<!-- commons begin -->
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -290,15 +290,15 @@
 		</dependency>
 		<!-- 腾讯 oss 对象存储 -->
 		<dependency>
-            <groupId>com.qcloud</groupId>
-            <artifactId>cos_api</artifactId>
-            <version>5.4.4</version>
+			<groupId>com.qcloud</groupId>
+			<artifactId>cos_api</artifactId>
+			<version>5.4.4</version>
 		</dependency>
 		<!-- 阿里云短信 注：如提示报错，先升级基础包版，无法解决可联系技术支持 -->
 		<dependency>
-		  <groupId>com.aliyun</groupId>
-		  <artifactId>aliyun-java-sdk-core</artifactId>
-		  <version>3.7.1</version> 
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>3.7.1</version>
 		</dependency>
 		<!-- 阿里云短信 -->
 		<dependency>
@@ -306,18 +306,18 @@
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
-		    <groupId>jstl</groupId>
-		    <artifactId>jstl</artifactId>
-		    <version>1.2</version>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 		<!-- google 缓存 -->
 		<dependency>
-		   <groupId>com.google.guava</groupId>
-		   <artifactId>guava</artifactId>
-		   <version>23.0</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>23.0</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -346,6 +346,9 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<compilerArguments>
+				<extdirs>${basedir}/WebRoot/WEB-INF/lib</extdirs>
+			</compilerArguments>
 		</plugins>
 	</build>
 </project>
