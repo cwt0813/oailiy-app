@@ -347,7 +347,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<sourceDirectory>${basedir}/src</sourceDirectory>
+		<sourceDirectory>${basedir}</sourceDirectory>
 		<outputDirectory>${basedir}/WebRoot/WEB-INF/classes</outputDirectory>
 		<resources>
 			<resource>
