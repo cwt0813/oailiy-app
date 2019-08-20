@@ -357,7 +357,7 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>src/main/resource</directory>
+				<directory>${basedir}/resource</directory>
 				<includes>
 					<include>*</include>
 				</includes>
