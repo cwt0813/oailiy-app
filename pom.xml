@@ -341,14 +341,16 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<compilerArguments>
+						<extdirs>/WebRoot/WEB-INF/lib</extdirs><!--指定外部lib -->
+					</compilerArguments>
 				</configuration>
 			</plugin>
-			<compilerArguments>
-				<extdirs>${basedir}/WebRoot/WEB-INF/lib</extdirs>
-			</compilerArguments>
 		</plugins>
 	</build>
 </project>
