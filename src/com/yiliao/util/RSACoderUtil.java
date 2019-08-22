@@ -22,11 +22,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.json.JSONObject;
 
 public class RSACoderUtil {
 
+	private static Logger logger = LoggerFactory.getLogger(RSACoderUtil.class);
+	
 	public static final String CHARSET = "UTF-8";
 	public static final String RSA_ALGORITHM = "RSA";
 
@@ -118,7 +122,7 @@ public class RSACoderUtil {
 
 	public static JSONObject privateDecrypt(HttpServletRequest req) {
 		try {
-
+			
 			String cipher_param = "";
 			
 			BufferedReader br = req.getReader();
@@ -126,6 +130,9 @@ public class RSACoderUtil {
 			while ((str = br.readLine()) != null) {
 				cipher_param += str;
 			}
+			
+			logger.info("cipher_param={}", cipher_param);
+			
 			String[] str1 = cipher_param.split("=");
 			
 			cipher_param =URLDecoder.decode(str1[1],"UTF-8") ;
@@ -223,8 +230,8 @@ public class RSACoderUtil {
 		Map<String, String> keyMap = RSACoderUtil.createKeys(1024);
         String  publicKey = keyMap.get("publicKey");
         String  privateKey = keyMap.get("privateKey");
-//		String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1B5SkHGaNbhyb8viONwNWUEvIf/eEmrzBv3R35e6J0k5POTgePNcNJyZ7IXoXKoVIsNJgaxUDG5c/3mdhnsfiNxP6g4CJt4WZxDkEti/VoWODNhp/TBI4wcwUpistkETkAMA4ldqk2IwOQCJcwYy9lnNP+0vroKTUj07IjsBjzwIDAQAB";
-//		String privateKey = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALUHlKQcZo1uHJvy+I43A1ZQS8h/94SavMG/dHfl7onSTk85OB481w0nJnshehcqhUiw0mBrFQMblz/eZ2Gex+I3E/qDgIm3hZnEOQS2L9WhY4M2Gn9MEjjBzBSmKy2QROQAwDiV2qTYjA5AIlzBjL2Wc0/7S+ugpNSPTsiOwGPPAgMBAAECgYEAln4w0aVSk+ygF/0LKJ8PRSgHeCz5xeElXiQdXLdncGfG9hFpV6nYVXTghqgz6SJOHznwCnu6whSjzlLDuuHW5AxK2kRWCC4/xXJHMAmDVBP/tj5o3QUHZupaIIv+oFz9ioJktMOyRqP3IBcm5AVyW2QpjrHrbFn2nfULvdojQNECQQD6Qncfx6N85Jd+VqLIb9ClS46VHmrgnF3B2Y9ky9cEaXNC4c0HOeRhp/32sVbbAsS/xinOcfZ9X7gmPhqhUqm1AkEAuS6YBWWr+NPB4WImm5cAOStoUA6Hqbx88ySWMttk44vwZiLzjquHfrrFMuH1N90vD27zp/pqZP4CVWqLX4A58wJBAMD7CfNGtmpzt+KjmiloGAOu7QdOimokCiSWyP2YNnlfe5NCniEJYnRv3+YgwHJogyHDBK/+r23kpxNOZqiqHtUCQG9K1Gxx9U/fHCdzUJazwpuZPeDXSqs1L7cFJwu7lT+4C6uml9AHwK/mWbvB1xlS4gSZfvBWbHjzu71QAiFMNAcCQQDRWOndDLyzVFnV1e77IUbN2FJ7D7RY53i7jyxMLUnMlF++oPlu31+VKXbGCjopitb1HK0J4HhWeZb0Vo4IsHbt";
+//		String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEX8uKgV3qbs+JjOGldH+OXA/7S7KtgWu2DHydcrUS+pwDtAw5cA8gRSHlVk8vVxSn89gy3Nhz0EA2qfxPB1hciWTy4lziKPEsCJcGq1ri/bADHj2CXiYLOkM6RxWhgFDiT+Afcu4XnYRCL5gFGaEvyVk3UV369qjG7y3ijhUHGwIDAQAB";
+//		String privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIRfy4qBXepuz4mM4aV0f45cD/tLsq2Ba7YMfJ1ytRL6nAO0DDlwDyBFIeVWTy9XFKfz2DLc2HPQQDap/E8HWFyJZPLiXOIo8SwIlwarWuL9sAMePYJeJgs6QzpHFaGAUOJP4B9y7hedhEIvmAUZoS/JWTdRXfr2qMbvLeKOFQcbAgMBAAECgYAmDsycI5l2vykX6NMvGJFbwogtvZO/YogvLOPe+I2qyTZ1shwZn2gZ5QZbwza865JavzaXWPs6QNNVZAXQStJSTjqGLHiOK9kQWflF7XtZtBoAVAKP9lLveyBXtTrII/3LSzIvMECdT5YYYLzU91vpolg9+0WpzEHtRdtbDIyLEQJBAMm5ofn6kpQ88IW7ypMcZ5RFy46XPxeaZhmAQwSONYzGVArpjHfe3wKC5QxqfGThHT2YCPSFukhvsLN6etF537cCQQCn/W2ruSXrLhMy8dgkEwQL+EX9cd97qDvpd1u5u1TQ+kZo3cJ5SEONucM3YN5Tnu9FfG2aBEk9wZywl4pNcgu9AkEAvRVphJ2hA55TfadW7Kn1VQBPG2sd0owBI+ob54s9GqVUZZ4g8sNPmlUDSa4Ox6hS9kcqLbmjsP4wTSuDMBLi5QJARqbceCufWgD/zB5QxCNHQW2Cqiw5TL2drPwpFL1H17ha4oHZ575PwwyMoP7ZopumkDfbtLn2v8VtDAw/+4BqlQJAKlzcv+cjy+aA41gX68QeDr3sBx6LxtmJMhblwNGRsU1Y+AX0dAMFNLxss+sYQC9MiPW/LDkmyHPrAtAD9F/ASw==";
 		System.out.println("公钥: \n\r" + publicKey);
 		System.out.println("私钥： \n\r" + privateKey);
 //
