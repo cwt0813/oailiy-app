@@ -537,5 +537,19 @@ public class AppLoginControl {
 		return  this.loginAppService.upPassword(param.getString("phone"), param.getString("password"), param.getString("smsCode"));
 
 	}
+	
+	/**
+	 * 获取预加载配置
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "preLoad", method = RequestMethod.POST)
+	@ResponseBody
+	public MessageUtil preLoad(HttpServletRequest req) {
+
+		
+		return  this.loginAppService.preLoad();
+
+	}
 
 }

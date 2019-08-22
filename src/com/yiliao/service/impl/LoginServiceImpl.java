@@ -1398,4 +1398,28 @@ public class LoginServiceImpl extends ICommServiceImpl implements LoginService {
 		}
 	}
 
+	@Override
+	public MessageUtil preLoad() {
+		try {
+			
+			mu = new MessageUtil();
+			mu.setM_istatus(1);
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			
+			List<Map<String,Object>> sqlList = this.getQuerySqlList("SELECT * FROM t_pre_load_config ");
+
+			for(Map<String,Object> one:sqlList){
+				map.put(one.get("t_config_name").toString(), one.get("t_config_value"));
+			}
+			
+			mu.setM_object(map);
+			return mu;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("获取预加载配置异常!e={}", e);
+			return new MessageUtil(0, "程序异常!");
+		}
+	}
+
 }

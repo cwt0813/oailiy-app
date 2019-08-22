@@ -164,4 +164,8 @@ public interface LoginService {
 	 */
 	MessageUtil upPassword(String phone,String password,String smsCode);
 	
+	/**
+	 * 获取预加载配置
+	 */
+	MessageUtil preLoad();
 }
