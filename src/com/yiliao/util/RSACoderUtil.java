@@ -123,19 +123,21 @@ public class RSACoderUtil {
 	public static JSONObject privateDecrypt(HttpServletRequest req) {
 		try {
 			
-			String cipher_param = "";
-			
-			BufferedReader br = req.getReader();
-			String str = "";
-			while ((str = br.readLine()) != null) {
-				cipher_param += str;
-			}
-			
-			logger.info("cipher_param={}", cipher_param);
-			
-			String[] str1 = cipher_param.split("=");
-			
-			cipher_param =URLDecoder.decode(str1[1],"UTF-8") ;
+//			String cipher_param = "";
+//			
+//			BufferedReader br = req.getReader();
+//			String str = "";
+//			while ((str = br.readLine()) != null) {
+//				cipher_param += str;
+//			}
+//			
+//			logger.info("cipher_param={}", cipher_param);
+//			
+//			String[] str1 = cipher_param.split("=");
+//			
+//			cipher_param =URLDecoder.decode(str1[1],"UTF-8") ;
+			// 取header里面的sign
+			String cipher_param =  req.getHeader("sign");
 
 			if (StringUtils.isBlank(cipher_param)) {
 				return null;
@@ -228,10 +230,10 @@ public class RSACoderUtil {
 	public static void main(String[] args) throws Exception {
 
 		Map<String, String> keyMap = RSACoderUtil.createKeys(1024);
-        String  publicKey = keyMap.get("publicKey");
-        String  privateKey = keyMap.get("privateKey");
-//		String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEX8uKgV3qbs+JjOGldH+OXA/7S7KtgWu2DHydcrUS+pwDtAw5cA8gRSHlVk8vVxSn89gy3Nhz0EA2qfxPB1hciWTy4lziKPEsCJcGq1ri/bADHj2CXiYLOkM6RxWhgFDiT+Afcu4XnYRCL5gFGaEvyVk3UV369qjG7y3ijhUHGwIDAQAB";
-//		String privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIRfy4qBXepuz4mM4aV0f45cD/tLsq2Ba7YMfJ1ytRL6nAO0DDlwDyBFIeVWTy9XFKfz2DLc2HPQQDap/E8HWFyJZPLiXOIo8SwIlwarWuL9sAMePYJeJgs6QzpHFaGAUOJP4B9y7hedhEIvmAUZoS/JWTdRXfr2qMbvLeKOFQcbAgMBAAECgYAmDsycI5l2vykX6NMvGJFbwogtvZO/YogvLOPe+I2qyTZ1shwZn2gZ5QZbwza865JavzaXWPs6QNNVZAXQStJSTjqGLHiOK9kQWflF7XtZtBoAVAKP9lLveyBXtTrII/3LSzIvMECdT5YYYLzU91vpolg9+0WpzEHtRdtbDIyLEQJBAMm5ofn6kpQ88IW7ypMcZ5RFy46XPxeaZhmAQwSONYzGVArpjHfe3wKC5QxqfGThHT2YCPSFukhvsLN6etF537cCQQCn/W2ruSXrLhMy8dgkEwQL+EX9cd97qDvpd1u5u1TQ+kZo3cJ5SEONucM3YN5Tnu9FfG2aBEk9wZywl4pNcgu9AkEAvRVphJ2hA55TfadW7Kn1VQBPG2sd0owBI+ob54s9GqVUZZ4g8sNPmlUDSa4Ox6hS9kcqLbmjsP4wTSuDMBLi5QJARqbceCufWgD/zB5QxCNHQW2Cqiw5TL2drPwpFL1H17ha4oHZ575PwwyMoP7ZopumkDfbtLn2v8VtDAw/+4BqlQJAKlzcv+cjy+aA41gX68QeDr3sBx6LxtmJMhblwNGRsU1Y+AX0dAMFNLxss+sYQC9MiPW/LDkmyHPrAtAD9F/ASw==";
+//        String  publicKey = keyMap.get("publicKey");
+//        String  privateKey = keyMap.get("privateKey");
+		String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEX8uKgV3qbs+JjOGldH+OXA/7S7KtgWu2DHydcrUS+pwDtAw5cA8gRSHlVk8vVxSn89gy3Nhz0EA2qfxPB1hciWTy4lziKPEsCJcGq1ri/bADHj2CXiYLOkM6RxWhgFDiT+Afcu4XnYRCL5gFGaEvyVk3UV369qjG7y3ijhUHGwIDAQAB";
+		String privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIRfy4qBXepuz4mM4aV0f45cD/tLsq2Ba7YMfJ1ytRL6nAO0DDlwDyBFIeVWTy9XFKfz2DLc2HPQQDap/E8HWFyJZPLiXOIo8SwIlwarWuL9sAMePYJeJgs6QzpHFaGAUOJP4B9y7hedhEIvmAUZoS/JWTdRXfr2qMbvLeKOFQcbAgMBAAECgYAmDsycI5l2vykX6NMvGJFbwogtvZO/YogvLOPe+I2qyTZ1shwZn2gZ5QZbwza865JavzaXWPs6QNNVZAXQStJSTjqGLHiOK9kQWflF7XtZtBoAVAKP9lLveyBXtTrII/3LSzIvMECdT5YYYLzU91vpolg9+0WpzEHtRdtbDIyLEQJBAMm5ofn6kpQ88IW7ypMcZ5RFy46XPxeaZhmAQwSONYzGVArpjHfe3wKC5QxqfGThHT2YCPSFukhvsLN6etF537cCQQCn/W2ruSXrLhMy8dgkEwQL+EX9cd97qDvpd1u5u1TQ+kZo3cJ5SEONucM3YN5Tnu9FfG2aBEk9wZywl4pNcgu9AkEAvRVphJ2hA55TfadW7Kn1VQBPG2sd0owBI+ob54s9GqVUZZ4g8sNPmlUDSa4Ox6hS9kcqLbmjsP4wTSuDMBLi5QJARqbceCufWgD/zB5QxCNHQW2Cqiw5TL2drPwpFL1H17ha4oHZ575PwwyMoP7ZopumkDfbtLn2v8VtDAw/+4BqlQJAKlzcv+cjy+aA41gX68QeDr3sBx6LxtmJMhblwNGRsU1Y+AX0dAMFNLxss+sYQC9MiPW/LDkmyHPrAtAD9F/ASw==";
 		System.out.println("公钥: \n\r" + publicKey);
 		System.out.println("私钥： \n\r" + privateKey);
 //
@@ -242,7 +244,8 @@ public class RSACoderUtil {
 
 		System.out.println("\r明文：\r\n" + json.toString());
 		System.out.println("\r明文大小：\r\n" + json.toString().getBytes().length);
-		String encodedData = RSACoderUtil.publicEncrypt(json.toString(), RSACoderUtil.getPublicKey(publicKey));
+//		String encodedData = RSACoderUtil.publicEncrypt(json.toString(), RSACoderUtil.getPublicKey(publicKey));
+		String encodedData = "ZdzQNKgeLwXOLVyAYpwpFTIY0Hgb95EO2EjEGoUBnoSmUq9Ig4Ojntm2F935lAotqwzLEnHRVxLUeT6RCPNyOE5yAh6HOagHw6ELDPF6LKFHsXuOi2WsIRq/H7P3dJ5YIHnweEYt6j4igaXJ9dnkQrNk/oUiyhWQDzUwaNNXln4=";
 		System.out.println("密文：\r\n" + encodedData);
 		
 		
