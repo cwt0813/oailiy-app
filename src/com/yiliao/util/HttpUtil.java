@@ -82,7 +82,7 @@ public class HttpUtil {
 	 * @作者 石德文
 	 * @throws 异常
 	 */
-	public String postSend(String strUrl, String param) {
+	public static String postSend(String strUrl, String param) {
 
 		URL url = null;
 		HttpURLConnection connection = null;

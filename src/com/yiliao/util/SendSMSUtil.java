@@ -25,6 +25,9 @@ import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
 import com.github.qcloudsms.SmsMultiSenderResult.Detail;
 import com.github.qcloudsms.httpclient.HTTPException;
+import com.yiliao.util.Common.SmsSendRequest;
+
+import net.sf.json.JSONObject;
 
 public class SendSMSUtil {
 
@@ -32,7 +35,7 @@ public class SendSMSUtil {
 
 		System.out.println(SendSMSUtil.sendQQSMS("1400102374", "7d982aac805e639eab9dec7eea3d3fc7", 141866, "一聊高科",
 				"13983287114", "1234"));
-
+		
 	}
 
 	/**
@@ -194,11 +197,46 @@ public class SendSMSUtil {
 	public static final String charset = "utf-8";
 
 	// 请登录zz.253.com 获取创蓝API账号(非登录账号,示例:N1234567)
-	public static String username = "789261RS_1";
+//	public static String username = "789261RS_1";
 
 	// 请登录zz.253.com 获取创蓝API密码(非登录密码)
-	public static String password = "ugqnysrq";
+//	public static String password = "ugqnysrq";
 
+//	/**
+//	 * 发送短信
+//	 * 
+//	 * @return
+//	 */
+//	public static boolean sendSms(String phone, String smsCode) {
+//
+//		try {
+//			// 短信发送的URL 请登录zz.253.com 获取完整的URL接口信息
+//			String url = "http://sms.smsyun.cc:9012/servlet/UserServiceAPIUTF8";
+//			String method = "sendSMS";
+//			String content = java.net.URLEncoder.encode(
+//					"【亲亲交友】您的登陆验证码为code，请在5分钟内登陆。如果不是您本人操作，请忽略本信息。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
+//			String isLongSms = "0";
+//			String extenno = "";
+//			String parm = "method=" + method + "&username=" + username + "&password=" + password + "&mobile=" + phone
+//					+ "&content=" + content + "&isLognSms=" + isLongSms + "&extenno=" + extenno;
+//
+//			String result = HttpUtil.httpClent(url, parm);
+//
+//			System.out.println(result);
+//
+//			if (result.indexOf("success") >= 0) {
+//				return true;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return false;
+//	}
+
+	public static String username = "N4123463";
+	public static String password = "jx02eMYqwR19d2";
+	
 	/**
 	 * 发送短信
 	 * 
@@ -207,28 +245,36 @@ public class SendSMSUtil {
 	public static boolean sendSms(String phone, String smsCode) {
 
 		try {
-			// 短信发送的URL 请登录zz.253.com 获取完整的URL接口信息
-			String url = "http://sms.smsyun.cc:9012/servlet/UserServiceAPIUTF8";
-			String method = "sendSMS";
-			String content = java.net.URLEncoder.encode(
-					"【蜜果】您的登陆验证码为code，请在5分钟内登陆。如果不是您本人操作，请忽略本信息。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
-			String isLongSms = "0";
-			String extenno = "";
-			String parm = "method=" + method + "&username=" + username + "&password=" + password + "&mobile=" + phone
-					+ "&content=" + content + "&isLognSms=" + isLongSms + "&extenno=" + extenno;
+			//请求地址请登录253云通讯自助通平台查看或者询问您的商务负责人获取
+	        String smsSingleRequestServerUrl = "http://smssh1.253.com/msg/send/json";
+	        //短信内容
+	        String msg = java.net.URLEncoder.encode(
+					"###您正在注册亲亲交友会员，验证码code请于5分钟内使用，工作人员不会向您索取，请勿泄漏。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
+	        //手机号码（群发手机号码之间使用英文逗号隔开）
+	        //状态报告
+	        String report= "true";
 
-			String result = HttpUtil.httpClent(url, parm);
+	        SmsSendRequest smsSingleRequest = new SmsSendRequest(username, password, msg, phone,report);
 
-			System.out.println(result);
+	        String requestJson = JSONObject.fromObject(smsSingleRequest).toString();
 
-			if (result.indexOf("success") >= 0) {
+	        System.out.println("before request string is: " + requestJson);
+
+	        String response = ChuangLanSmsUtil.sendSmsByPost(smsSingleRequestServerUrl, requestJson);
+
+	        System.out.println("response after request result is :" + response);
+
+			System.out.println(response);
+
+			if (response.indexOf("success") >= 0) {
 				return true;
 			}
+
+	        System.out.println("response  toString is :" + response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return false;
 	}
-
 }
