@@ -24,7 +24,7 @@
 	<!-- 配置图片房间地址 -->
 	<entry key="spreed_img_url">http://qqjy-manage.qichier.top/chat_m/upload/</entry>
 	<!-- 分享链接 -->
-	<entry key="share_url">http://app.1-liao.cn/share/jumpShare.html?userId=</entry>
+	<entry key="share_url">http://qqjy-app.qichier.top/chat_app/share/jumpShare.html?userId=</entry>
 	<!--加密 公钥 -->
 	<entry key="encrypt_public">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEX8uKgV3qbs+JjOGldH+OXA/7S7KtgWu2DHydcrUS+pwDtAw5cA8gRSHlVk8vVxSn89gy3Nhz0EA2qfxPB1hciWTy4lziKPEsCJcGq1ri/bADHj2CXiYLOkM6RxWhgFDiT+Afcu4XnYRCL5gFGaEvyVk3UV369qjG7y3ijhUHGwIDAQAB</entry>
 	<!--解密 私钥 -->
