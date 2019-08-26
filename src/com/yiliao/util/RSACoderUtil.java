@@ -123,21 +123,26 @@ public class RSACoderUtil {
 	public static JSONObject privateDecrypt(HttpServletRequest req) {
 		try {
 			
-//			String cipher_param = "";
-//			
-//			BufferedReader br = req.getReader();
-//			String str = "";
-//			while ((str = br.readLine()) != null) {
-//				cipher_param += str;
-//			}
-//			
-//			logger.info("cipher_param={}", cipher_param);
-//			
-//			String[] str1 = cipher_param.split("=");
-//			
-//			cipher_param =URLDecoder.decode(str1[1],"UTF-8") ;
+			String cipher_param = "";
+			
 			// 取header里面的sign
-			String cipher_param =  req.getHeader("sign");
+			cipher_param =  req.getHeader("sign");
+			
+			// 如果header里面的sign为空，则按原来方法取
+			if(StringUtils.isEmpty(cipher_param)){
+				BufferedReader br = req.getReader();
+				String str = "";
+				while ((str = br.readLine()) != null) {
+					cipher_param += str;
+				}
+				
+				logger.info("cipher_param={}", cipher_param);
+				
+				String[] str1 = cipher_param.split("=");
+				
+				cipher_param =URLDecoder.decode(str1[1],"UTF-8") ;
+			}
+			
 
 			if (StringUtils.isBlank(cipher_param)) {
 				return null;
