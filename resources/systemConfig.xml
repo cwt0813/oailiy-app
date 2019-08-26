@@ -5,24 +5,24 @@
     <!-- 推流地址 -->
     <entry key="play_addr">rtmp://yiliao07.pullyl.3ttech.cn/yiliao07/</entry>
     <!-- 项目名称 -->
-    <entry key="projectName">demo</entry>
+    <entry key="projectName">chat</entry>
     <!-- 支付宝回调地址 -->
-    <entry key="alipayNotifyUrl">http://app.1-liao.cn/pay/alipay_callback.html</entry>
+    <entry key="alipayNotifyUrl">http://qqjy-app.qichier.top/chat_app/pay/alipay_callback.html</entry>
     <!-- 微信支付回调地址 -->
-    <entry key="weixinNotifyUrl">http://app.1-liao.cn/pay/wxPayCallBack.html</entry>
+    <entry key="weixinNotifyUrl">http://qqjy-app.qichier.top/chat_app/pay/wxPayCallBack.html</entry>
     <!-- 微信支付IP地址 -->
-    <entry key="spbill_create_ip">106.15.88.38</entry>
+    <entry key="spbill_create_ip">154.221.21.157</entry>
     <!-- 推送相关 -->
-    <entry key="app_key">40f7d4d87dd5a8397fc9af4a</entry>
+    <entry key="app_key">00ba8fcff3f053c142964da5</entry>
     
-    <entry key="master_secret">2ee10b360f319b547be543c5</entry>
+    <entry key="master_secret">17ed0ae2e4e1790d0494966c</entry>
     
     <!-- 渠道推广背景图片存储路径   windows -->
 	<entry key="windows_speed_fileUrl">D:/speed/img/</entry>
 	<!-- 渠道推广背景图片存储路径   centos -->
 	<entry key="centos_speed_fileUrl">/speed/img/</entry>
 	<!-- 配置图片房间地址 -->
-	<entry key="spreed_img_url">http://admin.1-liao.cn/upload/</entry>
+	<entry key="spreed_img_url">http://qqjy-manage.qichier.top/chat_m/upload/</entry>
 	<!-- 分享链接 -->
 	<entry key="share_url">http://app.1-liao.cn/share/jumpShare.html?userId=</entry>
 	<!--加密 公钥 -->
