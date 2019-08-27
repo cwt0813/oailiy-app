@@ -50,13 +50,13 @@ import com.qcloud.image.request.TagDetectRequest;
 
 public class CheckImgUtil {
 	
-	public static String appId = "";
+	public static String appId = "1300026449";
 	
-	public static String secretId = "";
+	public static String secretId = "AKIDQgiV4boVCf9Z2zmANQIxOcihV6SY3yNX";
 	
 	public static String secretKey = "";
 	
-	public static String bucketName = "";
+	public static String bucketName = "qqjy-1300026449";
 
 	public static void main(String[] args) {
 
@@ -70,7 +70,7 @@ public class CheckImgUtil {
 
 	        /*图像识别系列*/
 	        //鉴黄
-	        imagePorn(str,"1258230412","AKIDe5LN9g61qQnvoSj55qMceRyHPM3W4qnm","xqZ6ShjYBboqfHn7MRs57dx3uWyFI6br","img-1258230412");
+	        imagePorn(str,"1300026449","AKIDQgiV4boVCf9Z2zmANQIxOcihV6SY3yNX","xqZ6ShjYBboqfHn7MRs57dx3uWyFI6br","img-1258230412");
 	        //图像内容
 //	        imageTag(imageClient, bucketName);
 	        
