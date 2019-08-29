@@ -806,6 +806,7 @@ public class CheckImgUtil {
 	        
 	        return map;
 	    }
+	    
 
 //	    /**
 //	     * 黄图识别操作
