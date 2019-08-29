@@ -54,7 +54,7 @@ public class CheckImgUtil {
 	
 	public static String secretId = "AKIDQgiV4boVCf9Z2zmANQIxOcihV6SY3yNX";
 	
-	public static String secretKey = "";
+	public static String secretKey = "pPju32lKeYCbcOuPylfK8uU0NV6SjR5a";
 	
 	public static String bucketName = "qqjy-1300026449";
 
@@ -70,7 +70,7 @@ public class CheckImgUtil {
 
 	        /*图像识别系列*/
 	        //鉴黄
-	        imagePorn(str,"1300026449","AKIDQgiV4boVCf9Z2zmANQIxOcihV6SY3yNX","xqZ6ShjYBboqfHn7MRs57dx3uWyFI6br","img-1258230412");
+	        imagePorn(str,"1300026449","AKIDQgiV4boVCf9Z2zmANQIxOcihV6SY3yNX","pPju32lKeYCbcOuPylfK8uU0NV6SjR5a","qqjy-1300026449");
 	        //图像内容
 //	        imageTag(imageClient, bucketName);
 	        
