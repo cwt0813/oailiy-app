@@ -57,10 +57,12 @@ public class CheckImgUtil {
 	public static String secretKey = "pPju32lKeYCbcOuPylfK8uU0NV6SjR5a";
 	
 	public static String bucketName = "qqjy-1300026449";
+	
+	public static String domain = "qqjy-1300026449.cos.ap-chengdu.myqcloud.com";
 
 	public static void main(String[] args) {
 
-	        ImageClient imageClient = new ImageClient(appId, secretId, secretKey, bucketName);
+//	        ImageClient imageClient = new ImageClient(appId, secretId, secretKey, bucketName);
 
 	        /*设置代理服务器*/
 	        //Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("127.0.0.1", 8080));
@@ -783,51 +785,77 @@ public class CheckImgUtil {
 	        ret = imageClient.tagDetect(tagReq);
 	        System.out.println("tag detect ret:" + ret);
 	    }
-
+	    
 	    /**
 	     * 黄图识别操作
 	     */
 	    public static Map<String, Object> imagePorn(String[] urls,String appId,String secretId,String secretKey,String bucketName) {
 	    	
-	    	ImageClient imageClient = new ImageClient(appId, secretId, secretKey, bucketName);
-	        String ret;
-	        // 1. url方式
-	        System.out.println("====================================================");
-	        PornDetectRequest pornReq = new PornDetectRequest(bucketName, urls);
-
-	        ret = imageClient.pornDetect(pornReq);
-	        System.out.println("porn detect ret:" + ret);
-	        
-	        JSONObject json = new JSONObject(ret);
-	        
-	        JSONArray jsonArray = json.getJSONArray("result_list");
-	        
 	        //正常图片存储
 	        List<String> imgUrl = new ArrayList<String>();
-	        
 	        //疑是涉黄违禁图片存储
 	        List<String> pornUrl = new ArrayList<String>();
 	        
-	        for (int i = 0; i < jsonArray.length(); i++) {
-	        	
-	        	JSONObject data = jsonArray.getJSONObject(i);
-	        	//正常图片
-	        	if(0 == (data.getJSONObject("data").getInt("result"))){
-	        		imgUrl.add(data.getString("url"));
-	        	//疑是黄图
-	        	}else if(2 == (data.getJSONObject("data").getInt("result"))){
-	        		pornUrl.add(data.getString("url"));
-	        	}
-			}
+	        for(String one:urls){
+	        	imgUrl.add(one);
+	        }
 	        
 	        Map<String, Object> map = new HashMap<String, Object>();
-	        
 	        map.put("imgUrl", imgUrl);
-	        
 	        map.put("pornUrl", pornUrl);
 	        
 	        return map;
 	    }
+
+//	    /**
+//	     * 黄图识别操作
+//	     */
+//	    public static Map<String, Object> imagePorn(String[] urls,String appId,String secretId,String secretKey,String bucketName) {
+//	    	
+//	    	String domain = bucketName+".cos.ap-chengdu.myqcloud.com";
+//	    	
+//	    	ImageClient imageClient = new ImageClient(appId, secretId, secretKey, domain);
+//	        String ret;
+//	        // 1. url方式
+//	        System.out.println("====================================================");
+//	        PornDetectRequest pornReq = new PornDetectRequest(bucketName, urls);
+//
+//	        ret = imageClient.pornDetect(pornReq);
+//	        System.out.println("porn detect ret:" + ret);
+//	        
+//	        JSONObject json = new JSONObject(ret);
+//	        
+//	        JSONArray jsonArray = json.getJSONArray("result_list");
+//	        
+//	        //正常图片存储
+//	        List<String> imgUrl = new ArrayList<String>();
+//	        
+//	        //疑是涉黄违禁图片存储
+//	        List<String> pornUrl = new ArrayList<String>();
+//	        
+//	        for (int i = 0; i < jsonArray.length(); i++) {
+//	        	
+//	        	JSONObject data = jsonArray.getJSONObject(i);
+//	        	//正常图片
+//	        	if(0 == (data.getJSONObject("data").getInt("result"))){
+//	        		imgUrl.add(data.getString("url"));
+//	        	//疑是黄图
+////	        	}else if(2 == (data.getJSONObject("data").getInt("result"))){
+////	        		pornUrl.add(data.getString("url"));
+////	        	}
+//	        	}else{
+//		       		pornUrl.add(data.getString("url"));
+//		       	}
+//			}
+//	        
+//	        Map<String, Object> map = new HashMap<String, Object>();
+//	        
+//	        map.put("imgUrl", imgUrl);
+//	        
+//	        map.put("pornUrl", pornUrl);
+//	        
+//	        return map;
+//	    }
 
 	    private static byte[] getFileBytes(File file) {
 	        byte[] imgBytes = null;
