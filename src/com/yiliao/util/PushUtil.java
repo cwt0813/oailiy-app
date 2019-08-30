@@ -242,7 +242,10 @@ public class PushUtil {
                 				.build())
                 		        
                 		.build())
-                .setOptions(Options.newBuilder().setApnsProduction(true).build())
+                .setOptions(Options.newBuilder().
+//                		setApnsProduction(true).
+                		setApnsProduction(false).
+                		build())
                 .build();
     }
 
