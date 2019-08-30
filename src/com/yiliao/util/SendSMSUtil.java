@@ -214,7 +214,7 @@ public class SendSMSUtil {
 //			String url = "http://sms.smsyun.cc:9012/servlet/UserServiceAPIUTF8";
 //			String method = "sendSMS";
 //			String content = java.net.URLEncoder.encode(
-//					"【亲亲交友】您的登陆验证码为code，请在5分钟内登陆。如果不是您本人操作，请忽略本信息。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
+//					"【小情人】您的登陆验证码为code，请在5分钟内登陆。如果不是您本人操作，请忽略本信息。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
 //			String isLongSms = "0";
 //			String extenno = "";
 //			String parm = "method=" + method + "&username=" + username + "&password=" + password + "&mobile=" + phone
@@ -249,7 +249,7 @@ public class SendSMSUtil {
 	        String smsSingleRequestServerUrl = "http://smssh1.253.com/msg/send/json";
 	        //短信内容
 	        String msg = java.net.URLEncoder.encode(
-					"###您正在注册亲亲交友会员，验证码code请于5分钟内使用，工作人员不会向您索取，请勿泄漏。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
+					"###您正在注册小情人会员，验证码code请于5分钟内使用，工作人员不会向您索取，请勿泄漏。".replaceAll("code", String.valueOf(smsCode)), "utf-8");
 	        //手机号码（群发手机号码之间使用英文逗号隔开）
 	        //状态报告
 	        String report= "true";
