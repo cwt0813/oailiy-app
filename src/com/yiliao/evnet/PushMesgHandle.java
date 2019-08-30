@@ -25,6 +25,9 @@ public class PushMesgHandle implements ApplicationListener<PushMesgEvnet> {
 		logger.info("进入了异步通知!");
 		if (null != me) {
 			messageService.pushMessage(me);
+			
+			logger.info("me.getPushType()={}", me.getPushType());
+			
 			if (me.getPushType() != 6)
 				// 发起推送
 				PushUtil.sendPush(me.getT_user_id(), me.getT_message_content());
