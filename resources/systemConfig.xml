@@ -13,9 +13,9 @@
     <!-- 微信支付IP地址 -->
     <entry key="spbill_create_ip">154.221.21.157</entry>
     <!-- 推送相关 -->
-    <entry key="app_key">00ba8fcff3f053c142964da5</entry>
+    <entry key="app_key">330c313732c9d37f421c921c</entry>
     
-    <entry key="master_secret">17ed0ae2e4e1790d0494966c</entry>
+    <entry key="master_secret">9d6295a53c3ac3b24f2444a2</entry>
     
     <!-- 渠道推广背景图片存储路径   windows -->
 	<entry key="windows_speed_fileUrl">D:/speed/img/</entry>
