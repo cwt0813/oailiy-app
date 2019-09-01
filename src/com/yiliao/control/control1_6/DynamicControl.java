@@ -275,7 +275,7 @@ public class DynamicControl {
 	@ResponseBody
 	public void sendSocketNotice(int userId) {
 
-//		this.dynamicService.sendSocketNotice(userId);
+		this.dynamicService.sendSocketNotice(userId);
 	}
 
 	/**
