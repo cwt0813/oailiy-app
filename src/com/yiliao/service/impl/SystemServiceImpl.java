@@ -173,7 +173,7 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 			OutputStream os = null ;
 			try {
 				// 合成二维码和背景图
-				BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 225, 774);
+				BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 412, 1068);
 				// 绘制文字
 //	            Font font = new Font("微软雅黑", Font.BOLD, 35);
 //	            String text = "17000";
