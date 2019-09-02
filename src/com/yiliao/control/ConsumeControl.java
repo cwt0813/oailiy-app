@@ -261,7 +261,7 @@ public class ConsumeControl {
 	 * 
 	 * @param userId    用户编号
 	 * @param setMealId 套餐编号
-	 * @param payType   支付类型 0.支付宝 1.微信
+	 * @param payType   支付类型 0.支付宝 1.微信2.天机支付宝3.天机微信
 	 * @param response
 	 */
 	@RequestMapping(value = "vipStoreValue", method = RequestMethod.POST)
@@ -287,7 +287,7 @@ public class ConsumeControl {
 	 * 
 	 * @param userId    用户编号
 	 * @param setMealId 套餐编号
-	 * @param payType   支付渠道 0.支付宝 1.微信
+	 * @param payType   支付渠道 0.支付宝 1.微信2.天机支付宝3.天机微信
 	 * @param response
 	 */
 	@RequestMapping(value = "goldStoreValue", method = RequestMethod.POST)

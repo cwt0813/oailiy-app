@@ -768,7 +768,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String key = phegdaPay.get("t_key").toString();
 				String notifyUrl = phegdaPay.get("t_notify_url").toString();
 				String goodsClauses = "VIP";
-				String payCode = payType==2?"wxwap2":"zfbwap";
+				String payCode = payType==3?"wxwap2":"zfbwap";
 				
 				map = PayUtil.phegdaPay(notifyUrl, orderNo, goodsClauses, setMealMap.get("t_money").toString(), merchantId, payCode, key);
 			}
@@ -855,7 +855,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String key = phegdaPay.get("t_key").toString();
 				String notifyUrl = phegdaPay.get("t_notify_url").toString();
 				String goodsClauses = "coins";
-				String payCode = payType==2?"wxwap2":"zfbwap";
+				String payCode = payType==3?"wxwap2":"zfbwap";
 				
 				map = PayUtil.phegdaPay(notifyUrl, orderNo, goodsClauses, smlMap.get("t_money").toString(), merchantId, payCode, key);
 			}
