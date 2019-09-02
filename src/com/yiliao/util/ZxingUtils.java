@@ -8,21 +8,13 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
-
-import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -198,22 +190,24 @@ public class ZxingUtils {
 			e.printStackTrace();
 		}
 		// 背景图片地址
-		String backgroundPath = "D:/speed/img/1234.png";
+		String backgroundPath = "D:/speed/img/201907311159371261.jpg";
 		InputStream inputStream = null;
 		try {
-			// 合成二维码和背景图
-			BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 225, 774);
-			// 绘制文字
-//            Font font = new Font("微软雅黑", Font.BOLD, 35);
-//            String text = "17000";
-//            image = ZxingUtils.drawString(image, text, 375, 647,font,new Color(244,254,189));
-			// 图片转inputStream
-			inputStream = ZxingUtils.bufferedImageToInputStream(image);
+//			// 合成二维码和背景图
+//			BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 225, 774);
+//			// 绘制文字
+////            Font font = new Font("微软雅黑", Font.BOLD, 35);
+////            String text = "17000";
+////            image = ZxingUtils.drawString(image, text, 375, 647,font,new Color(244,254,189));
+//			// 图片转inputStream
+//			inputStream = ZxingUtils.bufferedImageToInputStream(image);
+			
+			inputStream = ZxingUtils.bufferedImageToInputStream(zxingImage); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		// 保存的图片路径 C:\Users\Administrator\Desktop
-		String originalFileName = "C:/Users/Administrator/Desktop/99999.png";
+		String originalFileName = "C:/Users/Administrator/Desktop/99999.jpg";
 		try {
 			// 保存为本地图片
 			ZxingUtils.saveFile(inputStream, originalFileName);
@@ -222,35 +216,5 @@ public class ZxingUtils {
 		}
 		System.out.println("---程序执行完成---");
 	}
-	
-	public static ImageOutputStream ImageOutputStreamAndUpdateDpi(BufferedImage image, int dpi) throws IOException {
-        for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("jpg"); iw.hasNext();) {
-            ImageWriter writer = iw.next();
- 
-            ImageWriteParam writeParams = writer.getDefaultWriteParam();
-            writeParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            //调整图片质量
-            writeParams.setCompressionQuality(1f);
- 
-            IIOMetadata data = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image), writeParams);
-            Element tree = (Element) data.getAsTree("javax_imageio_jpeg_image_1.0");
-            Element jfif = (Element) tree.getElementsByTagName("app0JFIF").item(0);
-            jfif.setAttribute("Xdensity", dpi + "");
-            jfif.setAttribute("Ydensity", dpi + "");
-            jfif.setAttribute("resUnits", "1"); // density is dots per inch
- 
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ImageOutputStream stream = null;
-            try {
-                stream = ImageIO.createImageOutputStream(out);
-            } finally {
-                stream.close();
-            }
- 
-            return stream;
-        }
-        return null;
- 
-    }
 
 }

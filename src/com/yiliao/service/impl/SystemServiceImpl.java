@@ -153,37 +153,36 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 			} catch (WriterException e) {
 				e.printStackTrace();
 			}
-			// 背景图片地址
-			String backgroundPath = "";
-			if(Config().indexOf("Windows") > -1){
-				backgroundPath =SystemConfig.getValue("windows_speed_fileUrl") + imgPath.get("t_img_path");
-			}else {
-				backgroundPath =SystemConfig.getValue("centos_speed_fileUrl")+  imgPath.get("t_img_path");
-			}
-			//判断文件是否存在
-			File file = new File(backgroundPath);
+//			// 背景图片地址
+//			String backgroundPath = "";
+//			if(Config().indexOf("Windows") > -1){
+//				backgroundPath =SystemConfig.getValue("windows_speed_fileUrl") + imgPath.get("t_img_path");
+//			}else {
+//				backgroundPath =SystemConfig.getValue("centos_speed_fileUrl")+  imgPath.get("t_img_path");
+//			}
+//			//判断文件是否存在
+//			File file = new File(backgroundPath);
+//			
+//			if(!file.exists()) {
+//				logger.info("--文件不存在--");
+//				logger.info("图片地址->{}",backgroundPath);
+//				file.getParentFile().mkdir();
+//				FileDonloadUtil.downloadPicture(SystemConfig.getValue("spreed_img_url")+imgPath.get("t_img_path"), backgroundPath);
+//			}
 			
-			if(!file.exists()) {
-				logger.info("--文件不存在--");
-				logger.info("图片地址->{}",backgroundPath);
-				file.getParentFile().mkdir();
-				FileDonloadUtil.downloadPicture(SystemConfig.getValue("spreed_img_url")+imgPath.get("t_img_path"), backgroundPath);
-			}
-			
-//			InputStream inputStream = null;
-			ImageOutputStream inputStream = null;
+			InputStream inputStream = null;
 			OutputStream os = null ;
 			try {
-				// 合成二维码和背景图
-				BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 312, 100);
+//				// 合成二维码和背景图
+//				BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 312, 100);
 				// 绘制文字
 //	            Font font = new Font("微软雅黑", Font.BOLD, 35);
 //	            String text = "17000";
 //	            image = ZxingUtils.drawString(image, text, 375, 647,font,new Color(244,254,189));
-//				// 图片转inputStream
+				
+				// 图片转inputStream
 //				inputStream = ZxingUtils.bufferedImageToInputStream(image);
-				// 图片转inputStream并压缩dpi
-				inputStream = ZxingUtils.ImageOutputStreamAndUpdateDpi(image, 32);
+				inputStream = ZxingUtils.bufferedImageToInputStream(zxingImage);
 				
 				String fielName = imgPath.get("t_img_path").toString().split("/")[1];
 				
