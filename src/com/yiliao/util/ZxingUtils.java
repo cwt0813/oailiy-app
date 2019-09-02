@@ -193,16 +193,16 @@ public class ZxingUtils {
 		String backgroundPath = "D:/speed/img/201907311159371261.jpg";
 		InputStream inputStream = null;
 		try {
-//			// 合成二维码和背景图
-//			BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 225, 774);
-//			// 绘制文字
-////            Font font = new Font("微软雅黑", Font.BOLD, 35);
-////            String text = "17000";
-////            image = ZxingUtils.drawString(image, text, 375, 647,font,new Color(244,254,189));
-//			// 图片转inputStream
-//			inputStream = ZxingUtils.bufferedImageToInputStream(image);
+			// 合成二维码和背景图
+			BufferedImage image = ZxingUtils.drawImage(backgroundPath, zxingImage, 225, 774);
+			// 绘制文字
+//            Font font = new Font("微软雅黑", Font.BOLD, 35);
+//            String text = "17000";
+//            image = ZxingUtils.drawString(image, text, 375, 647,font,new Color(244,254,189));
+			// 图片转inputStream
+			inputStream = ZxingUtils.bufferedImageToInputStream(image);
 			
-			inputStream = ZxingUtils.bufferedImageToInputStream(zxingImage); 
+//			inputStream = ZxingUtils.bufferedImageToInputStream(zxingImage); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
