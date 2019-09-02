@@ -3,7 +3,9 @@ package com.yiliao.util;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -13,6 +15,7 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayUtil;
+import com.yiliao.util.Utilities.MD5;
 
 public class PayUtil {
 	/**
@@ -98,6 +101,47 @@ public class PayUtil {
 			}else{
 				return new HashMap<String, String>();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new HashMap<String, String>();
+	}
+	
+	/**
+	 * 天玑支付
+	 * 
+	 * @param notifyUrl
+	 * @param orderNo
+	 * @param goodsClauses
+	 * @param money
+	 * @param merchantId
+	 * @param payCode
+	 * @param key
+	 * @return
+	 */
+	public static Map<String, String> phegdaPay(String notifyUrl, String orderNo, String goodsClauses, String money,
+			String merchantId, String payCode, String key) {
+		try {
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.put("notifyUrl", notifyUrl);
+			smap.put("outOrderNo", orderNo);
+			smap.put("goodsClauses", goodsClauses);
+			smap.put("tradeAmount", money);
+			smap.put("code", merchantId);
+			smap.put("payCode", payCode);
+
+			StringBuilder sb = new StringBuilder();
+			for (Entry<String, String> entry : smap.entrySet()) {
+				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+			}
+
+			sb.append("key=").append(key);
+
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+
+			Map<String, String> map = new HashMap<>();
+			map.putAll(smap);
+			map.put("sign", sign);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

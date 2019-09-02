@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,7 @@ import com.github.wxpay.sdk.WXPayUtil;
 import com.yiliao.service.CallBackService;
 import com.yiliao.service.ConsumeService;
 import com.yiliao.util.PrintUtil;
+import com.yiliao.util.Utilities.MD5;
 
 @Controller
 @RequestMapping("pay")
@@ -183,6 +186,65 @@ public class PayCallbackControl {
 		}
 	}
 
+	/**
+	 * 天玑支付回调
+	 */
+	@RequestMapping("phegda_callback")
+	@ResponseBody
+	public  void  phegdaCallback(HttpServletRequest request,HttpServletResponse response) {
+		 
+	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		logger.info("天玑支付回调，{}", params);
+		try {
+			
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.putAll(params);
+			smap.remove("sign");
+			StringBuilder sb = new StringBuilder();
+			for (Entry<String, String> entry : smap.entrySet()) {
+				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+			}
+			
+			String key = this.consumeService.getPhegdaKey();
+			
+			sb.append("key=").append(key);
+			
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("phegda_sign- >{}",sign);
+			logger.info("phegda_map_sign- >{}",params.get("sign"));
+			// 验证签名
+			boolean signVerified = sign.equals(params.get("sign"));
+					
+			if (signVerified) {
+				logger.info("天玑支付回调签名认证成功");
+				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
+				this.phegdaCheck(params);
+				// 支付成功
+				if ("1".equals(params.get("payState"))){
+					// 处理支付成功逻辑
+					try {
+//						this.callBackService.alipayPaymentComplete(param.getOutTradeNo());
+						this.consumeService.payNotify(params.get("outOrderNo"), params.get("outOrderNo"));
+					} catch (Exception e) {
+						logger.error("天玑支付回调业务处理报错,params:" + params, e);
+					}
+				} else {
+					logger.error("没有处理天玑支付回调业务，天玑支付交易状态：{},params:{}",params.get("trade_status"), params);
+				}
+				// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
+				PrintUtil.printWriStr("success", response);
+			} else {
+				logger.info("天玑支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
+				PrintUtil.printWriStr("failure", response);
+			}
+		} catch (Exception e) {
+			logger.error("天玑支付回调签名认证失败,paramsJson:{},errorMsg:{}", params,
+					e.getMessage());
+			PrintUtil.printWriStr("failure", response);
+		}
+	}
+	
 	// 将request中的参数转换成Map
 	@SuppressWarnings("unchecked")
 	private static Map<String, String> convertRequestParamsToMap(
@@ -243,6 +305,29 @@ public class PayCallbackControl {
 		 if (!params.get("app_id").equals(this.consumeService.getAlipayAppId())) {
 			throw new AlipayApiException("app_id不一致");
 		 }
+	}
+	
+	/**
+	 * 天玑支付校验
+	 * 
+	 * @param params
+	 * @throws AlipayApiException
+	 */
+	private void phegdaCheck(Map<String, String> params) throws Exception {
+		
+		String outTradeNo = params.get("outOrderNo");
+
+		// 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+		Map<String, Object> dataMap = this.callBackService.getOrderByOrderNo(outTradeNo);
+		if (null == dataMap) {
+			 throw new Exception("outOrderNo错误");
+		}
+
+		// 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+		BigDecimal payMoney = new BigDecimal(params.get("tradeAmount"));
+		if (payMoney.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
+		   throw new AlipayApiException("error tradeAmount");
+		}
 	}
 	 
 	

@@ -119,4 +119,8 @@ public interface ConsumeService {
 	 */
 	public String getAlipayAppId();
 
+	/**
+	 * 获取天玑支付Key
+	 */
+	public String getPhegdaKey() ;
 }
