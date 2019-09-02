@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
@@ -169,7 +170,8 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 				FileDonloadUtil.downloadPicture(SystemConfig.getValue("spreed_img_url")+imgPath.get("t_img_path"), backgroundPath);
 			}
 			
-			InputStream inputStream = null;
+//			InputStream inputStream = null;
+			ImageOutputStream inputStream = null;
 			OutputStream os = null ;
 			try {
 				// 合成二维码和背景图
@@ -178,8 +180,10 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 //	            Font font = new Font("微软雅黑", Font.BOLD, 35);
 //	            String text = "17000";
 //	            image = ZxingUtils.drawString(image, text, 375, 647,font,new Color(244,254,189));
-				// 图片转inputStream
-				inputStream = ZxingUtils.bufferedImageToInputStream(image);
+//				// 图片转inputStream
+//				inputStream = ZxingUtils.bufferedImageToInputStream(image);
+				// 图片转inputStream并压缩dpi
+				inputStream = ZxingUtils.ImageOutputStreamAndUpdateDpi(image, 32);
 				
 				String fielName = imgPath.get("t_img_path").toString().split("/")[1];
 				
