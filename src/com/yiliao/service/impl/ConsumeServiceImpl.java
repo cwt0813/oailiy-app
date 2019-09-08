@@ -5,9 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.mina.core.session.IoSession;
@@ -28,7 +25,6 @@ import com.yiliao.util.MessageUtil;
 import com.yiliao.util.Mid;
 import com.yiliao.util.PayUtil;
 import com.yiliao.util.SpringConfig;
-import com.yiliao.util.Utilities.MD5;
 
 import net.sf.json.JSONObject;
 
@@ -760,17 +756,16 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 						weixinPay.get(0).get("t_mchid").toString(),
 						weixinPay.get(0).get("t_mchid_key").toString());
 			}else{
-				orderNo = orderNo + "phegda_"+userId+"_"+System.currentTimeMillis();
+				orderNo = orderNo + "sdpay_"+userId+"_"+System.currentTimeMillis();
 				
-				Map<String, Object> phegdaPay = this.getMap("SELECT t_merchant_id,t_key,t_notify_url FROM t_phegdapay_setup limit 1");
+				Map<String, Object> sdpay = this.getMap("SELECT t_appid,t_key FROM t_sdpay_setup limit 1");
 				
-				String merchantId = phegdaPay.get("t_merchant_id").toString();
-				String key = phegdaPay.get("t_key").toString();
-				String notifyUrl = phegdaPay.get("t_notify_url").toString();
-				String goodsClauses = "VIP";
-				String payCode = payType==3?"wxwap2":"zfbwap";
+				String appid = sdpay.get("t_appid").toString();
+				String key = sdpay.get("t_key").toString();
+				String tradeName = "VIP";
+				String payCode = payType==3?"wechat":"alipay";
 				
-				map = PayUtil.phegdaPay(notifyUrl, orderNo, goodsClauses, setMealMap.get("t_money").toString(), merchantId, payCode, key);
+				map = PayUtil.sdpay(appid, orderNo, tradeName, payCode, setMealMap.get("t_money").toString(), userId+"", key);
 			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
@@ -847,17 +842,16 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 						weixinPay.get(0).get("t_mchid").toString(),
 						weixinPay.get(0).get("t_mchid_key").toString());
 			}else{
-				orderNo = orderNo + "phegda_"+userId+"_"+System.currentTimeMillis();
+				orderNo = orderNo + "sdpay_"+userId+"_"+System.currentTimeMillis();
 				
-				Map<String, Object> phegdaPay = this.getMap("SELECT t_merchant_id,t_key,t_notify_url FROM t_phegdapay_setup limit 1");
+				Map<String, Object> sdpay = this.getMap("SELECT t_appid,t_key FROM t_sdpay_setup limit 1");
 				
-				String merchantId = phegdaPay.get("t_merchant_id").toString();
-				String key = phegdaPay.get("t_key").toString();
-				String notifyUrl = phegdaPay.get("t_notify_url").toString();
-				String goodsClauses = "coins";
-				String payCode = payType==3?"wxwap2":"zfbwap";
+				String appid = sdpay.get("t_appid").toString();
+				String key = sdpay.get("t_key").toString();
+				String tradeName = "coins";
+				String payCode = payType==3?"wechat":"alipay";
 				
-				map = PayUtil.phegdaPay(notifyUrl, orderNo, goodsClauses, smlMap.get("t_money").toString(), merchantId, payCode, key);
+				map = PayUtil.sdpay(appid, orderNo, tradeName, payCode, smlMap.get("t_money").toString(), userId+"", key);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
@@ -1103,18 +1097,19 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		}
 		return null;
 	}
-	 
+
+
 	@Override
-	public String getPhegdaKey() {
+	public String getSdpayKey() {
 		try {
-			String qSql = "SELECT t_key FROM t_phegdapay_setup limit 1";
-			
-		  return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+			String qSql = "SELECT t_key FROM t_sdpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	 
     
    
  

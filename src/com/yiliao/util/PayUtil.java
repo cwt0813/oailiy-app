@@ -108,27 +108,25 @@ public class PayUtil {
 	}
 	
 	/**
-	 * 天玑支付
-	 * 
-	 * @param notifyUrl
+	 * 闪电支付
+	 * @param appid
 	 * @param orderNo
-	 * @param goodsClauses
-	 * @param money
-	 * @param merchantId
+	 * @param tradeName
 	 * @param payCode
+	 * @param orderAmount
+	 * @param orderUid
 	 * @param key
 	 * @return
 	 */
-	public static Map<String, String> phegdaPay(String notifyUrl, String orderNo, String goodsClauses, String money,
-			String merchantId, String payCode, String key) {
+	public static Map<String, String> sdpay(String appid, String orderNo, String tradeName, String payCode, String orderAmount, String orderUid, String key) {
 		try {
 			SortedMap<String, String> smap = new TreeMap<>();
-			smap.put("notifyUrl", notifyUrl);
-			smap.put("outOrderNo", orderNo);
-			smap.put("goodsClauses", goodsClauses);
-			smap.put("tradeAmount", money);
-			smap.put("code", merchantId);
-			smap.put("payCode", payCode);
+			smap.put("app_id", appid);
+			smap.put("order_no", orderNo);
+			smap.put("trade_name", tradeName);
+			smap.put("pay_type", payCode);
+			smap.put("order_amount", orderAmount);
+			smap.put("order_uid", orderUid);
 
 			StringBuilder sb = new StringBuilder();
 			for (Entry<String, String> entry : smap.entrySet()) {
@@ -137,7 +135,7 @@ public class PayUtil {
 
 			sb.append("key=").append(key);
 
-			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			String sign = MD5.stringToMD5(sb.toString());
 
 			Map<String, String> map = new HashMap<>();
 			map.putAll(smap);

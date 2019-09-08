@@ -118,9 +118,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getAlipayAppId();
-
+	
 	/**
-	 * 获取天玑支付Key
+	 * 获取闪电支付的密钥
+	 * @return
 	 */
-	public String getPhegdaKey() ;
+	public String getSdpayKey();
 }
