@@ -146,6 +146,7 @@ public class PayUtil {
 			Map<String, String> map = new HashMap<>();
 			map.putAll(smap);
 			map.put("sign", sign);
+			return map;
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info("sdpay error, e={}", e.getMessage());
