@@ -217,4 +217,18 @@ public class ShareControl {
 
 		return new MessageUtil(1, downLoadUrl);
 	}
+	
+	/**
+	 * 支付成功页面
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("jumpPaySuccess")
+	public ModelAndView jumpPaySuccess() {
+		// 解密参数
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("paySuccess");
+		return mv;
+	}
 }
