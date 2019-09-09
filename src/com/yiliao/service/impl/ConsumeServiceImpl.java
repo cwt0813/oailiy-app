@@ -795,6 +795,9 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 	 */
 	@Override
 	public MessageUtil goldStoreValue(int userId, int setMealId, int payType) {
+		
+		logger.info("goldStoreValue, userId={}, setMealId={}, payType={}", userId, setMealId, payType);
+		
 		try {
 			String smlSql = "SELECT t_money FROM t_set_meal WHERE t_id = ? AND t_is_enable = 0 ";
 			

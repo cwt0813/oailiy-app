@@ -7,6 +7,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -18,6 +21,9 @@ import com.github.wxpay.sdk.WXPayUtil;
 import com.yiliao.util.Utilities.MD5;
 
 public class PayUtil {
+	
+	private static Logger logger = LoggerFactory.getLogger(PayUtil.class);
+	
 	/**
 	 * 支付宝支付
 	* @param orderNo 订单号
@@ -142,6 +148,7 @@ public class PayUtil {
 			map.put("sign", sign);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info("sdpay error, e={}", e.getMessage());
 		}
 		return new HashMap<String, String>();
 	}
