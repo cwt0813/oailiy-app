@@ -207,7 +207,7 @@ public class PayCallbackControl {
 			
 			String key = this.consumeService.getSdpayKey();
 			
-			sb.append("key=").append(key);
+			sb.append(key);
 			
 			String sign = MD5.stringToMD5(sb.toString());
 			

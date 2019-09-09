@@ -139,7 +139,7 @@ public class PayUtil {
 				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
 			}
 
-			sb.append("key=").append(key);
+			sb.append(key);
 
 			String sign = MD5.stringToMD5(sb.toString());
 
