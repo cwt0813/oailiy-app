@@ -3,8 +3,6 @@ package com.yiliao.util;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.slf4j.Logger;
@@ -126,16 +124,16 @@ public class PayUtil {
 	 */
 	public static Map<String, String> sdpay(String appid, String orderNo, String tradeName, String payCode, String orderAmount, String orderUid, String key) {
 		try {
-			SortedMap<String, String> smap = new TreeMap<>();
-			smap.put("app_id", appid);
-			smap.put("order_no", orderNo);
-			smap.put("trade_name", tradeName);
-			smap.put("pay_type", payCode);
-			smap.put("order_amount", orderAmount);
-			smap.put("order_uid", orderUid);
+			Map<String, String> map = new HashMap<>();
+			map.put("app_id", appid);
+			map.put("order_no", orderNo);
+			map.put("trade_name", tradeName);
+			map.put("pay_type", payCode);
+			map.put("order_amount", orderAmount);
+			map.put("order_uid", orderUid);
 
 			StringBuilder sb = new StringBuilder();
-			for (Entry<String, String> entry : smap.entrySet()) {
+			for (Entry<String, String> entry : map.entrySet()) {
 				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
 			}
 
@@ -143,8 +141,6 @@ public class PayUtil {
 
 			String sign = MD5.stringToMD5(sb.toString());
 
-			Map<String, String> map = new HashMap<>();
-			map.putAll(smap);
 			map.put("sign", sign);
 			return map;
 		} catch (Exception e) {

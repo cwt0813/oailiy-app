@@ -194,14 +194,13 @@ public class PayCallbackControl {
 	public void sdpayCallback(HttpServletRequest request,HttpServletResponse response) {
 		 
 	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
-		logger.info("天玑支付回调，{}", params);
+		logger.info("闪电支付回调，{}", params);
 		try {
 			
-			SortedMap<String, String> smap = new TreeMap<>();
-			smap.putAll(params);
-			smap.remove("sign");
+			String sdpay_map_sign = params.get("sign");
+			params.remove("sign");
 			StringBuilder sb = new StringBuilder();
-			for (Entry<String, String> entry : smap.entrySet()) {
+			for (Entry<String, String> entry : params.entrySet()) {
 				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
 			}
 			
@@ -212,7 +211,7 @@ public class PayCallbackControl {
 			String sign = MD5.stringToMD5(sb.toString());
 			
 			logger.info("sdpay_sign- >{}",sign);
-			logger.info("sdpay_map_sign- >{}",params.get("sign"));
+			logger.info("sdpay_map_sign- >{}",sdpay_map_sign);
 			// 验证签名
 			boolean signVerified = sign.equals(params.get("sign"));
 					
