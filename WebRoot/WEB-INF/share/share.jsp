@@ -61,7 +61,7 @@
 <%-- 	 <input id="t_android_download" type="hidden" value="${t_android_download}">
 	 <input id="t_ios_download" type="hidden" value="${t_ios_download}"> --%>
 </body>
-<script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=8553506115041633828"></script>
+<script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=7499843363934916724"></script>
 <script type="text/javascript">
 	$(function() {
 		  $.ajax({
