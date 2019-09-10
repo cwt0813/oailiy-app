@@ -35,10 +35,10 @@ public class ShareControl {
 		// 解密参数
 		// 验证传递的参数
 		if (BaseUtil.params(req.getParameter("userId"))) {
-			Map<String, Object> map = this.shareService.getDownLoadUrl();
+//			Map<String, Object> map = this.shareService.getDownLoadUrl();
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("userId", req.getParameter("userId"));
-			mv.addAllObjects(map);
+//			mv.addAllObjects(map);
 			mv.setViewName("share");
 			return mv;
 		}
