@@ -201,9 +201,14 @@ public class PayCallbackControl {
 			String sdpay_map_sign = params.get("sign");
 			params.remove("sign");
 			StringBuilder sb = new StringBuilder();
-			for (Entry<String, String> entry : params.entrySet()) {
-				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
-			}
+			
+			sb.append("no").append("=").append(params.get("no")).append("&");
+			sb.append("order_no").append("=").append(params.get("order_no")).append("&");
+			sb.append("trade_name").append("=").append(params.get("trade_name")).append("&");
+			sb.append("pay_type").append("=").append(params.get("pay_type")).append("&");
+			sb.append("order_amount").append("=").append(params.get("order_amount")).append("&");
+			sb.append("pay_amount").append("=").append(params.get("pay_amount")).append("&");
+			sb.append("order_uid").append("=").append(params.get("order_uid")).append("&");
 			
 			String key = this.consumeService.getSdpayKey();
 			
