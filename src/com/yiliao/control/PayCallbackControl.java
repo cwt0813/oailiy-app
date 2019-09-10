@@ -228,7 +228,7 @@ public class PayCallbackControl {
 				// 支付成功
 				// 处理支付成功逻辑
 				try {
-					this.consumeService.payNotify(params.get("order_no"), params.get("order_no"));
+					this.consumeService.payNotify(params.get("order_no"), params.get("no"));
 					// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
 					PrintUtil.printWriStr("success", response);
 				} catch (Exception e) {
@@ -240,7 +240,7 @@ public class PayCallbackControl {
 				PrintUtil.printWriStr("failure", response);
 			}
 		} catch (Exception e) {
-			logger.error("闪电支付回调签名认证失败,paramsJson:{},errorMsg:{}", params,
+			logger.error("闪电支付回调认证失败,paramsJson:{},errorMsg:{}", params,
 					e.getMessage());
 			PrintUtil.printWriStr("failure", response);
 		}
@@ -324,6 +324,8 @@ public class PayCallbackControl {
 		}
 
 		// 2、判断order_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+		logger.info("orderAmount", params.get("order_amount"));
+		logger.info("t_recharge_money={}", dataMap.get("t_recharge_money").toString())
 		BigDecimal orderAmount = new BigDecimal(params.get("order_amount"));
 		if (orderAmount.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
 			throw new AlipayApiException("error order_amount");
@@ -331,7 +333,9 @@ public class PayCallbackControl {
 		
 		// 3、判断order_uid跟userId是否一致
 		String orderUid = params.get("order_uid");
-		if (orderUid.equals(dataMap.get("t_user_id").toString())) {
+		logger.info("orderUid={}", orderUid);
+		logger.info("t_user_id={}", dataMap.get("t_user_id").toString());
+		if (!orderUid.equals(dataMap.get("t_user_id").toString())) {
 			throw new AlipayApiException("error order_uid");
 		}
 	}
