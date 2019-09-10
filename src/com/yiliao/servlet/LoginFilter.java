@@ -47,7 +47,7 @@ public class LoginFilter implements Filter {
 				|| url.indexOf("weixinLogin") > 0 || url.indexOf("login") > 0 || url.indexOf("userLogin") > 0
 				|| url.indexOf("sendPhoneVerificationCode") > 0 || url.indexOf("getLongSetUpList") > 0
 				|| url.indexOf("tencentCallback") > 0 || url.indexOf("wxPayCallBack") > 0
-				|| url.indexOf("alipay_callback") > 0 || url.indexOf("getTakeOutMode") > 0
+				|| url.indexOf("alipay_callback") > 0 || url.indexOf("sdpay_callback") > 0 || url.indexOf("getTakeOutMode") > 0
 				|| url.indexOf("getIosSwitch") > 0 || url.indexOf("jumpShare") > 0 || url.indexOf("addShareInfo") > 0
 				|| url.indexOf("jumpCivilization") > 0 || url.indexOf("jumpShareCourtesy") > 0 || url.indexOf("onloadGlanceOver") > 0
 				|| url.indexOf("getJsonpRequest") > 0 || url.indexOf("imCallBack") > 0 || url.indexOf("getStyleSetUp") > 0
