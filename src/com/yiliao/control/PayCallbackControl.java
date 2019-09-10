@@ -221,17 +221,19 @@ public class PayCallbackControl {
 				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
 				this.sdpayCheck(params);
 				// 支付成功
-					// 处理支付成功逻辑
-					try {
-						this.consumeService.payNotify(params.get("order_no"), params.get("order_no"));
-					} catch (Exception e) {
-						logger.error("闪电支付回调业务处理报错,params:" + params, e);
-					}
-				} else {
-					logger.error("没有处理闪电支付回调业务，闪电支付交易状态：{},params:{}",params.get("trade_status"), params);
+				// 处理支付成功逻辑
+				try {
+					this.consumeService.payNotify(params.get("order_no"), params.get("order_no"));
+					// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
+					PrintUtil.printWriStr("success", response);
+				} catch (Exception e) {
+					logger.error("闪电支付回调业务处理报错,params:" + params, e);
+					PrintUtil.printWriStr("failure", response);
 				}
-				// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
-				PrintUtil.printWriStr("success", response);
+			} else {
+				logger.error("没有处理闪电支付回调业务，闪电支付交易状态：{},params:{}", params.get("trade_status"), params);
+				PrintUtil.printWriStr("failure", response);
+			}
 		} catch (Exception e) {
 			logger.error("闪电支付回调签名认证失败,paramsJson:{},errorMsg:{}", params,
 					e.getMessage());
