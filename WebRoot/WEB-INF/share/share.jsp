@@ -74,18 +74,18 @@
 			},
 			dataType : 'json',
 			success : function(data) {
-				if (data.m_istatus == 1) {
-					
-					if (Mobile_Iphone.indexOf('iPhone') >= 0) {
-						//苹果下载地址
-						window.location.href = $('#t_ios_download').val();
- 
-					} else {
-						window.location.href = $('#t_android_download').val();
-					}
-				} else {
-					window.location.href = projectPath + '/error.html';
-				}
+				//if (data.m_istatus == 1) {
+				//	
+				//	if (Mobile_Iphone.indexOf('iPhone') >= 0) {
+				//		//苹果下载地址
+				//		window.location.href = $('#t_ios_download').val();
+ 				//
+				//	} else {
+				//		window.location.href = $('#t_android_download').val();
+				//	}
+				//} else {
+				//	window.location.href = projectPath + '/error.html';
+				//}
 			}
 		});
 	});
