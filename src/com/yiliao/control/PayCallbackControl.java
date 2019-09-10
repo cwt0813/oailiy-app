@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
@@ -340,6 +341,20 @@ public class PayCallbackControl {
 		org.apache.commons.beanutils.BeanUtils.populate(obj, map);
 
 		return obj;
+	}
+	
+	/**
+	 * 支付成功页面
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("jumpPaySuccess")
+	public ModelAndView jumpPaySuccess() {
+		// 解密参数
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("paySuccess");
+		return mv;
 	}
 
 }
