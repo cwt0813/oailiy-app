@@ -219,7 +219,7 @@ public class PayCallbackControl {
 			logger.info("sdpay_sign- >{}",sign);
 			logger.info("sdpay_map_sign- >{}",sdpay_map_sign);
 			// 验证签名
-			boolean signVerified = sign.equals(params.get("sign"));
+			boolean signVerified = sign.equals(sdpay_map_sign);
 					
 			if (signVerified) {
 				logger.info("闪电支付回调签名认证成功");
