@@ -325,7 +325,7 @@ public class PayCallbackControl {
 
 		// 2、判断order_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
 		logger.info("orderAmount", params.get("order_amount"));
-		logger.info("t_recharge_money={}", dataMap.get("t_recharge_money").toString())
+		logger.info("t_recharge_money={}", dataMap.get("t_recharge_money").toString());
 		BigDecimal orderAmount = new BigDecimal(params.get("order_amount"));
 		if (orderAmount.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
 			throw new AlipayApiException("error order_amount");
