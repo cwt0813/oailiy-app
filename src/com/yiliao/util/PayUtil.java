@@ -133,9 +133,12 @@ public class PayUtil {
 			map.put("order_uid", orderUid);
 
 			StringBuilder sb = new StringBuilder();
-			for (Entry<String, String> entry : map.entrySet()) {
-				sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
-			}
+			sb.append("app_id").append("=").append(appid).append("&");
+			sb.append("order_no").append("=").append(orderNo).append("&");
+			sb.append("trade_name").append("=").append(tradeName).append("&");
+			sb.append("pay_type").append("=").append(payCode).append("&");
+			sb.append("order_amount").append("=").append(orderAmount).append("&");
+			sb.append("order_uid").append("=").append(orderUid).append("&");
 
 			sb.append(key);
 
