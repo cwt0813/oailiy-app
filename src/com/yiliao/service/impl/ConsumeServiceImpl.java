@@ -710,6 +710,9 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 	 */
 	@Override
 	public MessageUtil vipStoreValue(int userId, int setMealId,int payType) {
+		
+		logger.info("vipStoreValue, userId={}, setMealId={}, payType={}", userId, setMealId, payType);
+		
 		try {
 			//根据套餐编号得到用户需要支付的金额
 			

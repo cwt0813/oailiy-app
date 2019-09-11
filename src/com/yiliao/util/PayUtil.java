@@ -143,6 +143,8 @@ public class PayUtil {
 			sb.append(key);
 
 			String sign = MD5.stringToMD5(sb.toString());
+			
+			logger.info("sdpay, orderNo={}, sign={}", orderNo, sign);
 
 			map.put("sign", sign);
 			return map;
