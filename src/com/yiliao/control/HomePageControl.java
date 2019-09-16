@@ -83,6 +83,27 @@ public class HomePageControl {
 		}
 		return this.homePageService.getHomeNominateList(param.getInt("userId"), param.getInt("page"));
 	}
+	
+	/**
+	 * 获取女神列表
+	 * 
+	 * @param userId
+	 * @param page
+	 * @param response
+	 */
+	@RequestMapping(value = { "getHomeGodnessList" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public MessageUtil getHomeGodnessList(HttpServletRequest req) {
+
+		// 解密参数
+		JSONObject param = RSACoderUtil.privateDecrypt(req);
+		// 验证传递的参数
+		if (!BaseUtil.params(param.getInt("userId"), param.getInt("page"))) {
+			// 返回数据
+			return new MessageUtil(-500, "服务器拒绝执行请求!");
+		}
+		return this.homePageService.getHomeGodnessList(param.getInt("userId"), param.getInt("page"));
+	}
 
 	/**
 	 * 获取主播播放页

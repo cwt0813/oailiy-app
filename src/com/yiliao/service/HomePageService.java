@@ -22,6 +22,14 @@ public interface HomePageService {
 	 */
 	public MessageUtil  getHomeNominateList(int userId,int page);
 	
+	/**
+	 * 获取女神
+	 * @param userId
+	 * @param page
+	 * @return
+	 */
+	public MessageUtil  getHomeGodnessList(int userId,int page);
+	
 	
 	/**
 	 * Obtain play page

@@ -1053,6 +1053,56 @@ public class HomePageServiceImpl extends ICommServiceImpl implements HomePageSer
 	}
 
 	@Override
+	public MessageUtil getHomeGodnessList(int userId, int page) {
+		try {
+
+			StringBuffer homeSql = new StringBuffer();
+			homeSql.append("SELECT * FROM (");
+			homeSql.append(" SELECT u.t_id,u.t_cover_img,a.t_state,u.t_handImg,u.t_nickName,u.t_age,u.t_city,u.t_vocation,u.t_autograph,s.t_video_gold,AVG(IFNULL(e.t_score,5)) AS t_score ,'1' AS t_user_type,sp.t_is_godness,sp.t_sort  ");
+			homeSql.append(" FROM t_user u LEFT JOIN t_anchor a ON a.t_user_id = u.t_id LEFT JOIN t_user_evaluation e ON e.t_user_id = u.t_id ");
+			homeSql.append(" LEFT JOIN t_certification c ON c.t_user_id = u.t_id  LEFT JOIN t_anchor_setup s ON  s.t_user_id = u.t_id");
+			homeSql.append(" LEFT JOIN t_spread sp ON sp.t_user_id = u.t_id  LEFT JOIN t_anchor ans ON ans.t_user_id = u.t_id ");
+			homeSql.append(" WHERE u.t_role = 1 AND ans.t_state != 2 AND u.t_sex = 0 AND u.t_disable = 0  AND u.t_cover_img is not null AND c.t_certification_type =1 ");
+			homeSql.append(" AND sp.t_is_godness = 1 ");
+			homeSql.append(" GROUP BY u.t_id ");
+			homeSql.append(" UNION ");
+			homeSql.append(" SELECT u.t_id,u.t_cover_img,a.t_state,u.t_handImg,u.t_nickName,u.t_age,u.t_city,u.t_vocation,u.t_autograph,s.t_video_gold,AVG(IFNULL(e.t_score,5)) AS t_score ,'2' AS t_user_type,sp.t_is_godness,sp.t_sort ");
+			homeSql.append(" FROM t_user u LEFT JOIN t_anchor a ON a.t_user_id = u.t_id LEFT JOIN t_user_evaluation e ON e.t_user_id = u.t_id  ");
+			homeSql.append(" LEFT JOIN t_virtual v ON v.t_user_id = u.t_id  LEFT JOIN t_anchor_setup s ON  s.t_user_id = u.t_id");
+			homeSql.append(" LEFT JOIN t_spread sp ON sp.t_user_id = u.t_id LEFT JOIN t_anchor ans ON ans.t_user_id = u.t_id  ");
+			homeSql.append("  WHERE u.t_role = 1 AND ans.t_state != 2  AND u.t_sex = 0  AND u.t_disable = 0  AND u.t_cover_img is not null  AND v.t_user_id IS NOT NULL ");
+			homeSql.append(" AND sp.t_is_godness = 1 ");
+			homeSql.append(" GROUP BY u.t_id ");
+			homeSql.append(" ) AS  aa  WHERE aa.t_id !=0 ORDER BY aa.t_sort ASC,aa.t_state ASC,aa.t_user_type ASC, aa.t_score DESC ");
+
+			List<Map<String, Object>> dataList = this.getQuerySqlList(homeSql.toString());
+		 
+			// 计算评分
+			for (Map<String, Object> m : dataList) {
+				// 得到该主播是否存在免费的公共视频
+				Map<String, Object> userVideo = this.getMap(
+						"SELECT count(t_id) AS total  FROM t_album WHERE t_user_id = ? AND t_file_type=1 AND t_is_private = 0 AND t_is_del = 0 AND  t_auditing_type = 1 ",
+						Integer.parseInt(m.get("t_id").toString()));
+				// 是否存在公共视频
+				m.put("t_is_public", Integer.parseInt(userVideo.get("total").toString()) > 0 ? 1 : 0);
+				m.put("t_score", avgScore(Integer.parseInt(m.get("t_id").toString())));
+			}
+
+			mu = new MessageUtil();
+			mu.setM_istatus(1);
+			mu.setM_object(new HashMap<String,Object>(){{
+				put("data", dataList);
+			}});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("{}获取女神列表异常!", userId, e);
+			mu = new MessageUtil(0, "程序异常!");
+		}
+		return mu;
+	}
+	
+	@Override
 	public MessageUtil getTryCompereList(int userId, int page) {
 		try {
 			StringBuffer homeSql = new StringBuffer();
