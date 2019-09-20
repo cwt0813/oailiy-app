@@ -758,7 +758,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 						weixinPay.get(0).get("appId").toString(),
 						weixinPay.get(0).get("t_mchid").toString(),
 						weixinPay.get(0).get("t_mchid_key").toString());
-			}else{
+			}else if(payType == 2||payType == 3){
 				orderNo = orderNo + "sdpay_"+userId+"_"+System.currentTimeMillis();
 				
 				Map<String, Object> sdpay = this.getMap("SELECT t_appid,t_key FROM t_sdpay_setup limit 1");
@@ -769,6 +769,19 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String payCode = payType==3?"wechat":"alipay";
 				
 				map = PayUtil.sdpay(appid, orderNo, tradeName, payCode, setMealMap.get("t_money").toString(), userId+"", key);
+			}else if(payType == 4||payType == 5){
+				orderNo = orderNo + "tjpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> tjpay = this.getMap("SELECT t_code,t_key,t_ip,t_notify_url FROM t_tjpay_setup limit 1");
+				
+				String code = tjpay.get("t_code").toString();
+				String key = tjpay.get("t_key").toString();
+				String ip = tjpay.get("t_ip").toString();
+				String notifyUrl = tjpay.get("t_notify_url").toString();
+				String tradeName = "VIP";
+				String payCode = payType==5?"wxwap2":"zfbwap";
+				
+				map = PayUtil.tjpay(code, key, ip, notifyUrl, orderNo, tradeName, setMealMap.get("t_money").toString(), payCode);
 			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
@@ -847,7 +860,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 						weixinPay.get(0).get("appId").toString(),
 						weixinPay.get(0).get("t_mchid").toString(),
 						weixinPay.get(0).get("t_mchid_key").toString());
-			}else{
+			}else if(payType == 2||payType == 3){
 				orderNo = orderNo + "sdpay_"+userId+"_"+System.currentTimeMillis();
 				
 				Map<String, Object> sdpay = this.getMap("SELECT t_appid,t_key FROM t_sdpay_setup limit 1");
@@ -858,6 +871,19 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String payCode = payType==3?"wechat":"alipay";
 				
 				map = PayUtil.sdpay(appid, orderNo, tradeName, payCode, smlMap.get("t_money").toString(), userId+"", key);
+			}else if(payType == 4||payType == 5){
+				orderNo = orderNo + "tjpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> tjpay = this.getMap("SELECT t_code,t_key,t_ip,t_notify_url FROM t_tjpay_setup limit 1");
+				
+				String code = tjpay.get("t_code").toString();
+				String key = tjpay.get("t_key").toString();
+				String ip = tjpay.get("t_ip").toString();
+				String notifyUrl = tjpay.get("t_notify_url").toString();
+				String tradeName = "coins";
+				String payCode = payType==5?"wxwap2":"zfbwap";
+				
+				map = PayUtil.tjpay(code, key, ip, notifyUrl, orderNo, tradeName, smlMap.get("t_money").toString(), payCode);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
@@ -1109,6 +1135,18 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 	public String getSdpayKey() {
 		try {
 			String qSql = "SELECT t_key FROM t_sdpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	@Override
+	public String getTjpayKey() {
+		try {
+			String qSql = "SELECT t_key FROM t_tjpay_setup limit 1";
 			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
 		} catch (Exception e) {
 			e.printStackTrace();

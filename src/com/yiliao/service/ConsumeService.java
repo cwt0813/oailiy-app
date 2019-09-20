@@ -124,4 +124,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getSdpayKey();
+	
+	/**
+	 * 获取天玑支付的密钥
+	 * @return
+	 */
+	public String getTjpayKey();
 }

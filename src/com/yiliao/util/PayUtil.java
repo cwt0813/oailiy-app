@@ -3,6 +3,8 @@ package com.yiliao.util;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.slf4j.Logger;
@@ -151,6 +153,53 @@ public class PayUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info("sdpay error, e={}", e.getMessage());
+		}
+		return new HashMap<String, String>();
+	}
+	
+	/**
+	 * 天玑支付
+	 * @param code
+	 * @param key
+	 * @param ip
+	 * @param notifyUrl
+	 * @param orderNo
+	 * @param tradeName
+	 * @param orderAmount
+	 * @param payCode
+	 * @return
+	 */
+	public static Map<String, String> tjpay(String code, String key, String ip, String notifyUrl, String orderNo, String tradeName, String orderAmount, String payCode) {
+		try {
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.put("notifyUrl", notifyUrl);
+			smap.put("outOrderNo", orderNo);
+			smap.put("goodsClauses", tradeName);
+			smap.put("tradeAmount", orderAmount);
+			smap.put("code", code);
+			smap.put("payCode", payCode);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			for(Entry<String, String> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			
+			sb.append("key=");
+			sb.append(key);
+
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("tjpay, orderNo={}, sign={}", orderNo, sign);
+
+			Map<String, String> map = new HashMap<>();
+			map.putAll(smap);
+			map.put("sign", sign);
+			map.put("ip", ip);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("tjpay error, e={}", e.getMessage());
 		}
 		return new HashMap<String, String>();
 	}
