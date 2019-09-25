@@ -883,6 +883,7 @@ public class PersonalCenterServiceImpl extends ICommServiceImpl implements Perso
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info("{}修改资料异常", userId, e);
 			logger.error("{}修改资料异常", userId, e);
 			mu = new MessageUtil(0, "程序异常!");
 		}
