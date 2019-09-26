@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -98,10 +99,14 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 	public MessageUtil getServiceQQ(int userId) {
 		try {
 			
-			List<Map<String,Object>> sqlList = this.getQuerySqlList("SELECT t_service_qq FROM t_system_setup");
+			List<Map<String,Object>> sqlList = this.getQuerySqlList("SELECT t_service_qq,t_service_weixin FROM t_system_setup");
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("serviceQq", sqlList.get(0).get("t_service_qq").toString());
+			map.put("serviceWeixin", sqlList.get(0).get("t_service_weixin").toString());
 			
 			if(!sqlList.isEmpty()) {
-				return new MessageUtil(1, sqlList.get(0).get("t_service_qq"));
+				return new MessageUtil(1, map);
 			}
 			return new MessageUtil(-1, "客服QQ存在!");
 		} catch (Exception e) {
