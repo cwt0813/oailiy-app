@@ -100,7 +100,6 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 		try {
 			
 			List<Map<String,Object>> sqlList = this.getQuerySqlList("SELECT t_service_qq,t_service_weixin FROM t_system_setup");
-			
 			Map<String, String> map = new HashMap<>();
 			map.put("serviceQq", sqlList.get(0).get("t_service_qq").toString());
 			map.put("serviceWeixin", sqlList.get(0).get("t_service_weixin").toString());
