@@ -40,6 +40,10 @@ public class PushSmsHandle implements ApplicationListener<PushSms> {
 		}else if(smsPhone.get("sms_type").equals("2")) {
 			SendSMSUtil.sendNetEaseSMS(smsPhone.get("appid"), smsPhone.get("appkey"), Integer.parseInt(smsPhone.get("templateId")), smsPhone.get("smsSign"), smsPhone.get("phone"), smsPhone.get("smsCode"));
 		}
+		//253
+		else if(smsPhone.get("sms_type").equals("3")) {
+			SendSMSUtil.sendSms(smsPhone.get("phone").toString(), smsPhone.get("smsCode").toString());
+		}
 		
 	}
 

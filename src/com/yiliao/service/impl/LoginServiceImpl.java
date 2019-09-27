@@ -485,6 +485,9 @@ public class LoginServiceImpl extends ICommServiceImpl implements LoginService {
 				case 2: //网易短信
 					sms_map.put("sms_type", "2");
 					break;
+				case 3: //253短信
+					sms_map.put("sms_type", "3");
+					break;
 				}
 			}else {
 				sms_map.clear();
