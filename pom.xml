@@ -292,7 +292,7 @@
 		<dependency>
 			<groupId>com.qcloud</groupId>
 			<artifactId>cos_api</artifactId>
-			<version>5.4.4</version>
+			<version>5.6.7</version>
 		</dependency>
 		<!-- 阿里云短信 注：如提示报错，先升级基础包版，无法解决可联系技术支持 -->
 		<dependency>
