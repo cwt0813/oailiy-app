@@ -10,10 +10,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<title>小情人APP邀你分享百万红包</title>
 <meta charset="utf-8">
-<title>平台APP邀你分享百万红包</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="https://res.cdn.openinstall.io/apk_icon/p3opbw/3593633452836111989-1568173799319.png" rel="apple-touch-icon-precomposed">
+
+<link rel="stylesheet" href="https://res.cdn.openinstall.io/api_res/css/style.css">
 <style type="text/css">
- *{margin: 0;padding: 0;}
+*{
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
 </style>
 <script src="../js/jquery-2.0.3.min.js"></script>
 <script src="../js/mobile-detect.js"></script>
@@ -58,8 +66,13 @@
 </head>
 <body>
 	 <input id="userId" type="hidden" value="${userId}">
-<%-- 	 <input id="t_android_download" type="hidden" value="${t_android_download}">
-	 <input id="t_ios_download" type="hidden" value="${t_ios_download}"> --%>
+	 <div class="udid-content channel-content">
+      <img style="width: 72px; height: 72px" alt="" src="https://res.cdn.openinstall.io/apk_icon/p3opbw/3593633452836111989-1568173799319.png">
+      <p style="font-size:1.6rem;margin:2px auto;">小情人</p>
+    </div>
+    <div class="channel-title">
+	  <p>小情人APP邀你分享百万红包</p>
+	</div>
 </body>
 <script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=7499843363934916724"></script>
 <script type="text/javascript">
