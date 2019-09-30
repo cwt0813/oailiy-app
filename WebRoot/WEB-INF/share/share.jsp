@@ -71,7 +71,8 @@
       <p style="font-size:1.6rem;margin:2px auto;">小情人</p>
     </div>
     <div class="channel-title" style="text-align:center">
-	  <p>小情人APP邀你分享百万红包</p>
+	  <p>【小情人】美女众多的一对一视频交友平台</p>
+	  <p>网红模特、同城妹子主动发起视频聊天。</p>
 	</div>
 </body>
 <script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=7499843363934916724"></script>
