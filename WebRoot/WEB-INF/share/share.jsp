@@ -70,7 +70,7 @@
       <img style="width: 72px; height: 72px" alt="" src="https://res.cdn.openinstall.io/apk_icon/p3opbw/3593633452836111989-1568173799319.png">
       <p style="font-size:1.6rem;margin:2px auto;">小情人</p>
     </div>
-    <div class="channel-title">
+    <div class="channel-title" style="text-align:center">
 	  <p>小情人APP邀你分享百万红包</p>
 	</div>
 </body>
