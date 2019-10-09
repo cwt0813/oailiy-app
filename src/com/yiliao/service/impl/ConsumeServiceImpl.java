@@ -782,6 +782,23 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String payCode = payType==5?"wxwap2":"zfbwap";
 				
 				map = PayUtil.tjpay(code, key, ip, notifyUrl, orderNo, tradeName, setMealMap.get("t_money").toString(), payCode);
+			}else if(payType == 6||payType == 7){
+				orderNo = orderNo + "dhpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_dhpay_setup limit 1");
+				
+				String payMemberid = dhpay.get("t_memberid").toString();
+				String orderid = orderNo;
+				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+				String bankcode = payType==7?"902":"904";
+				String notifyurl = dhpay.get("t_notifyurl").toString();
+				String callbackurl = dhpay.get("t_callbackurl").toString();
+				String amount = setMealMap.get("t_money").toString();
+				String productname = "VIP";
+				String key = dhpay.get("t_key").toString();
+				String gateway = dhpay.get("t_gateway").toString();
+				
+				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
@@ -884,6 +901,23 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String payCode = payType==5?"wxwap2":"zfbwap";
 				
 				map = PayUtil.tjpay(code, key, ip, notifyUrl, orderNo, tradeName, smlMap.get("t_money").toString(), payCode);
+			}else if(payType == 6||payType == 7){
+				orderNo = orderNo + "dhpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_dhpay_setup limit 1");
+				
+				String payMemberid = dhpay.get("t_memberid").toString();
+				String orderid = orderNo;
+				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+				String bankcode = payType==7?"902":"904";
+				String notifyurl = dhpay.get("t_notifyurl").toString();
+				String callbackurl = dhpay.get("t_callbackurl").toString();
+				String amount = smlMap.get("t_money").toString();
+				String productname = "coins";
+				String key = dhpay.get("t_key").toString();
+				String gateway = dhpay.get("t_gateway").toString();
+				
+				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
@@ -1154,7 +1188,16 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		return null;
 	}
 	 
-    
+	@Override
+	public String getDhpayKey() {
+		try {
+			String qSql = "SELECT t_key FROM t_dhpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
    
  
 }

@@ -203,4 +203,44 @@ public class PayUtil {
 		}
 		return new HashMap<String, String>();
 	}
+	
+	/**
+	 * 德汇支付
+	 */
+	public static Map<String, String> dhpay(String payMemberid, String orderid, String applydate, String bankcode, String notifyurl, String callbackurl, String amount, String productname, String key, String gateway) {
+		try {
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.put("pay_memberid", payMemberid);
+			smap.put("pay_orderid", orderid);
+			smap.put("pay_applydate", applydate);
+			smap.put("pay_bankcode", bankcode);
+			smap.put("pay_notifyurl", notifyurl);
+			smap.put("pay_callbackurl", callbackurl);
+			smap.put("pay_amount", amount);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			for(Entry<String, String> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			
+			sb.append("key=");
+			sb.append(key);
+
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("dhpay, orderid={}, sign={}", orderid, sign);
+
+			Map<String, String> map = new HashMap<>();
+			map.putAll(smap);
+			map.put("pay_md5sign", sign);
+			map.put("pay_productname", productname);
+			map.put("gateway", gateway);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("tjpay error, e={}", e.getMessage());
+		}
+		return new HashMap<String, String>();
+	}
 }

@@ -130,4 +130,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getTjpayKey();
+	
+	/**
+	 * 获取德汇支付的密钥
+	 * @return
+	 */
+	public String getDhpayKey();
 }
