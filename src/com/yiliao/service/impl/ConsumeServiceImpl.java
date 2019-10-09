@@ -796,8 +796,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String amountStr = setMealMap.get("t_money").toString();
 				String amount;
 				if(amountStr.indexOf(".")>0) {
-					String[] amounts = amountStr.split(".");
-					amount = amounts[0];
+					amount = amountStr.substring(0, amountStr.indexOf("."));
 				}else {
 					amount = amountStr;
 				}
@@ -922,8 +921,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String amountStr = smlMap.get("t_money").toString();
 				String amount;
 				if(amountStr.indexOf(".")>0) {
-					String[] amounts = amountStr.split(".");
-					amount = amounts[0];
+					amount = amountStr.substring(0, amountStr.indexOf("."));
 				}else {
 					amount = amountStr;
 				}
@@ -1213,5 +1211,15 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		return null;
 	}
    
+	public static void main(String[] args) {
+		String amountStr = "10.00";
+		String amount;
+		if(amountStr.indexOf(".")>0) {
+			amount = amountStr.substring(0, amountStr.indexOf("."));
+		}else {
+			amount = amountStr;
+		}
+		System.out.println(amount);
+	}
  
 }
