@@ -793,7 +793,14 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String bankcode = payType==7?"926":"923";
 				String notifyurl = dhpay.get("t_notifyurl").toString();
 				String callbackurl = dhpay.get("t_callbackurl").toString();
-				String amount = setMealMap.get("t_money").toString().split(".")[0];
+				String amountStr = setMealMap.get("t_money").toString();
+				String amount;
+				if(amountStr.indexOf(".")>0) {
+					String[] amounts = amountStr.split(".");
+					amount = amounts[0];
+				}else {
+					amount = amountStr;
+				}
 				String productname = "VIP";
 				String key = dhpay.get("t_key").toString();
 				String gateway = dhpay.get("t_gateway").toString();
@@ -912,7 +919,14 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String bankcode = payType==7?"926":"923";
 				String notifyurl = dhpay.get("t_notifyurl").toString();
 				String callbackurl = dhpay.get("t_callbackurl").toString();
-				String amount = smlMap.get("t_money").toString().split(".")[0];
+				String amountStr = smlMap.get("t_money").toString();
+				String amount;
+				if(amountStr.indexOf(".")>0) {
+					String[] amounts = amountStr.split(".");
+					amount = amounts[0];
+				}else {
+					amount = amountStr;
+				}
 				String productname = "coins";
 				String key = dhpay.get("t_key").toString();
 				String gateway = dhpay.get("t_gateway").toString();
