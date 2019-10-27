@@ -187,12 +187,71 @@ public class PayCallbackControl {
 		}
 	}
 
+//	/**
+//	 * 闪电支付回调
+//	 */
+//	@RequestMapping("sdpay_callback")
+//	@ResponseBody
+//	public void sdpayCallback(HttpServletRequest request,HttpServletResponse response) {
+//		 
+//	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+//		logger.info("闪电支付回调，{}", params);
+//		try {
+//			
+//			String sdpay_map_sign = params.get("sign");
+//			params.remove("sign");
+//			StringBuilder sb = new StringBuilder();
+//			
+//			sb.append("no").append("=").append(params.get("no")).append("&");
+//			sb.append("order_no").append("=").append(params.get("order_no")).append("&");
+//			sb.append("trade_name").append("=").append(params.get("trade_name")).append("&");
+//			sb.append("pay_type").append("=").append(params.get("pay_type")).append("&");
+//			sb.append("order_amount").append("=").append(params.get("order_amount")).append("&");
+//			sb.append("pay_amount").append("=").append(params.get("pay_amount")).append("&");
+//			sb.append("order_uid").append("=").append(params.get("order_uid")).append("&");
+//			
+//			String key = this.consumeService.getSdpayKey();
+//			
+//			sb.append(key);
+//			
+//			String sign = MD5.stringToMD5(sb.toString());
+//			
+//			logger.info("sdpay_sign- >{}",sign);
+//			logger.info("sdpay_map_sign- >{}",sdpay_map_sign);
+//			// 验证签名
+//			boolean signVerified = sign.equals(sdpay_map_sign);
+//					
+//			if (signVerified) {
+//				logger.info("闪电支付回调签名认证成功");
+//				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
+//				this.sdpayCheck(params);
+//				// 支付成功
+//				// 处理支付成功逻辑
+//				try {
+//					this.consumeService.payNotify(params.get("order_no"), params.get("no"));
+//					// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
+//					PrintUtil.printWriStr("success", response);
+//				} catch (Exception e) {
+//					logger.error("闪电支付回调业务处理报错,params:" + params, e);
+//					PrintUtil.printWriStr("failure", response);
+//				}
+//			} else {
+//				logger.info("闪电支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
+//				PrintUtil.printWriStr("failure", response);
+//			}
+//		} catch (Exception e) {
+//			logger.error("闪电支付回调认证失败,paramsJson:{},errorMsg:{}", params,
+//					e.getMessage());
+//			PrintUtil.printWriStr("failure", response);
+//		}
+//	}
+	
 	/**
 	 * 闪电支付回调
 	 */
 	@RequestMapping("sdpay_callback")
 	@ResponseBody
-	public void sdpayCallback(HttpServletRequest request,HttpServletResponse response) {
+	public String sdpayCallback(HttpServletRequest request,HttpServletResponse response) {
 		 
 	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
 		logger.info("闪电支付回调，{}", params);
@@ -230,19 +289,23 @@ public class PayCallbackControl {
 				try {
 					this.consumeService.payNotify(params.get("order_no"), params.get("no"));
 					// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
-					PrintUtil.printWriStr("success", response);
+//					PrintUtil.printWriStr("success", response);
+					return "success";
 				} catch (Exception e) {
 					logger.error("闪电支付回调业务处理报错,params:" + params, e);
-					PrintUtil.printWriStr("failure", response);
+//					PrintUtil.printWriStr("failure", response);
+					return "failure";
 				}
 			} else {
 				logger.info("闪电支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
-				PrintUtil.printWriStr("failure", response);
+//				PrintUtil.printWriStr("failure", response);
+				return "failure";
 			}
 		} catch (Exception e) {
 			logger.error("闪电支付回调认证失败,paramsJson:{},errorMsg:{}", params,
 					e.getMessage());
-			PrintUtil.printWriStr("failure", response);
+//			PrintUtil.printWriStr("failure", response);
+			return "failure";
 		}
 	}
 	
