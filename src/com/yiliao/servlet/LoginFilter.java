@@ -52,7 +52,7 @@ public class LoginFilter implements Filter {
 				|| url.indexOf("jumpCivilization") > 0 || url.indexOf("jumpShareCourtesy") > 0 || url.indexOf("onloadGlanceOver") > 0
 				|| url.indexOf("getJsonpRequest") > 0 || url.indexOf("imCallBack") > 0 || url.indexOf("getStyleSetUp") > 0
 				|| url.indexOf("endSpeedDating") > 0  || url.indexOf("sendSocketNotice") > 0 || url.indexOf("register") > 0
-				|| url.indexOf("upPassword") > 0 || url.indexOf("jumpPaySuccess") > 0) {
+				|| url.indexOf("upPassword") > 0 || url.indexOf("jumpPaySuccess") > 0|| url.indexOf("preLoad") > 0) {
 
 			if (null == requestWrapper) {
 				chain.doFilter(req, response);
