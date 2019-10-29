@@ -218,18 +218,4 @@ public class ShareControl {
 		return new MessageUtil(1, downLoadUrl);
 	}
 
-	/**
-	 * 获取分享地址
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	@RequestMapping(value = { "getShareHost" }, method = { RequestMethod.POST })
-	@ResponseBody
-	public MessageUtil getShareHost(HttpServletRequest req) {
-
-		Map<String, Object> shareHost = this.shareService.getShareHost();
-
-		return new MessageUtil(1, shareHost);
-	}
 }

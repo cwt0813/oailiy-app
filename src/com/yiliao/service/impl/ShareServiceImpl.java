@@ -94,13 +94,5 @@ public class ShareServiceImpl extends ICommServiceImpl implements ShareService {
 		
 		return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql);
 	}
-	
-	@Override
-	public Map<String, Object> getShareHost() {
-		
-		String qSql = "SELECT t_share_host FROM t_system_setup limit 1; ";
-		
-		return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql);
-	}
 
 }

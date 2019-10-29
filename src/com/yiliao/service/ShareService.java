@@ -27,9 +27,4 @@ public interface ShareService {
     * 获取下载地址
     */
    Map<String, Object> getDownLoadUrl();
-   
-   /**
-    * 获取分享地址
-    */
-   Map<String, Object> getShareHost();
 }
