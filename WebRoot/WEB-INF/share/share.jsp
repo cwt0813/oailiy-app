@@ -10,7 +10,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>小情人APP邀你分享百万红包</title>
+<!-- <title>小情人APP邀你分享百万红包</title> -->
+<title>小情人</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,8 +20,50 @@
 
 <link rel="stylesheet" href="https://res.cdn.openinstall.io/api_res/css/style.css">
 <style type="text/css">
-*{
-    -webkit-tap-highlight-color:rgba(0,0,0,0);
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+#Mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	/*   background-image: url(../img/tweixinip.jpg); */
+	background-color: #000000;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+}
+
+.model-content {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background: #ffffff;
+	border-radius: 6px;
+	margin: 100px auto;
+	line-height: 30px;
+	z-index: 10001;
+}
+
+.mask_span {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	color: #ffffff;
+	border-radius: 6px;
+	margin: 100px auto;
+	line-height: 30px;
+	z-index: 10002;
+	font-size: .26rem;
+	font-family: "microsoft yahei", "Arial";
+	line-height: 1;
+	-webkit-user-select: none;
+	-webkit-text-size-adjust: 100% !important;
+	text-size-adjust: 100% !important;
+	-moz-text-size-adjust: 100% !important;
 }
 </style>
 <script src="../js/jquery-2.0.3.min.js"></script>
@@ -74,11 +117,30 @@
 	  <p>【小情人】美女众多的一对一视频交友平台</p>
 	  <p>网红模特、同城妹子主动发起视频聊天。</p>
 	</div>
+	
+	<!--引入遮蔽层-->
+	<div id="Mask" style="">
+		<span class="mask_span">1.点击右上角的“...”按钮</span>
+		<span class="mask_span">2.选择“在浏览器中打开”</span>
+	</div>
+	
 </body>
 <script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=7499843363934916724"></script>
 <script type="text/javascript">
+	
 	$(function() {
-		  $.ajax({
+
+		//判断是否在微信中打开
+		var ua = navigator.userAgent;
+		var isWeixin = !!/MicroMessenger/i.test(ua);
+		//如果使用的是微信自带浏览器，就打开蒙版
+		if (isWeixin) {
+			var SHOW = 0;
+			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
+					: 'none';
+		}
+
+		$.ajax({
 			type : 'POST',
 			url : '../share/addShareInfo.html',
 			data : {
@@ -93,7 +155,7 @@
 				//	if (Mobile_Iphone.indexOf('iPhone') >= 0) {
 				//		//苹果下载地址
 				//		window.location.href = $('#t_ios_download').val();
- 				//
+				//
 				//	} else {
 				//		window.location.href = $('#t_android_download').val();
 				//	}
@@ -103,12 +165,14 @@
 			}
 		});
 	});
-	
-	function getQueryString(name) { 
-		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
-		var r = window.location.search.substr(1).match(reg); 
-		if (r != null) return unescape(r[2]); return null; 
-    } 
+
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return unescape(r[2]);
+		return null;
+	}
 </script>
 </html>
 
