@@ -57,7 +57,7 @@
 	margin: 100px auto;
 	line-height: 30px;
 	z-index: 10002;
-	font-size: .26rem;
+	font-size: .260rem;
 	font-family: "microsoft yahei", "Arial";
 	line-height: 1;
 	-webkit-user-select: none;
@@ -114,14 +114,13 @@
       <p style="font-size:1.6rem;margin:2px auto;">小情人</p>
     </div>
     <div class="channel-title" style="text-align:center">
-	  <p>【小情人】美女众多的一对一视频交友平台</p>
-	  <p>网红模特、同城妹子主动发起视频聊天。</p>
+	  <p>【小情人】跟附近的人视频聊天，遇见你心中的TA</p>
 	</div>
 	
 	<!--引入遮蔽层-->
 	<div id="Mask" style="">
-		<span class="mask_span">1.点击右上角的“...”按钮</span>
-		<span class="mask_span">2.选择“在浏览器中打开”</span>
+		<div class="mask_span">1.点击右上角的“...”按钮</div>
+		<div class="mask_span">2.选择“在浏览器中打开”</div>
 	</div>
 	
 </body>
