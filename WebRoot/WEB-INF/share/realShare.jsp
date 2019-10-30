@@ -24,59 +24,6 @@
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-#Mask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: none;
-	background-image: url(../img/shareMask.png);
-	/* background-color: #000000; */
-	background-size: cover;
-	width: 100%;
-	height: 100%;
-	z-index: 1000;
-}
-
-#Mask2 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: none;
-	background-color: #000000;
-	background-size: cover;
-	width: 100%;
-	height: 100%;
-	z-index: 1001;
-}
-
-.model-content {
-	width: 100%;
-	height: 100%;
-	text-align: center;
-	background: #ffffff;
-	border-radius: 6px;
-	margin: 100px auto;
-	line-height: 30px;
-	z-index: 10001;
-}
-
-.mask_span {
-	width: 100%;
-	height: 200%;
-	text-align: center;
-	color: #ffffff;
-	border-radius: 6px;
-	margin: 100px auto;
-	line-height: 30px;
-	z-index: 10002;
-	font-size: 30px;
-	font-family: "microsoft yahei", "Arial";
-	line-height: 1;
-	-webkit-user-select: none;
-	-webkit-text-size-adjust: 100% !important;
-	text-size-adjust: 100% !important;
-	-moz-text-size-adjust: 100% !important;
-}
 </style>
 <script src="../js/jquery-2.0.3.min.js"></script>
 <script src="../js/mobile-detect.js"></script>
@@ -120,64 +67,21 @@
 </script>
 </head>
 <body>
-	<input id="userId" type="hidden" value="${userId}">
-	
-	<!--引入遮蔽层-->
-	<div id="Mask" style="">
-	</div>
-	
-	<!--引入遮蔽层-->
-	<div id="Mask2" style="">
+	 <input id="userId" type="hidden" value="${userId}">
+	 <div class="udid-content channel-content">
+      <img style="width: 72px; height: 72px" alt="" src="https://res.cdn.openinstall.io/apk_icon/p3opbw/3593633452836111989-1568173799319.png">
+      <p style="font-size:1.6rem;margin:2px auto;">小情人</p>
+    </div>
+    <div class="channel-title" style="text-align:center">
+	  <p>【小情人】跟附近的人视频聊天，遇见你心中的TA</p>
 	</div>
 	
 </body>
+<script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=7499843363934916724"></script>
 <script type="text/javascript">
 	
 	$(function() {
 
-		$("#Mask2").show();
-			
-		//判断是否在微信中打开
-		var ua = navigator.userAgent;
-		var isWeixin = !!/MicroMessenger/i.test(ua);
-		//如果使用的是微信自带浏览器，就打开蒙版
-		if (isWeixin) {
-			document.querySelector('body').addEventListener('touchmove', function(e) {
-				　　e.preventDefault();
-				});
-			var SHOW = 0;
-			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
-					: 'none';
-		}else{
-			window.location.href='../share/jumpRealShare.html?userId='+$('#userId').val();
-		}
-		
-		$("#Mask2").hide();
-
-		$.ajax({
-			type : 'POST',
-			url : '../share/addShareInfo.html',
-			data : {
-				userId : $('#userId').val(),
-				equipment : equipment,
-				system_moble : system_moble
-			},
-			dataType : 'json',
-			success : function(data) {
-				//if (data.m_istatus == 1) {
-				//	
-				//	if (Mobile_Iphone.indexOf('iPhone') >= 0) {
-				//		//苹果下载地址
-				//		window.location.href = $('#t_ios_download').val();
-				//
-				//	} else {
-				//		window.location.href = $('#t_android_download').val();
-				//	}
-				//} else {
-				//	window.location.href = projectPath + '/error.html';
-				//}
-			}
-		});
 	});
 
 	function getQueryString(name) {

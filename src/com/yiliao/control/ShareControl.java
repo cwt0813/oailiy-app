@@ -44,6 +44,27 @@ public class ShareControl {
 		}
 		return null;
 	}
+	
+	/**
+	 * 跳转到分享页面
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "jumpRealShare")
+	public ModelAndView jumpRealShare(HttpServletRequest req) {
+		// 解密参数
+		// 验证传递的参数
+		if (BaseUtil.params(req.getParameter("userId"))) {
+//			Map<String, Object> map = this.shareService.getDownLoadUrl();
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("userId", req.getParameter("userId"));
+//			mv.addAllObjects(map);
+			mv.setViewName("realShare");
+			return mv;
+		}
+		return null;
+	}
 
 	/**
 	 * 保存设备信息和分享人
