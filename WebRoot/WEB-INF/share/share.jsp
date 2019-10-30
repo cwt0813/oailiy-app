@@ -57,7 +57,7 @@
 	margin: 100px auto;
 	line-height: 30px;
 	z-index: 10002;
-	font-size: .260rem;
+	font-size: 30px;
 	font-family: "microsoft yahei", "Arial";
 	line-height: 1;
 	-webkit-user-select: none;
@@ -119,8 +119,9 @@
 	
 	<!--引入遮蔽层-->
 	<div id="Mask" style="">
-		<div class="mask_span">1.点击右上角的“...”按钮</div>
-		<div class="mask_span">2.选择“在浏览器中打开”</div>
+		<span class="mask_span">1.点击右上角的“...”按钮</span>
+		<br/>
+		<span class="mask_span">2.选择“在浏览器中打开”</span>
 	</div>
 	
 </body>
