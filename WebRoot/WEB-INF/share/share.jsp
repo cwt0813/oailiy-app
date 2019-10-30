@@ -30,8 +30,10 @@
 	left: 0;
 	display: none;
 	background-image: url(../img/shareMask.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
 	/* background-color: #000000; */
-	background-size: cover;
 	width: 100%;
 	height: 100%;
 	z-index: 1000;
