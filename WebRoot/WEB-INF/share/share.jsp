@@ -37,6 +37,18 @@
 	z-index: 1000;
 }
 
+#Mask2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	background-color: #000000;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	z-index: 1001;
+}
+
 .model-content {
 	width: 100%;
 	height: 100%;
@@ -119,9 +131,10 @@
 	
 	<!--引入遮蔽层-->
 	<div id="Mask" style="">
-		<span class="mask_span">1.点击右上角的“...”按钮</span>
-		<br/>
-		<span class="mask_span">2.选择“在浏览器中打开”</span>
+	</div>
+	
+	<!--引入遮蔽层-->
+	<div id="Mask2" style="">
 	</div>
 	
 </body>
@@ -130,6 +143,8 @@
 	
 	$(function() {
 
+		$("#Mask2").show();
+			
 		//判断是否在微信中打开
 		var ua = navigator.userAgent;
 		var isWeixin = !!/MicroMessenger/i.test(ua);
@@ -142,6 +157,8 @@
 			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
 					: 'none';
 		}
+		
+		$("#Mask2").hide();
 
 		$.ajax({
 			type : 'POST',
