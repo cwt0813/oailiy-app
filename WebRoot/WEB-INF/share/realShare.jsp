@@ -81,7 +81,30 @@
 <script type="text/javascript">
 	
 	$(function() {
-
+		$.ajax({
+			type : 'POST',
+			url : '../share/addShareInfo.html',
+			data : {
+				userId : $('#userId').val(),
+				equipment : equipment,
+				system_moble : system_moble
+			},
+			dataType : 'json',
+			success : function(data) {
+				//if (data.m_istatus == 1) {
+				//	
+				//	if (Mobile_Iphone.indexOf('iPhone') >= 0) {
+				//		//苹果下载地址
+				//		window.location.href = $('#t_ios_download').val();
+				//
+				//	} else {
+				//		window.location.href = $('#t_android_download').val();
+				//	}
+				//} else {
+				//	window.location.href = projectPath + '/error.html';
+				//}
+			}
+		});
 	});
 
 	function getQueryString(name) {
