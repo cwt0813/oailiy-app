@@ -29,8 +29,8 @@
 	top: 0;
 	left: 0;
 	display: none;
-	/*   background-image: url(../img/tweixinip.jpg); */
-	background-color: #000000;
+	background-image: url(../img/shareMask.png);
+	/* background-color: #000000; */
 	background-size: cover;
 	width: 100%;
 	height: 100%;
@@ -50,7 +50,7 @@
 
 .mask_span {
 	width: 100%;
-	height: 100%;
+	height: 200%;
 	text-align: center;
 	color: #ffffff;
 	border-radius: 6px;
@@ -135,6 +135,9 @@
 		var isWeixin = !!/MicroMessenger/i.test(ua);
 		//如果使用的是微信自带浏览器，就打开蒙版
 		if (isWeixin) {
+			document.querySelector('body').addEventListener('touchmove', function(e) {
+				　　e.preventDefault();
+				});
 			var SHOW = 0;
 			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
 					: 'none';
