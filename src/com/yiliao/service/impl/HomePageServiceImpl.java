@@ -71,6 +71,9 @@ public class HomePageServiceImpl extends ICommServiceImpl implements HomePageSer
 			homeSql.append(")  ");
 //			homeSql.append(" AND a.t_state !=2 ");
 			homeSql.append("GROUP BY u.t_id ");
+			homeSql.append(" LIMIT ");
+			homeSql.append((page - 1) * 10);
+			homeSql.append(" ,10");
 			// 统计总记录数
 			Map<String, Object> total = this.getMap("SELECT COUNT(aa.t_id) AS total FROM (" + homeSql + ") aa");
 			// 获取数据
@@ -1024,7 +1027,10 @@ public class HomePageServiceImpl extends ICommServiceImpl implements HomePageSer
 			homeSql.append(" AND sp.t_is_nominate = 1 ");
 			homeSql.append(" GROUP BY u.t_id ");
 			homeSql.append(" ) AS  aa  WHERE aa.t_id !=0 ORDER BY aa.t_sort ASC,aa.t_state ASC,aa.t_user_type ASC, aa.t_score DESC ");
-
+			homeSql.append(" LIMIT ");
+			homeSql.append((page - 1) * 10);
+			homeSql.append(",10 ");
+			
 			List<Map<String, Object>> dataList = this.getQuerySqlList(homeSql.toString());
 		 
 			// 计算评分
@@ -1074,7 +1080,10 @@ public class HomePageServiceImpl extends ICommServiceImpl implements HomePageSer
 			homeSql.append(" AND sp.t_is_godness = 1 ");
 			homeSql.append(" GROUP BY u.t_id ");
 			homeSql.append(" ) AS  aa  WHERE aa.t_id !=0 ORDER BY aa.t_sort ASC,aa.t_state ASC,aa.t_user_type ASC, aa.t_score DESC ");
-
+			homeSql.append(" LIMIT ");
+			homeSql.append((page - 1) * 10);
+			homeSql.append(" ,10");
+			
 			List<Map<String, Object>> dataList = this.getQuerySqlList(homeSql.toString());
 		 
 			// 计算评分
@@ -1201,6 +1210,9 @@ public class HomePageServiceImpl extends ICommServiceImpl implements HomePageSer
 			countSql.append(" AND u.t_create_time > '").append(DateUtils.getSevenDaysBefore()).append("'");
 			countSql.append(" GROUP BY u.t_id ");
 			countSql.append(" ) AS  aa ;");
+			homeSql.append(" LIMIT ");
+			homeSql.append((page - 1) * 10);
+			homeSql.append(" ,10");
 
 			Map<String, Object> totalMap = this.getMap(countSql.toString());
 
