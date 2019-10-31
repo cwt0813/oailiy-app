@@ -144,8 +144,9 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 			//获取图片的物理硬盘地址
 			Map<String, Object> imgPath = getMap(sql.toString());
 			//根据用户编号获取短连接
-			String img_path = SystemConfig.getValue("share_url")+userId;
-			 
+//			String img_path = SystemConfig.getValue("share_url")+userId;
+			String img_path = getShareHost()+"/share/jumpShare.html?userId="+userId;			
+			
 			// 二维码宽度
 			int width = 500;
 			// 二维码高度
@@ -248,7 +249,15 @@ public class SystemServiceImpl extends ICommServiceImpl implements SystemService
 		return null;
 	}
 	
-	
+	/**
+	 * 获取分享host
+	 * @return
+	 */
+	private String getShareHost() {
+		String shareHostSql = "SELECT t_config_value FROM t_pre_load_config where t_config_name = ? limit 1";
+		Map<String, Object> map = this.getMap(shareHostSql, "share_host");
+		return map.get("t_config_value").toString();
+	}
 	
 
 }
