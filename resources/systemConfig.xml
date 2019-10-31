@@ -27,7 +27,7 @@
 	<!-- 配置图片房间地址 -->
 	<entry key="spreed_img_url">http://xqr-manage.fanxingtuan.top/chat_m/upload/</entry>
 	<!-- 分享链接 -->
-	<entry key="share_url">http://154.221.21.157:8280/chat_app/share/jumpShare.html?userId=</entry>
+	<entry key="share_url">http://xqr-app.2qsk1i.cn/chat_app/share/jumpShare.html?userId=</entry>
 	<!--加密 公钥 -->
 	<entry key="encrypt_public">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbo3eWctKhAu0hRmi0BmKkGQVSXtx5KPJkEulTxt14KCN/O/XpzHiLxBBgrrZXqnLwjcCVZQCXeSKkg/GGDLxL8XEpUzoeWk+YleSOR3R5bT8zYEI+70t4Qm+AskCZepJWhAZsZsC/v5S6YP8oA8yA8k+P2q6Kz2d750lRmhErnQIDAQAB</entry>
 	<!--解密 私钥 -->
