@@ -174,6 +174,13 @@ public class MoneyServiceImpl extends ICommServiceImpl implements  MoneyService 
 				return new MessageUtil(0, "暂未绑定微信或支付宝账号.");
 			}
 			
+			String userSql = "SELECT t_sex FROM t_user WHERE t_user_id = ? limit 1";
+			
+			Map<String, Object> userMap = this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(userSql, userId);
+			if(null!=userMap&&null!=userMap.get("t_sex")&&!"0".equals(userMap.get("t_sex").toString())) {
+				return new MessageUtil(0, "只有主播可以提现.");
+			}
+			
 			//查询用户当天是否已经提现了
 			qSql = "SELECT DATE_FORMAT(t_create_time,'%Y-%m-%d') AS putdate FROM t_put_forward  WHERE t_user_id = ?  ORDER BY t_id DESC  LIMIT 1 " ;
 			
