@@ -272,7 +272,7 @@ public class ConsumeControl {
 
 		// 验证传递的参数
 		if (!BaseUtil.params(param.getInt("userId"), param.getInt("setMealId")) || param.getInt("payType") < 0
-				|| param.getInt("payType") > 5) {
+				|| param.getInt("payType") > 7) {
 			// 返回数据
 			return new MessageUtil(-500, "服务器拒绝执行请求!");
 		}
@@ -297,7 +297,7 @@ public class ConsumeControl {
 		JSONObject param = RSACoderUtil.privateDecrypt(req);
 		// 验证传递的参数
 		if (!BaseUtil.params(param.getInt("userId"), param.getInt("setMealId")) && param.getInt("payType") < 0
-				|| param.getInt("payType") > 5) {
+				|| param.getInt("payType") > 7) {
 			// 返回数据
 			return new MessageUtil(-500, "服务器拒绝执行请求!");
 		}

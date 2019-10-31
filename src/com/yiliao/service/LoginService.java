@@ -168,4 +168,5 @@ public interface LoginService {
 	 * 获取预加载配置
 	 */
 	MessageUtil preLoad();
+	
 }

@@ -7,14 +7,16 @@
     <!-- 项目名称 -->
     <entry key="projectName">chat</entry>
     <!-- 支付宝回调地址 -->
-    <entry key="alipayNotifyUrl">http://qqjy-app.qichier.top/chat_app/pay/alipay_callback.html</entry>
+    <entry key="alipayNotifyUrl">http://xqr-app.fanxingtuan.top/chat_app/pay/alipay_callback.html</entry>
     <!-- 微信支付回调地址 -->
-    <entry key="weixinNotifyUrl">http://qqjy-app.qichier.top/chat_app/pay/wxPayCallBack.html</entry>
+    <entry key="weixinNotifyUrl">http://xqr-app.fanxingtuan.top/chat_app/pay/wxPayCallBack.html</entry>
     <!-- 微信支付IP地址 -->
     <entry key="spbill_create_ip">154.221.21.157</entry>
     <!-- 推送相关 -->
-    <entry key="app_key">24311cf61a96fd49e25c2d2a</entry>
-    <entry key="master_secret">305c54e3d40bd23753752f28</entry>
+	<entry key="app_key">03e01fae71bda87a5d5c45d1</entry>
+    <entry key="master_secret">221b727326da407148718642</entry>
+    <!-- <entry key="app_key">24311cf61a96fd49e25c2d2a</entry>
+    <entry key="master_secret">305c54e3d40bd23753752f28</entry> -->
 <!--     <entry key="app_key">330c313732c9d37f421c921c</entry>
     <entry key="master_secret">9d6295a53c3ac3b24f2444a2</entry> -->
     
@@ -23,9 +25,9 @@
 	<!-- 渠道推广背景图片存储路径   centos -->
 	<entry key="centos_speed_fileUrl">/speed/img/</entry>
 	<!-- 配置图片房间地址 -->
-	<entry key="spreed_img_url">http://qqjy-manage.qichier.top/chat_m/upload/</entry>
+	<entry key="spreed_img_url">http://xqr-manage.fanxingtuan.top/chat_m/upload/</entry>
 	<!-- 分享链接 -->
-	<entry key="share_url">http://qqjy-app.qichier.top/chat_app/share/jumpShare.html?userId=</entry>
+	<entry key="share_url">http://xqr-app.2qsk1i.cn/chat_app/share/jumpShare.html?userId=</entry>
 	<!--加密 公钥 -->
 	<entry key="encrypt_public">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbo3eWctKhAu0hRmi0BmKkGQVSXtx5KPJkEulTxt14KCN/O/XpzHiLxBBgrrZXqnLwjcCVZQCXeSKkg/GGDLxL8XEpUzoeWk+YleSOR3R5bT8zYEI+70t4Qm+AskCZepJWhAZsZsC/v5S6YP8oA8yA8k+P2q6Kz2d750lRmhErnQIDAQAB</entry>
 	<!--解密 私钥 -->

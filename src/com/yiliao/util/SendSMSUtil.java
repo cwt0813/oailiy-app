@@ -33,8 +33,8 @@ public class SendSMSUtil {
 
 	public static void main(String[] args) {
 
-		System.out.println(SendSMSUtil.sendQQSMS("1400102374", "7d982aac805e639eab9dec7eea3d3fc7", 141866, "一聊高科",
-				"13983287114", "1234"));
+//		System.out.println(SendSMSUtil.sendQQSMS("1400102374", "7d982aac805e639eab9dec7eea3d3fc7", 141866, "一聊高科",
+//				"13983287114", "1234"));
 		
 	}
 
