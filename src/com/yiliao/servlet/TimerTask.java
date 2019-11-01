@@ -174,9 +174,9 @@ public class TimerTask extends HttpServlet {
 			}
 		}, 10000, 1000*60*5, TimeUnit.MILLISECONDS);
 
-//		// 服务器重启时 所有用户全部为下线状态
-//		LoginService loginAppService = (LoginService) SpringConfig.getInstance().getBean("loginAppService");
-//		loginAppService.startUpOnLine();
+		// 服务器重启时 所有用户全部为下线状态
+		LoginService loginAppService = (LoginService) SpringConfig.getInstance().getBean("loginAppService");
+		loginAppService.startUpOnLine();
 		// 半小时更新一次虚拟主播状态
 		scheduledThreadPool.scheduleAtFixedRate(new Runnable() {
 			@Override
