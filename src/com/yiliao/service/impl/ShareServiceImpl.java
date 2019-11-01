@@ -1,6 +1,7 @@
 package com.yiliao.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,9 +91,27 @@ public class ShareServiceImpl extends ICommServiceImpl implements ShareService {
 	@Override
 	public Map<String, Object> getDownLoadUrl() {
 		
-		String qSql = "SELECT t_android_download,t_ios_download FROM t_system_setup; ";
+//		String qSql = "SELECT t_android_download,t_ios_download FROM t_system_setup; ";
+//		
+//		return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql);
 		
-		return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql);
+		// 获取host，跟下载地址一致
+		String host = getHost();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String downloadUrl = host + "/share/jumpDownload.html";
+		map.put("t_android_download", downloadUrl);
+		map.put("t_ios_download", downloadUrl);
+		return map;
+	}
+	
+	/**
+	 * 获取host
+	 * @return
+	 */
+	private String getHost() {
+		String shareHostSql = "SELECT t_config_value FROM t_pre_load_config where t_config_name = ? limit 1";
+		Map<String, Object> map = this.getMap(shareHostSql, "host");
+		return map.get("t_config_value").toString();
 	}
 
 }

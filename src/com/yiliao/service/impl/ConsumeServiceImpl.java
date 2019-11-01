@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.mina.core.session.IoSession;
 import org.springframework.stereotype.Service;
@@ -302,9 +303,13 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		try {
 
 			//获取当前用户角色
-			List<Map<String, Object>> user = this.getQuerySqlList("SELECT * FROM t_user WHERE t_role = 1 AND t_id = ? AND t_is_vip = 1 ", consumeUserId);
+//			List<Map<String, Object>> user = this.getQuerySqlList("SELECT * FROM t_user WHERE t_role = 1 AND t_id = ? AND t_is_vip = 1 ", consumeUserId);
+//			if(!getUserIsVip(consumeUserId) && (null == user || user.isEmpty() )){
 			
-			if(!getUserIsVip(consumeUserId) && (null == user || user.isEmpty() )){
+			// 主播和vip不能扣钱
+			List<Map<String, Object>> user = this.getQuerySqlList("SELECT * FROM t_user WHERE t_id = ? AND (t_role = 1 OR t_is_vip = 0) ", consumeUserId);
+						
+			if(CollectionUtils.isEmpty(user)){
 				//获取对方收费设置
 				String sql = " SELECT t_text_gold FROM t_anchor_setup WHERE t_user_id = ? ";
 				Map<String, Object> price = this.getMap(sql, coverConsumeUserId);

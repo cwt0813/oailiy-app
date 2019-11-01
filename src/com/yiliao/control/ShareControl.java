@@ -239,4 +239,17 @@ public class ShareControl {
 		return new MessageUtil(1, downLoadUrl);
 	}
 
+	/**
+	 * 跳转到下载页面
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "jumpDownload")
+	public ModelAndView jumpDownload(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+//			mv.addAllObjects(map);
+		mv.setViewName("download");
+		return mv;
+	}
 }
