@@ -95,8 +95,8 @@ public class ShareServiceImpl extends ICommServiceImpl implements ShareService {
 //		
 //		return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql);
 		
-		// 获取host，跟下载地址一致
-		String host = getHost();
+		// 获取下载host
+		String host = getDownloadHost();
 		Map<String, Object> map = new HashMap<String, Object>();
 		String downloadUrl = host + "/share/jumpDownload.html";
 		map.put("t_android_download", downloadUrl);
@@ -105,12 +105,12 @@ public class ShareServiceImpl extends ICommServiceImpl implements ShareService {
 	}
 	
 	/**
-	 * 获取host
+	 * 获取下载host
 	 * @return
 	 */
-	private String getHost() {
-		String shareHostSql = "SELECT t_config_value FROM t_pre_load_config where t_config_name = ? limit 1";
-		Map<String, Object> map = this.getMap(shareHostSql, "host");
+	private String getDownloadHost() {
+		String downloadHostSql = "SELECT t_config_value FROM t_pre_load_config where t_config_name = ? limit 1";
+		Map<String, Object> map = this.getMap(downloadHostSql, "download_host");
 		return map.get("t_config_value").toString();
 	}
 
