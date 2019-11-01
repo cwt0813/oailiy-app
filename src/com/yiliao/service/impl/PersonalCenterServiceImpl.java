@@ -828,9 +828,9 @@ public class PersonalCenterServiceImpl extends ICommServiceImpl implements Perso
 			}
 
 			// 获取当前手机号是否已经存在了
-			String phoneSql = "SELECT * FROM t_user  WHERE t_phone = ? ";
+			String phoneSql = "SELECT * FROM t_user  WHERE t_phone = ? and t_phone is not null and t_phone != '' and t_id != ?";
 
-			List<Map<String, Object>> da = this.getFinalDao().getIEntitySQLDAO().findBySQLTOMap(phoneSql, t_phone);
+			List<Map<String, Object>> da = this.getFinalDao().getIEntitySQLDAO().findBySQLTOMap(phoneSql, t_phone, userId);
 
 			if (null != da && !da.isEmpty()) {
 				return new MessageUtil(0, "该手机号已被其他用户绑定!");
@@ -1554,20 +1554,20 @@ public class PersonalCenterServiceImpl extends ICommServiceImpl implements Perso
 
 			Map<String, Object> userMap = this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(sql, fileId);
 
-			if (res == 1) { // 通过鉴黄
+//			if (res == 1) { // 通过鉴黄
 
 				String upSql = " UPDATE t_album set t_auditing_type= 0 WHERE t_fileId = ?;";
 				this.getFinalDao().getIEntitySQLDAO().executeSQL(upSql, fileId);
-			} else { // 未通过鉴黄
-
-				// 异步通知
-				this.applicationContext.publishEvent(
-						new PushMesgEvnet(new MessageEntity(Integer.parseInt(userMap.get("t_user_id").toString()),
-								"很抱歉!您上传的视频无法通过审核,存在禁止传播的内容.", 0, new Date())));
-
-				String delSql = "DELETE FROM t_album WHERE t_fileId = ? ";
-				this.getFinalDao().getIEntitySQLDAO().executeSQL(delSql, fileId);
-			}
+//			} else { // 未通过鉴黄
+//
+//				// 异步通知
+//				this.applicationContext.publishEvent(
+//						new PushMesgEvnet(new MessageEntity(Integer.parseInt(userMap.get("t_user_id").toString()),
+//								"很抱歉!您上传的视频无法通过审核,存在禁止传播的内容.", 0, new Date())));
+//
+//				String delSql = "DELETE FROM t_album WHERE t_fileId = ? ";
+//				this.getFinalDao().getIEntitySQLDAO().executeSQL(delSql, fileId);
+//			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
