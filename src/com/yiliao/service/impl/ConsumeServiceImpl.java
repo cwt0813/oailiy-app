@@ -935,6 +935,29 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = dhpay.get("t_gateway").toString();
 				
 				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
+			}else if(payType == 8||payType == 9){
+				orderNo = orderNo + "ydpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_ydpay_setup limit 1");
+				
+				String payMemberid = dhpay.get("t_memberid").toString();
+				String orderid = orderNo;
+				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+				String bankcode = payType==7?"926":"923";
+				String notifyurl = dhpay.get("t_notifyurl").toString();
+				String callbackurl = dhpay.get("t_callbackurl").toString();
+				String amountStr = smlMap.get("t_money").toString();
+				String amount;
+				if(amountStr.indexOf(".")>0) {
+					amount = amountStr.substring(0, amountStr.indexOf("."));
+				}else {
+					amount = amountStr;
+				}
+				String productname = "coins";
+				String key = dhpay.get("t_key").toString();
+				String gateway = dhpay.get("t_gateway").toString();
+				
+				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
