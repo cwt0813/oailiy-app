@@ -290,21 +290,21 @@ public class LoginServiceImpl extends ICommServiceImpl implements LoginService {
 		//3.获得事务状态
 		TransactionStatus status = transactionManager.getTransaction(def);
 		
-		int refereeId = 0;
-		// 查询该用户是否存在推广人
-		if (StringUtils.isNotBlank(t_phone_type) && StringUtils.isNotBlank(t_system_version)) {
-			// 查询该用户是否存在推荐人
-			String sql = "SELECT t_id,t_referee_id FROM t_device WHERE t_phone_type = ? AND t_system_version = ? AND t_ip_address = ? AND t_is_use = 0";
-			List<Map<String, Object>> referee = this.getFinalDao().getIEntitySQLDAO().findBySQLTOMap(sql,
-					t_phone_type.trim(), t_system_version.trim(), t_ip_address.trim());
-
-			if (!referee.isEmpty()) {
-				refereeId = Integer.parseInt(referee.get(0).get("t_referee_id").toString());
-				// 设置当前这条推广信息作废
-				this.getFinalDao().getIEntitySQLDAO().executeSQL("UPDATE t_device SET t_is_use = 1 WHERE t_id = ?",
-						referee.get(0).get("t_id"));
-			}
-		}
+//		int refereeId = 0; 
+//		// 查询该用户是否存在推广人
+//		if (StringUtils.isNotBlank(t_phone_type) && StringUtils.isNotBlank(t_system_version)) {
+//			// 查询该用户是否存在推荐人
+//			String sql = "SELECT t_id,t_referee_id FROM t_device WHERE t_phone_type = ? AND t_system_version = ? AND t_ip_address = ? AND t_is_use = 0";
+//			List<Map<String, Object>> referee = this.getFinalDao().getIEntitySQLDAO().findBySQLTOMap(sql,
+//					t_phone_type.trim(), t_system_version.trim(), t_ip_address.trim());
+//
+//			if (!referee.isEmpty()) {
+//				refereeId = Integer.parseInt(referee.get(0).get("t_referee_id").toString());
+//				// 设置当前这条推广信息作废
+//				this.getFinalDao().getIEntitySQLDAO().executeSQL("UPDATE t_device SET t_is_use = 1 WHERE t_id = ?",
+//						referee.get(0).get("t_id"));
+//			}
+//		}
 
 		StringBuffer insert = new StringBuffer();
 		StringBuffer value = new StringBuffer();
@@ -383,7 +383,7 @@ public class LoginServiceImpl extends ICommServiceImpl implements LoginService {
 		insert.append(value);
 
 		int user_id = this.getFinalDao().getIEntitySQLDAO().saveData(insert.toString(),
-				DateUtils.format(new Date(), DateUtils.FullDatePattern), refereeId, User.ROLE_TYPE_USER,
+				DateUtils.format(new Date(), DateUtils.FullDatePattern), null, User.ROLE_TYPE_USER,
 				User.DISABLE_NO, DateUtils.format(new Date(), DateUtils.FullDatePattern), User.IS_VIP_NO,
 				User.IS_NOT_DISTURB, 0, User.IS_YES_ONLINE);
 
