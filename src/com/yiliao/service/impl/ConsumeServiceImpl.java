@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +25,7 @@ import com.yiliao.service.GoldComputeService;
 import com.yiliao.timer.SimulationVideoTimer;
 import com.yiliao.timer.VideoTiming;
 import com.yiliao.util.DateUtils;
+import com.yiliao.util.HttpUtil;
 import com.yiliao.util.MessageUtil;
 import com.yiliao.util.Mid;
 import com.yiliao.util.PayUtil;
@@ -810,6 +814,30 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = dhpay.get("t_gateway").toString();
 				
 				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
+			}else if(payType == 8){
+				orderNo = orderNo + "ydpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_ydpay_setup limit 1");
+				
+				String payMemberid = dhpay.get("t_memberid").toString();
+				String orderid = orderNo;
+				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+//				String bankcode = payType==9?"926":"923";
+				String bankcode = "944";
+				String notifyurl = dhpay.get("t_notifyurl").toString();
+				String callbackurl = dhpay.get("t_callbackurl").toString();
+				String amountStr = setMealMap.get("t_money").toString();
+				String amount;
+				if(amountStr.indexOf(".")>0) {
+					amount = amountStr.substring(0, amountStr.indexOf("."));
+				}else {
+					amount = amountStr;
+				}
+				String productname = "VIP";
+				String key = dhpay.get("t_key").toString();
+				String gateway = dhpay.get("t_gateway").toString();
+				
+				map = PayUtil.ydpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
@@ -935,7 +963,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = dhpay.get("t_gateway").toString();
 				
 				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
-			}else if(payType == 8||payType == 9){
+			}else if(payType == 8){
 				orderNo = orderNo + "ydpay_"+userId+"_"+System.currentTimeMillis();
 				
 				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_ydpay_setup limit 1");
@@ -943,7 +971,8 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String payMemberid = dhpay.get("t_memberid").toString();
 				String orderid = orderNo;
 				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
-				String bankcode = payType==7?"926":"923";
+//				String bankcode = payType==9?"926":"923";
+				String bankcode = "944";
 				String notifyurl = dhpay.get("t_notifyurl").toString();
 				String callbackurl = dhpay.get("t_callbackurl").toString();
 				String amountStr = smlMap.get("t_money").toString();
@@ -957,7 +986,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String key = dhpay.get("t_key").toString();
 				String gateway = dhpay.get("t_gateway").toString();
 				
-				map = PayUtil.dhpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
+				map = PayUtil.ydpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
@@ -1238,16 +1267,49 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		}
 		return null;
 	}
+	
+	@Override
+	public String getYdpayKey() {
+		try {
+			String qSql = "SELECT t_key FROM t_ydpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
    
 	public static void main(String[] args) {
-		String amountStr = "10.00";
+		String payMemberid = "10191";
+		String orderid = "yd12563418651531534";
+		String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+//		String bankcode = payType==9?"926":"923";
+		String bankcode = "944";
+		String notifyurl = "http://xqr-app.fanxingtuan.top/chat_app/pay/dhpay_callback.html";
+		String callbackurl = "http://xqr-app.fanxingtuan.top/chat_app/pay/jumpPaySuccess.html";
+		String amountStr = "300.00";
 		String amount;
 		if(amountStr.indexOf(".")>0) {
 			amount = amountStr.substring(0, amountStr.indexOf("."));
 		}else {
 			amount = amountStr;
 		}
-		System.out.println(amount);
+		String productname = "VIP";
+		String key = "r5kok2xkz59nimefppgitp3283vb2a15";
+		String gateway = "http://www.cloudin-pay.com/Pay_Index.html";
+		
+		Map<String, String> map = PayUtil.ydpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
+		SortedMap<String, String> smap = new TreeMap<>();
+		smap.putAll(map);
+		smap.remove("gateway");
+		StringBuilder sb = new StringBuilder();
+		for(Entry<String, String> e:smap.entrySet()) {
+			sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+		}
+		sb.deleteCharAt(sb.length()-1);
+		
+		String re = HttpUtil.postSend(gateway, sb.toString());
+		System.out.println(re);
 	}
  
 }

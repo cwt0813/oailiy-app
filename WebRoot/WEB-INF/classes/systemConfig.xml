@@ -5,29 +5,32 @@
     <!-- 推流地址 -->
     <entry key="play_addr">rtmp://yiliao07.pullyl.3ttech.cn/yiliao07/</entry>
     <!-- 项目名称 -->
-    <entry key="projectName">demo</entry>
+    <entry key="projectName">chat</entry>
     <!-- 支付宝回调地址 -->
-    <entry key="alipayNotifyUrl">http://app.1-liao.cn/pay/alipay_callback.html</entry>
+    <entry key="alipayNotifyUrl">http://xqr-app.fanxingtuan.top/chat_app/pay/alipay_callback.html</entry>
     <!-- 微信支付回调地址 -->
-    <entry key="weixinNotifyUrl">http://app.1-liao.cn/pay/wxPayCallBack.html</entry>
+    <entry key="weixinNotifyUrl">http://xqr-app.fanxingtuan.top/chat_app/pay/wxPayCallBack.html</entry>
     <!-- 微信支付IP地址 -->
-    <entry key="spbill_create_ip">106.15.88.38</entry>
+    <entry key="spbill_create_ip">154.221.21.157</entry>
     <!-- 推送相关 -->
-    <entry key="app_key">40f7d4d87dd5a8397fc9af4a</entry>
-    
-    <entry key="master_secret">2ee10b360f319b547be543c5</entry>
+	<entry key="app_key">03e01fae71bda87a5d5c45d1</entry>
+    <entry key="master_secret">221b727326da407148718642</entry>
+    <!-- <entry key="app_key">24311cf61a96fd49e25c2d2a</entry>
+    <entry key="master_secret">305c54e3d40bd23753752f28</entry> -->
+<!--     <entry key="app_key">330c313732c9d37f421c921c</entry>
+    <entry key="master_secret">9d6295a53c3ac3b24f2444a2</entry> -->
     
     <!-- 渠道推广背景图片存储路径   windows -->
 	<entry key="windows_speed_fileUrl">D:/speed/img/</entry>
 	<!-- 渠道推广背景图片存储路径   centos -->
 	<entry key="centos_speed_fileUrl">/speed/img/</entry>
 	<!-- 配置图片房间地址 -->
-	<entry key="spreed_img_url">http://admin.1-liao.cn/upload/</entry>
+	<entry key="spreed_img_url">http://xqr-manage.fanxingtuan.top/chat_m/upload/</entry>
 	<!-- 分享链接 -->
-	<entry key="share_url">http://app.1-liao.cn/share/jumpShare.html?userId=</entry>
+	<entry key="share_url">http://xqr-app.2qsk1i.cn/chat_app/share/jumpShare.html?userId=</entry>
 	<!--加密 公钥 -->
-	<entry key="encrypt_public">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEX8uKgV3qbs+JjOGldH+OXA/7S7KtgWu2DHydcrUS+pwDtAw5cA8gRSHlVk8vVxSn89gy3Nhz0EA2qfxPB1hciWTy4lziKPEsCJcGq1ri/bADHj2CXiYLOkM6RxWhgFDiT+Afcu4XnYRCL5gFGaEvyVk3UV369qjG7y3ijhUHGwIDAQAB</entry>
+	<entry key="encrypt_public">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbo3eWctKhAu0hRmi0BmKkGQVSXtx5KPJkEulTxt14KCN/O/XpzHiLxBBgrrZXqnLwjcCVZQCXeSKkg/GGDLxL8XEpUzoeWk+YleSOR3R5bT8zYEI+70t4Qm+AskCZepJWhAZsZsC/v5S6YP8oA8yA8k+P2q6Kz2d750lRmhErnQIDAQAB</entry>
 	<!--解密 私钥 -->
-	<entry key="encrypt_private">MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIRfy4qBXepuz4mM4aV0f45cD/tLsq2Ba7YMfJ1ytRL6nAO0DDlwDyBFIeVWTy9XFKfz2DLc2HPQQDap/E8HWFyJZPLiXOIo8SwIlwarWuL9sAMePYJeJgs6QzpHFaGAUOJP4B9y7hedhEIvmAUZoS/JWTdRXfr2qMbvLeKOFQcbAgMBAAECgYAmDsycI5l2vykX6NMvGJFbwogtvZO/YogvLOPe+I2qyTZ1shwZn2gZ5QZbwza865JavzaXWPs6QNNVZAXQStJSTjqGLHiOK9kQWflF7XtZtBoAVAKP9lLveyBXtTrII/3LSzIvMECdT5YYYLzU91vpolg9+0WpzEHtRdtbDIyLEQJBAMm5ofn6kpQ88IW7ypMcZ5RFy46XPxeaZhmAQwSONYzGVArpjHfe3wKC5QxqfGThHT2YCPSFukhvsLN6etF537cCQQCn/W2ruSXrLhMy8dgkEwQL+EX9cd97qDvpd1u5u1TQ+kZo3cJ5SEONucM3YN5Tnu9FfG2aBEk9wZywl4pNcgu9AkEAvRVphJ2hA55TfadW7Kn1VQBPG2sd0owBI+ob54s9GqVUZZ4g8sNPmlUDSa4Ox6hS9kcqLbmjsP4wTSuDMBLi5QJARqbceCufWgD/zB5QxCNHQW2Cqiw5TL2drPwpFL1H17ha4oHZ575PwwyMoP7ZopumkDfbtLn2v8VtDAw/+4BqlQJAKlzcv+cjy+aA41gX68QeDr3sBx6LxtmJMhblwNGRsU1Y+AX0dAMFNLxss+sYQC9MiPW/LDkmyHPrAtAD9F/ASw==</entry>
+	<entry key="encrypt_private">MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJujd5Zy0qEC7SFGaLQGYqQZBVJe3Hko8mQS6VPG3XgoI3879enMeIvEEGCutleqcvCNwJVlAJd5IqSD8YYMvEvxcSlTOh5aT5iV5I5HdHltPzNgQj7vS3hCb4CyQJl6klaEBmxmwL+/lLpg/ygDzIDyT4/arorPZ3vnSVGaESudAgMBAAECgYEAlwsTmeyhQSVH4I0mO+AehsbJhWEOcn8sjbZUvrs2X9AEcwxL4bRQIMQMaOflijqfBZlsFxBIfLhQyHxMPx3I9h1ZC2QahjxuTY+KDgG2JXpXYDy2WRNknYr88MHNcF4aQsboDHgRjrbV7wCNhwFdwDiHpMW1dcLAvuFH7AFP6oECQQDcyC4ZcU/aE5aJ7xovDwbS6/ulJzH8PmeBzfAtc6nl6l4S5rBqcwZr0iWFTiKUv1S+d8SYSHgcONLWoFuz1uZxAkEAtHcZpnwWk8s8Fpo/hXMpAdhtg1MOQzsbp2JZMhwI+wCIoUCAJiPBfQWnvd0nR9xXuFLHD1H1RJ7lVfWyVIel7QJAfauUUfcltMQhlDH9fXvYLocUnlVJJoN+92v5omWL98sH8UpOcMk4hnb/1Hk9Rd4CpsgVp3jYpXfSy0hL6noQgQJAXNmWafEYUKxVWy+7lPa+V4O6PMIj6XVk8gcI614/RJ1ursCX7oehCqk5N9esWS3GOEDmyDwb3FWAm2yRdypftQJAHhxo1qVUsGNjKEs+8f5COTWk2/K54JaWt75TmmIE02c6tUJS8qchibMN6W1qWBZK22vq2EMcmSkwH0XHavM5Tg==</entry>
 
 </properties>

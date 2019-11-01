@@ -81,7 +81,7 @@
 <script type="text/javascript">
 	
 	$(function() {
-		$.ajax({
+		/* $.ajax({
 			type : 'POST',
 			url : '../share/addShareInfo.html',
 			data : {
@@ -104,7 +104,7 @@
 				//	window.location.href = projectPath + '/error.html';
 				//}
 			}
-		});
+		}); */
 	});
 
 	function getQueryString(name) {

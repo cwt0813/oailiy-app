@@ -136,4 +136,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getDhpayKey();
+	
+	/**
+	 * 获取云鼎支付的密钥
+	 * @return
+	 */
+	public String getYdpayKey();
 }
