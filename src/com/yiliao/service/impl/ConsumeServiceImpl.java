@@ -851,9 +851,10 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String backType = "json";
 				String createPayType = "create";
 				String appkey = weipay.get("t_appkey").toString();
+				String payCode = "0";
 				String gateway = weipay.get("t_gateway").toString();
 				
-				map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, gateway);
+				map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, payCode, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
@@ -1016,9 +1017,10 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String backType = "json";
 				String createPayType = "create";
 				String appkey = weipay.get("t_appkey").toString();
+				String payCode = "0";
 				String gateway = weipay.get("t_gateway").toString();
 				
-				map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, gateway);
+				map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, payCode, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
@@ -1325,15 +1327,16 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 	public static void main(String[] args) {
 		String appid = "WEPAY5315389xiaojun";
 		String appkey = "skiapp5315389xiaojun";
-		String outTradeNo = "weipay4151531531531531";
+		String outTradeNo = "weipay4151531531531532";
 		String money = "1.00";
 		String notifyurl = "http://xqr-app.fanxingtuan.top/chat_app/pay/weipay_callback.html";
 		String subject = "VIP";
 		String backType = "json";
 		String createPayType = "create";
+		String payCode = "0";
 		String gateway = "http://spay.zqiandai.com/index/wepay2/do_sk";
 		
-		Map<String, String> map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, gateway);
+		Map<String, String> map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, payCode, gateway);
 		SortedMap<String, String> smap = new TreeMap<>();
 		smap.putAll(map);
 		smap.remove("gateway");

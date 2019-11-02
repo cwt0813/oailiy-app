@@ -286,7 +286,7 @@ public class PayUtil {
 	/**
 	 * weipay
 	 */
-	public static Map<String, String> weipay(String appid, String appkey, String outTradeNo, String money, String notifyurl, String subject, String backType, String createPayType, String gateway) {
+	public static Map<String, String> weipay(String appid, String appkey, String outTradeNo, String money, String notifyurl, String subject, String backType, String createPayType, String payCode, String gateway) {
 		try {
 			Map<String, String> map = new HashMap<>();
 			map.put("appid", appid);
@@ -296,6 +296,7 @@ public class PayUtil {
 			map.put("subject", subject);
 			map.put("back_type", backType);
 			map.put("create_pay_type", createPayType);
+			map.put("pay_type", payCode);
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append(appid);
