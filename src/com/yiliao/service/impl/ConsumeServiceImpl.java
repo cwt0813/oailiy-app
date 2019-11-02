@@ -1323,6 +1323,17 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		}
 		return null;
 	}
+	
+	@Override
+	public String getWeipayAppid() {
+		try {
+			String qSql = "SELECT t_appid FROM t_weipay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_appkey").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
    
 	public static void main(String[] args) {
 		String appid = "WEPAY5315389xiaojun";

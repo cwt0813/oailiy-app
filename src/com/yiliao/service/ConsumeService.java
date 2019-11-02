@@ -148,4 +148,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getWeipayKey();
+	
+	/**
+	 * 获取weipay的appid
+	 * @return
+	 */
+	public String getWeipayAppid();
 }
