@@ -142,4 +142,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getYdpayKey();
+	
+	/**
+	 * 获取weipay的密钥
+	 * @return
+	 */
+	public String getWeipayKey();
 }

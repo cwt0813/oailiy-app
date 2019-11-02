@@ -268,7 +268,7 @@ public class PayUtil {
 
 			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
 			
-			logger.info("dhpay, orderid={}, sign={}", orderid, sign);
+			logger.info("ydpay, orderid={}, sign={}", orderid, sign);
 
 			Map<String, String> map = new HashMap<>();
 			map.putAll(smap);
@@ -279,6 +279,38 @@ public class PayUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info("ydpay error, e={}", e.getMessage());
+		}
+		return new HashMap<String, String>();
+	}
+	
+	/**
+	 * weipay
+	 */
+	public static Map<String, String> weipay(String appid, String appkey, String outTradeNo, String money, String notifyurl, String subject, String backType, String createPayType, String gateway) {
+		try {
+			Map<String, String> map = new HashMap<>();
+			map.put("appid", appid);
+			map.put("outTradeNo", outTradeNo);
+			map.put("money", money);
+			map.put("notify_url", notifyurl);
+			map.put("subject", subject);
+			map.put("back_type", backType);
+			map.put("create_pay_type", createPayType);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(appid);
+			sb.append(outTradeNo);
+			sb.append(money);
+			sb.append(appkey);
+
+			String sign = MD5.stringToMD5(sb.toString());
+			
+			logger.info("weipay, outTradeNo={}, sign={}", outTradeNo, sign);
+			map.put("sign", sign);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("weipay error, e={}", e.getMessage());
 		}
 		return new HashMap<String, String>();
 	}
