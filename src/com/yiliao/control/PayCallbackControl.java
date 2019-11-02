@@ -508,7 +508,8 @@ public class PayCallbackControl {
 			params.remove("sign2");
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append(params.get("appid"));
+			String appid = this.consumeService.getWeipayAppid();
+			sb.append(appid);
 			sb.append(params.get("out_trade_no"));
 			sb.append(params.get("total_amount"));
 			String key = this.consumeService.getWeipayKey();
