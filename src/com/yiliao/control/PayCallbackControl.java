@@ -504,7 +504,7 @@ public class PayCallbackControl {
 		logger.info("weipay回调，{}", params);
 		try {
 			
-			String weipay_map_sign = params.get("sign");
+			String weipay_map_sign = params.get("sign2");
 			params.remove("sign2");
 			
 			StringBuilder sb = new StringBuilder();
