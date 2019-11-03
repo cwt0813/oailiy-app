@@ -544,10 +544,10 @@ public class PayCallbackControl {
 		}
 		
 		Map<String, String> params = new HashMap<>();
-		params.put("out_trade_no", out_trade_no);
-		params.put("total_amount", total_amount);
-		params.put("trade_status", trade_status);
-		params.put("sign2", sign2);
+		params.put("out_trade_no", out_trade_no.replace("\r", "").replace("\n", ""));
+		params.put("total_amount", total_amount.replace("\r", "").replace("\n", ""));
+		params.put("trade_status", trade_status.replace("\r", "").replace("\n", ""));
+		params.put("sign2", sign2.replace("\r", "").replace("\n", ""));
 		
 		logger.info("weipay回调，{}", params);
 		try {
