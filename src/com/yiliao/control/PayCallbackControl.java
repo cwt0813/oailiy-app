@@ -3,6 +3,7 @@ package com.yiliao.control;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,6 +31,8 @@ import com.yiliao.service.CallBackService;
 import com.yiliao.service.ConsumeService;
 import com.yiliao.util.PrintUtil;
 import com.yiliao.util.Utilities.MD5;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("pay")
@@ -500,10 +504,44 @@ public class PayCallbackControl {
 	@ResponseBody
 	public void weipayCallback(HttpServletRequest request,HttpServletResponse response) {
 		 
-		String out_trade_no = request.getParameter("out_trade_no");
-		String total_amount = request.getParameter("total_amount");
-		String trade_status = request.getParameter("trade_status");
-		String sign2 = request.getParameter("sign2");
+		String out_trade_no = null;
+		String total_amount = null;
+		String trade_status = null;
+		String sign2 = null;
+		
+		try {
+			ServletInputStream ris = request.getInputStream();
+			byte[] b = new byte[1024];
+			int lens = -1;
+			while ((lens = ris.readLine(b, 0, 1000)) > 0) {
+				String str = new String(b, 0, lens);
+				if(str.contains("\"out_trade_no\"")) {
+					int lens2 = -1;
+					lens2 = ris.readLine(b, 0, 1000);
+					lens2 = ris.readLine(b, 0, 1000);
+					out_trade_no = new String(b, 0, lens2);
+				}else if(str.contains("\"total_amount\"")) {
+					int lens2 = -1;
+					lens2 = ris.readLine(b, 0, 1000);
+					lens2 = ris.readLine(b, 0, 1000);
+					total_amount = new String(b, 0, lens2);
+				}else if(str.contains("\"trade_status\"")) {
+					int lens2 = -1;
+					lens2 = ris.readLine(b, 0, 1000);
+					lens2 = ris.readLine(b, 0, 1000);
+					trade_status = new String(b, 0, lens2);
+				}else if(str.contains("\"sign2\"")) {
+					int lens2 = -1;
+					lens2 = ris.readLine(b, 0, 1000);
+					lens2 = ris.readLine(b, 0, 1000);
+					sign2 = new String(b, 0, lens2);
+				}
+			}
+
+		}catch (Exception e) {
+			logger.info("weipay回调转化失败，e={}", e.getMessage());
+			PrintUtil.printWriStr("failure", response);
+		}
 		
 		Map<String, String> params = new HashMap<>();
 		params.put("out_trade_no", out_trade_no);
