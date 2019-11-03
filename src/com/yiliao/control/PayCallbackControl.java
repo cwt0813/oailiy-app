@@ -621,7 +621,7 @@ public class PayCallbackControl {
 				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
 			}
 			sb.append("key=");
-			String key = this.consumeService.getYdpayKey();
+			String key = this.consumeService.getMfbpayKey();
 			sb.append(key);
 			
 			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
@@ -903,6 +903,18 @@ public class PayCallbackControl {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("paySuccess");
 		return mv;
+	}
+	
+	public static void main(String[] args) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("WEPAY5315389xiaojun");
+		sb.append("weipay_2737_1572772724934");
+		sb.append("1.00");
+		sb.append("skiapp5315389xiaojun");
+		
+		System.out.println(MD5.stringToMD5(sb.toString()));
+		
+		
 	}
 
 }
