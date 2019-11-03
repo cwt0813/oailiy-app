@@ -154,4 +154,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getWeipayAppid();
+	
+	/**
+	 * 获取民付宝支付的密钥
+	 * @return
+	 */
+	public String getMfbpayKey();
 }

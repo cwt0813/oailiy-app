@@ -477,7 +477,7 @@ public class PayCallbackControl {
 						logger.error("云鼎支付回调业务处理报错,params:" + params, e);
 					}
 				} else {
-					logger.error("没有处理云鼎支付回调业务，云鼎支付交易状态：{},params:{}",params.get("payState"), params);
+					logger.error("没有处理云鼎支付回调业务，云鼎支付交易状态：{},params:{}",params.get("returncode"), params);
 				}
 				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
 				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
@@ -500,7 +500,17 @@ public class PayCallbackControl {
 	@ResponseBody
 	public void weipayCallback(HttpServletRequest request,HttpServletResponse response) {
 		 
-	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		String out_trade_no = request.getParameter("out_trade_no");
+		String total_amount = request.getParameter("total_amount");
+		String trade_status = request.getParameter("trade_status");
+		String sign2 = request.getParameter("sign2");
+		
+		Map<String, String> params = new HashMap<>();
+		params.put("out_trade_no", out_trade_no);
+		params.put("total_amount", total_amount);
+		params.put("trade_status", trade_status);
+		params.put("sign2", sign2);
+		
 		logger.info("weipay回调，{}", params);
 		try {
 			
@@ -546,6 +556,67 @@ public class PayCallbackControl {
 			}
 		} catch (Exception e) {
 			logger.error("weipay回调认证失败,paramsJson:{},errorMsg:{}", params,
+					e.getMessage());
+			PrintUtil.printWriStr("failure", response);
+		}
+	}
+	
+	/**
+	 * 民付宝支付回调
+	 */
+	@RequestMapping("mfbpay_callback")
+	@ResponseBody
+	public void mfbpayCallback(HttpServletRequest request,HttpServletResponse response) {
+		 
+	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		logger.info("民付宝支付回调，{}", params);
+		try {
+			
+			String mfbpay_map_sign = params.get("sign");
+			params.remove("sign");
+			StringBuilder sb = new StringBuilder();
+			
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.putAll(params);
+			
+			for(Entry<String, String> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			sb.append("key=");
+			String key = this.consumeService.getYdpayKey();
+			sb.append(key);
+			
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("mfbpay_sign- >{}",sign);
+			logger.info("mfbpay_map_sign- >{}",mfbpay_map_sign);
+			// 验证签名
+			boolean signVerified = sign.equals(mfbpay_map_sign);
+					
+			if (signVerified) {
+				logger.info("民付宝支付回调签名认证成功");
+				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
+				this.mfbpayCheck(params);
+				// 支付成功
+				if ("00".equals(params.get("returncode"))){
+					// 处理支付成功逻辑
+					try {
+						this.consumeService.payNotify(params.get("orderid"), params.get("transaction_id"));
+					} catch (Exception e) {
+						logger.error("民付宝支付回调业务处理报错,params:" + params, e);
+					}
+				} else {
+					logger.error("没有处理民付宝支付回调业务，民付宝支付交易状态：{},params:{}",params.get("returncode"), params);
+				}
+				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
+				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
+				PrintUtil.printWriStr("OK", response);
+			} else {
+				logger.info("民付宝支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
+				PrintUtil.printWriStr("failure", response);
+			}
+		} catch (Exception e) {
+			logger.error("民付宝支付回调认证失败,paramsJson:{},errorMsg:{}", params,
 					e.getMessage());
 			PrintUtil.printWriStr("failure", response);
 		}
@@ -741,6 +812,31 @@ public class PayCallbackControl {
 		BigDecimal payAmount = new BigDecimal(params.get("total_amount"));
 		if (payAmount.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
 			throw new AlipayApiException("error total_amount");
+		}
+		
+	}
+	
+	/**
+	 * 民付宝支付回调校验
+	 * @param params
+	 * @throws AlipayApiException
+	 */
+	private void mfbpayCheck(Map<String, String> params) throws AlipayApiException {
+		
+		String orderNo = params.get("orderid");
+
+		// 1、商户需要验证该通知数据中的order_no是否为商户系统中创建的订单号，
+		Map<String, Object> dataMap = this.callBackService.getOrderByOrderNo(orderNo);
+		if (null == dataMap) {
+			throw new AlipayApiException("orderid错误");
+		}
+
+		// 2、判断amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+		logger.info("amount", params.get("amount"));
+		logger.info("t_recharge_money={}", dataMap.get("t_recharge_money").toString());
+		BigDecimal payAmount = new BigDecimal(params.get("amount"));
+		if (payAmount.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
+			throw new AlipayApiException("error amount");
 		}
 		
 	}

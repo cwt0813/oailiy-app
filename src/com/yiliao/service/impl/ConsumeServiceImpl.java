@@ -855,6 +855,29 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = weipay.get("t_gateway").toString();
 				
 				map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, payCode, gateway);
+			}else if(payType == 10||payType == 11){
+				orderNo = orderNo + "mfbpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_mfbpay_setup limit 1");
+				
+				String payMemberid = dhpay.get("t_memberid").toString();
+				String orderid = orderNo;
+				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+				String bankcode = payType==11?"902":"903";
+				String notifyurl = dhpay.get("t_notifyurl").toString();
+				String callbackurl = dhpay.get("t_callbackurl").toString();
+				String amountStr = setMealMap.get("t_money").toString();
+				String amount;
+				if(amountStr.indexOf(".")>0) {
+					amount = amountStr.substring(0, amountStr.indexOf("."));
+				}else {
+					amount = amountStr;
+				}
+				String productname = "VIP";
+				String key = dhpay.get("t_key").toString();
+				String gateway = dhpay.get("t_gateway").toString();
+				
+				map = PayUtil.mfbpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
@@ -1021,6 +1044,29 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = weipay.get("t_gateway").toString();
 				
 				map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, payCode, gateway);
+			}else if(payType == 10||payType == 11){
+				orderNo = orderNo + "mfbpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> dhpay = this.getMap("SELECT t_memberid,t_notifyurl,t_callbackurl,t_key,t_gateway FROM t_mfbpay_setup limit 1");
+				
+				String payMemberid = dhpay.get("t_memberid").toString();
+				String orderid = orderNo;
+				String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+				String bankcode = payType==11?"902":"903";
+				String notifyurl = dhpay.get("t_notifyurl").toString();
+				String callbackurl = dhpay.get("t_callbackurl").toString();
+				String amountStr = smlMap.get("t_money").toString();
+				String amount;
+				if(amountStr.indexOf(".")>0) {
+					amount = amountStr.substring(0, amountStr.indexOf("."));
+				}else {
+					amount = amountStr;
+				}
+				String productname = "coins";
+				String key = dhpay.get("t_key").toString();
+				String gateway = dhpay.get("t_gateway").toString();
+				
+				map = PayUtil.mfbpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
@@ -1334,20 +1380,37 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 		}
 		return null;
 	}
+	
+	@Override
+	public String getMfbpayKey() {
+		try {
+			String qSql = "SELECT t_key FROM t_mfbpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
    
 	public static void main(String[] args) {
-		String appid = "WEPAY5315389xiaojun";
-		String appkey = "skiapp5315389xiaojun";
-		String outTradeNo = "weipay4151531531531532";
-		String money = "1.00";
-		String notifyurl = "http://xqr-app.fanxingtuan.top/chat_app/pay/weipay_callback.html";
-		String subject = "VIP";
-		String backType = "json";
-		String createPayType = "create";
-		String payCode = "0";
-		String gateway = "http://spay.zqiandai.com/index/wepay2/do_sk";
+		String payMemberid = "10082";
+		String orderid = "yd12563418651531539";
+		String applydate = DateUtils.format(new Date(), DateUtils.FullDatePattern);
+		String bankcode = "902";
+		String notifyurl = "http://xqr-app.fanxingtuan.top/chat_app/pay/mfbpay_callback.html";
+		String callbackurl = "http://xqr-app.fanxingtuan.top/chat_app/pay/jumpPaySuccess.html";
+		String amountStr = "11.00";
+		String amount;
+		if(amountStr.indexOf(".")>0) {
+			amount = amountStr.substring(0, amountStr.indexOf("."));
+		}else {
+			amount = amountStr;
+		}
+		String productname = "VIP";
+		String key = "5qzlcl1pew4q8f3blvqlxog15e27vvfg";
+		String gateway = "http://www.minfupay.com//Pay_Index.html";
 		
-		Map<String, String> map = PayUtil.weipay(appid, appkey, outTradeNo, money, notifyurl, subject, backType, createPayType, payCode, gateway);
+		Map<String, String> map = PayUtil.ydpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
 		SortedMap<String, String> smap = new TreeMap<>();
 		smap.putAll(map);
 		smap.remove("gateway");
