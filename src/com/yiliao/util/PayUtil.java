@@ -286,33 +286,28 @@ public class PayUtil {
 	/**
 	 * weipay
 	 */
-	public static Map<String, String> weipay(String payMemberid, String orderid, String applydate, String bankcode, String notifyurl, String callbackurl, String amount, String productname, String key, String gateway) {
+	public static Map<String, String> weipay(String appid, String appkey, String outTradeNo, String money, String notifyurl, String subject, String backType, String createPayType, String payCode, String gateway) {
 		try {
-			SortedMap<String, String> smap = new TreeMap<>();
-			smap.put("pay_memberid", payMemberid);
-			smap.put("pay_orderid", orderid);
-			smap.put("pay_applydate", applydate);
-			smap.put("pay_bankcode", bankcode);
-			smap.put("pay_notifyurl", notifyurl);
-			smap.put("pay_callbackurl", callbackurl);
-			smap.put("pay_amount", amount);
+			Map<String, String> map = new HashMap<>();
+			map.put("appid", appid);
+			map.put("outTradeNo", outTradeNo);
+			map.put("money", money);
+			map.put("notify_url", notifyurl);
+			map.put("subject", subject);
+			map.put("back_type", backType);
+			map.put("create_pay_type", createPayType);
+			map.put("pay_type", payCode);
 			
 			StringBuilder sb = new StringBuilder();
-			
-			for(Entry<String, String> e:smap.entrySet()) {
-				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
-			}
-			sb.append("key=");
-			sb.append(key);
+			sb.append(appid);
+			sb.append(outTradeNo);
+			sb.append(money);
+			sb.append(appkey);
 
-			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			String sign = MD5.stringToMD5(sb.toString());
 			
-			logger.info("weipay, orderid={}, sign={}", orderid, sign);
-
-			Map<String, String> map = new HashMap<>();
-			map.putAll(smap);
-			map.put("pay_md5sign", sign);
-			map.put("pay_productname", productname);
+			logger.info("weipay, outTradeNo={}, sign={}", outTradeNo, sign);
+			map.put("sign", sign);
 			map.put("gateway", gateway);
 			return map;
 		} catch (Exception e) {
