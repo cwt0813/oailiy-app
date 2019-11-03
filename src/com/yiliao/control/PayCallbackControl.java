@@ -578,7 +578,7 @@ public class PayCallbackControl {
 				if ("TRADE_SUCCESS".equals(params.get("trade_status"))){
 					// 处理支付成功逻辑
 					try {
-						this.consumeService.payNotify(params.get("out_trade_no"), params.get("trade_no"));
+						this.consumeService.payNotify(params.get("out_trade_no"), params.get("out_trade_no"));
 					} catch (Exception e) {
 						logger.error("weipay回调业务处理报错,params:" + params, e);
 					}
