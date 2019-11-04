@@ -174,7 +174,7 @@ public class MoneyServiceImpl extends ICommServiceImpl implements  MoneyService 
 				return new MessageUtil(0, "暂未绑定微信或支付宝账号.");
 			}
 			
-			String userSql = "SELECT t_sex FROM t_user WHERE t_user_id = ? limit 1";
+			String userSql = "SELECT t_sex FROM t_user WHERE t_id = ? limit 1";
 			
 			Map<String, Object> userMap = this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(userSql, userId);
 			if(null!=userMap&&null!=userMap.get("t_sex")&&!"0".equals(userMap.get("t_sex").toString())) {
