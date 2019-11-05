@@ -114,8 +114,8 @@ public class TimerTask extends HttpServlet {
 				try {
 					// 清理短信
 					new SmsTimer().delSmsCode();
-					// 拉取鉴黄结果
-					new YellowingTimer().yellowing();
+//					// 拉取鉴黄结果
+//					new YellowingTimer().yellowing();
 					// 发起虚拟视频
 					new SimulationVideoTimer().run();
 
