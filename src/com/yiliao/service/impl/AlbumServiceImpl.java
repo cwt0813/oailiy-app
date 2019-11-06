@@ -114,14 +114,14 @@ public class AlbumServiceImpl extends ICommServiceImpl implements AlbumService {
 
 				this.executeSQL(inseSql, userId, t_title, fileId, video_img, url, type, gold > 0 ? 1 : 0, gold, 0, 0,
 						DateUtils.format(new Date(), DateUtils.FullDatePattern));
-				// 调起鉴黄设置
-				VidelSingUtil.yellowing(fileId, querySqlList.get("t_secret_id").toString(),
-						querySqlList.get("t_secret_key").toString());
+//				// 调起鉴黄设置
+//				VidelSingUtil.yellowing(fileId, querySqlList.get("t_secret_id").toString(),
+//						querySqlList.get("t_secret_key").toString());
 				// 异步通知
 				this.applicationContext
 						.publishEvent(new PushMesgEvnet(new MessageEntity(userId, "视频已上传,正在审核中.", 0, new Date())));
-				// 把文件编号装载到需要拉取鉴黄结果的集合中
-				YellowingTimer.fileIdList.add(fileId);
+//				// 把文件编号装载到需要拉取鉴黄结果的集合中
+//				YellowingTimer.fileIdList.add(fileId);
 			}
 
 			mu = new MessageUtil(1, "上传成功!");

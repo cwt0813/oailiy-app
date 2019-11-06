@@ -249,13 +249,13 @@ public class DynamicServiceImpl extends ICommServiceImpl implements DynamicServi
 							new BigDecimal(s.getString("gold")).setScale(2, BigDecimal.ROUND_DOWN), s.getString("fileId"),
 							s.get("t_is_private"), 0, DateUtils.format(new Date(), DateUtils.FullDatePattern),
 							s.getString("t_video_time"));
-					// 调起鉴黄设置
-					try {
-						VidelSingUtil.yellowing(s.getString("fileId"), querySqlList.get("t_secret_id").toString(),
-								querySqlList.get("t_secret_key").toString());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+//					// 调起鉴黄设置
+//					try {
+//						VidelSingUtil.yellowing(s.getString("fileId"), querySqlList.get("t_secret_id").toString(),
+//								querySqlList.get("t_secret_key").toString());
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
 				}
 			}
 
