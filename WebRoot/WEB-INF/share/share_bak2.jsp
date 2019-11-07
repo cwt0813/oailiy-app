@@ -1,14 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
 <%
-String open = request.getAttribute("open").toString();
-String ua = request.getHeader("User-Agent");
-System.out.print(ua);
-if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
-	response.setHeader("Content-Disposition", " attachment; filename=\"load.doc\"");
-	response.setHeader("Content-Type", " application/vnd.ms-word;charset=utf-8");
-	response.setHeader("Content-Type", "html/text;charset=utf-8");
-}
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
@@ -27,16 +19,6 @@ if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
 <link href="https://res.cdn.openinstall.io/apk_icon/p3opbw/3593633452836111989-1568173799319.png" rel="apple-touch-icon-precomposed">
 
 <link rel="stylesheet" href="https://res.cdn.openinstall.io/api_res/css/style.css">
-
-<style>
-	body,html{width:100%;height:100%}
-	*{margin:0;padding:0}
-	body{background-color:#fff}
-	.top-bar-guidance{font-size:15px;color:#fff;height:40%;line-height:1.8;padding-left:20px;padding-top:20px;background:url(//gw.alicdn.com/tfs/TB1eSZaNFXXXXb.XXXXXXXXXXXX-750-234.png) center top/contain no-repeat}
-	.top-bar-guidance .icon-safari{width:25px;height:25px;vertical-align:middle;margin:0 .2em}
-	.app-download-btn{display:block;width:214px;height:40px;line-height:40px;margin:18px auto 0 auto;text-align:center;font-size:18px;color:#2466f4;border-radius:20px;border:.5px #2466f4 solid;text-decoration:none}
-</style>
-
 <style type="text/css">
 * {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -149,7 +131,7 @@ if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
 	<!--引入遮蔽层-->
 	<div id="Mask2" style="">
 	</div>
-	<a class="app-download-btn" id="BtnClick" href="javascript:;" style="display:none"> 点此继续访问 </a>
+	
 </body>
 <script type="text/javascript">
 	
@@ -207,59 +189,6 @@ if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
 			return unescape(r[2]);
 		return null;
 	}
-</script>
-
-<script>
-   			var url = 'http://demo.eaj.net.cn/chat_app/share/jumpRealShare.html?userId=2737';
-   			document.querySelector('body').addEventListener('touchmove', function (event) {
-   				event.preventDefault();
-   			});
-   			window.mobileUtil = (function(win, doc) {
-   				var UA = navigator.userAgent,
-   				isAndroid = /android|adr/gi.test(UA),
-   				isIOS = /iphone|ipod|ipad/gi.test(UA) && !isAndroid,
-   				isBlackBerry = /BlackBerry/i.test(UA),
-   				isWindowPhone = /IEMobile/i.test(UA),
-   				isMobile = isAndroid || isIOS || isBlackBerry || isWindowPhone;
-   				return {
-   					isAndroid: isAndroid,
-   					isIOS: isIOS,
-   					isMobile: isMobile,
-   					isWeixin: /MicroMessenger/gi.test(UA),
-   					isQQ: /QQ/gi.test(UA)
-   				};
-   			})(window, document);
-   			if(mobileUtil.isWeixin){
-   				if(mobileUtil.isIOS){
-   					url = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
-   					document.getElementById('BtnClick').href=url;
-   				}else if(mobileUtil.isAndroid){
-   					url = '?open=1';
-   					document.getElementById('BtnClick').href=url;
-   					var iframe = document.createElement("iframe");
-   					iframe.style.display = "none";
-   					iframe.src = url;
-   					document.body.appendChild(iframe);
-   				}
-   			}
-   			else if(mobileUtil.isQQ){
-   				if(mobileUtil.isIOS){
-   					url = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
-   					document.getElementById('BtnClick').href=url;
-   				}else if(mobileUtil.isAndroid){
-   					url = '?open=1';
-   					document.getElementById('BtnClick').href=url;
-   					var iframe = document.createElement("iframe");
-   					iframe.style.display = "none";
-   					iframe.src = url;
-   					document.body.appendChild(iframe);
-   				}
-   			}
-   			else{
-   				document.getElementById('BtnClick').href=url;
-   				window.location.replace(url);
-   			}
-           
 </script>
 </html>
 
