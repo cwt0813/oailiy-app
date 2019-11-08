@@ -151,12 +151,12 @@
 	<div id="origion">
 		<input id="userId" type="hidden" value="${userId}">
 		
-<!-- 		<!--引入遮蔽层-->
-		<div id="Mask" style="">
-		</div>
+		<!--引入遮蔽层-->
+<!-- 		<div id="Mask" style="">
+		</div> -->
 		
-		引入遮蔽层
-		<div id="Mask2" style="">
+		<!--引入遮蔽层-->
+<!-- 		<div id="Mask2" style="">
 		</div> -->
 	</div>
 </body>
