@@ -164,23 +164,23 @@
 	
 	$(function() {
 
-		$("#Mask2").show();
-			
-		//判断是否在微信中打开
-		var ua = navigator.userAgent;
-		var isWeixin = !!/MicroMessenger/i.test(ua);
-		//如果使用的是微信自带浏览器，就打开蒙版
-		if (isWeixin) {
-			document.querySelector('body').addEventListener('touchmove', function(e) {
-				　　e.preventDefault();
-				});
-			var SHOW = 0;
-			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
-					: 'none';
-		}else{
-			window.location.href='../share/jumpRealShare.html?userId='+$('#userId').val();
-		}
-		
+//		$("#Mask2").show();
+//			
+//		//判断是否在微信中打开
+//		var ua = navigator.userAgent;
+//		var isWeixin = !!/MicroMessenger/i.test(ua);
+//		//如果使用的是微信自带浏览器，就打开蒙版
+//		if (isWeixin) {
+//			document.querySelector('body').addEventListener('touchmove', function(e) {
+//				　　e.preventDefault();
+//				});
+//			var SHOW = 0;
+//			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
+//					: 'none';
+//		}else{
+//			window.location.href='../share/jumpRealShare.html?userId='+$('#userId').val();
+//		}
+//		
 		$("#Mask2").hide();
 
 		/* $.ajax({
