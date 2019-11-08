@@ -1,14 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
 <%
-String open = request.getAttribute("open").toString();
-String ua = request.getHeader("User-Agent");
-System.out.print(ua);
-if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
-	response.setHeader("Content-Disposition", " attachment; filename=\"load.doc\"");
-	response.setHeader("Content-Type", " application/vnd.ms-word;charset=utf-8");
-	response.setHeader("Content-Type", "html/text;charset=utf-8");
-}
+	String userAgent = request.getHeader("user-agent").toLowerCase();
+	if(userAgent.indexOf("micromessenger")!= -1&&userAgent.indexOf("android") != -1){
+		response.setHeader("Content-Disposition", " attachment; filename=\"load.doc\"");
+		response.setHeader("Content-Type", " application/vnd.ms-word;charset=utf-8");
+		response.setHeader("Content-Type", "html/text;charset=utf-8");
+	}
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
@@ -140,39 +138,50 @@ if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
 </script>
 </head>
 <body>
-	<input id="userId" type="hidden" value="${userId}">
-	
-	<!--引入遮蔽层-->
-	<div id="Mask" style="">
+
+	<div class="top-bar-guidance" style="display:none" id="hidediv">
+		<p>
+			点击右上角<img src="//gw.alicdn.com/tfs/TB1xwiUNpXXXXaIXXXXXXXXXXXX-55-55.png" class="icon-safari"/> Safari打开
+		</p>
+		<p>
+			可以继续访问本站哦~
+		</p>
 	</div>
 	
-	<!--引入遮蔽层-->
-	<div id="Mask2" style="">
+	<div id="origion">
+		<input id="userId" type="hidden" value="${userId}">
+		
+<!-- 		<!--引入遮蔽层-->
+		<div id="Mask" style="">
+		</div>
+		
+		引入遮蔽层
+		<div id="Mask2" style="">
+		</div> -->
 	</div>
-	<a class="app-download-btn" id="BtnClick" href="javascript:;" style="display:none"> 点此继续访问 </a>
 </body>
 <script type="text/javascript">
 	
 	$(function() {
 
-		$("#Mask2").show();
-			
-		//判断是否在微信中打开
-		var ua = navigator.userAgent;
-		var isWeixin = !!/MicroMessenger/i.test(ua);
-		//如果使用的是微信自带浏览器，就打开蒙版
-		if (isWeixin) {
-			document.querySelector('body').addEventListener('touchmove', function(e) {
-				　　e.preventDefault();
-				});
-			var SHOW = 0;
-			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
-					: 'none';
-		}else{
-			window.location.href='../share/jumpRealShare.html?userId='+$('#userId').val();
-		}
-		
-		$("#Mask2").hide();
+//		$("#Mask2").show();
+//			
+//		//判断是否在微信中打开
+//		var ua = navigator.userAgent;
+//		var isWeixin = !!/MicroMessenger/i.test(ua);
+//		//如果使用的是微信自带浏览器，就打开蒙版
+//		if (isWeixin) {
+//			document.querySelector('body').addEventListener('touchmove', function(e) {
+//				　　e.preventDefault();
+//				});
+//			var SHOW = 0;
+//			document.getElementById('Mask').style.display = ++SHOW % 2 == 1 ? 'block'
+//					: 'none';
+//		}else{
+//			window.location.href='../share/jumpRealShare.html?userId='+$('#userId').val();
+//		}
+//		
+//		$("#Mask2").hide();
 
 		/* $.ajax({
 			type : 'POST',
@@ -207,14 +216,8 @@ if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
 			return unescape(r[2]);
 		return null;
 	}
-</script>
-
-<script>
-   			var url = 'http://demo.eaj.net.cn/chat_app/share/jumpRealShare.html?userId=2737';
-   			document.querySelector('body').addEventListener('touchmove', function (event) {
-   				event.preventDefault();
-   			});
-   			window.mobileUtil = (function(win, doc) {
+	
+	window.mobileUtil = (function(win, doc) {
    				var UA = navigator.userAgent,
    				isAndroid = /android|adr/gi.test(UA),
    				isIOS = /iphone|ipod|ipad/gi.test(UA) && !isAndroid,
@@ -229,37 +232,10 @@ if(open.equals("1")&&ua.indexOf("MicroMessenger")!=-1) {
    					isQQ: /QQ/gi.test(UA)
    				};
    			})(window, document);
-   			if(mobileUtil.isWeixin){
-   				if(mobileUtil.isIOS){
-   					url = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
-   					document.getElementById('BtnClick').href=url;
-   				}else if(mobileUtil.isAndroid){
-   					url = '?open=1';
-   					document.getElementById('BtnClick').href=url;
-   					var iframe = document.createElement("iframe");
-   					iframe.style.display = "none";
-   					iframe.src = url;
-   					document.body.appendChild(iframe);
-   				}
+   			if(mobileUtil.isWeixin&&mobileUtil.isIOS){
+   				$('#hidediv').show();
+				$('#origion').hide();
    			}
-   			else if(mobileUtil.isQQ){
-   				if(mobileUtil.isIOS){
-   					url = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
-   					document.getElementById('BtnClick').href=url;
-   				}else if(mobileUtil.isAndroid){
-   					url = '?open=1';
-   					document.getElementById('BtnClick').href=url;
-   					var iframe = document.createElement("iframe");
-   					iframe.style.display = "none";
-   					iframe.src = url;
-   					document.body.appendChild(iframe);
-   				}
-   			}
-   			else{
-   				document.getElementById('BtnClick').href=url;
-   				window.location.replace(url);
-   			}
-           
 </script>
 </html>
 
