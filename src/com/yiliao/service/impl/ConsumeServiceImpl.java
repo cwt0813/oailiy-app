@@ -3,6 +3,7 @@ package com.yiliao.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -878,7 +879,38 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = dhpay.get("t_gateway").toString();
 				
 				map = PayUtil.mfbpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
-			}
+			}else if(payType == 12||payType == 13){
+				orderNo = orderNo + "jqhpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> jqhpay = this.getMap("SELECT t_mchid,t_client_ip,t_key,t_return_url,t_notify_url,t_client_ip,t_gateway FROM t_mfbpay_setup limit 1");
+				String subject = "VIP";
+				String amount = setMealMap.get("t_money").toString();
+				String channel = payType==13?"hs_wechat":"hs_alipay";
+				String mchid = jqhpay.get("t_mchid").toString();
+				String returnUrl = jqhpay.get("t_return_url").toString();
+				String notifyUrl = jqhpay.get("t_notify_url").toString();
+				String clientIp = jqhpay.get("t_client_ip").toString();
+				String key = jqhpay.get("t_key").toString();
+				
+				Map<String, Object> params = PayUtil.jqhpay(orderNo, subject, amount, channel, mchid, returnUrl, notifyUrl, clientIp, key);
+				String gateway = jqhpay.get("t_gateway").toString();
+				// 调用接口
+				try {
+					String resultStr = HttpUtil.doPost(gateway, params);
+					JSONObject resultJso = JSONObject.fromObject(resultStr);
+					if("OK".equals(resultJso.getString("result_code"))) {
+						map = new HashMap<String, String>();
+						map.put("result_code", resultJso.getString("result_code"));
+						map.put("result_msg", resultJso.getString("result_msg"));
+						map.put("credential", resultJso.getJSONObject("charge").getString("credential"));
+						
+					}else {
+						logger.error("jqhpay fail, msg={}", resultJso.getString("result_msg"));
+					}
+				}catch (Exception e) {
+					logger.error("jqhpay error, e={}", e.getMessage());
+				}
+			}	
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
 				
@@ -1067,7 +1099,38 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				String gateway = dhpay.get("t_gateway").toString();
 				
 				map = PayUtil.mfbpay(payMemberid, orderid, applydate, bankcode, notifyurl, callbackurl, amount, productname, key, gateway);
-			}
+			}else if(payType == 12||payType == 13){
+				orderNo = orderNo + "jqhpay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> jqhpay = this.getMap("SELECT t_mchid,t_client_ip,t_key,t_return_url,t_notify_url,t_client_ip,t_gateway FROM t_mfbpay_setup limit 1");
+				String subject = "coins";
+				String amount = smlMap.get("t_money").toString();
+				String channel = payType==13?"hs_wechat":"hs_alipay";
+				String mchid = jqhpay.get("t_mchid").toString();
+				String returnUrl = jqhpay.get("t_return_url").toString();
+				String notifyUrl = jqhpay.get("t_notify_url").toString();
+				String clientIp = jqhpay.get("t_client_ip").toString();
+				String key = jqhpay.get("t_key").toString();
+				
+				Map<String, Object> params = PayUtil.jqhpay(orderNo, subject, amount, channel, mchid, returnUrl, notifyUrl, clientIp, key);
+				String gateway = jqhpay.get("t_gateway").toString();
+				// 调用接口
+				try {
+					String resultStr = HttpUtil.doPost(gateway, params);
+					JSONObject resultJso = JSONObject.fromObject(resultStr);
+					if("OK".equals(resultJso.getString("result_code"))) {
+						map = new HashMap<String, String>();
+						map.put("result_code", resultJso.getString("result_code"));
+						map.put("result_msg", resultJso.getString("result_msg"));
+						map.put("credential", resultJso.getJSONObject("charge").getString("credential"));
+						
+					}else {
+						logger.error("jqhpay fail, msg={}", resultJso.getString("result_msg"));
+					}
+				}catch (Exception e) {
+					logger.error("jqhpay error, e={}", e.getMessage());
+				}
+			}	
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
 				//生产订单记录
@@ -1385,6 +1448,17 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 	public String getMfbpayKey() {
 		try {
 			String qSql = "SELECT t_key FROM t_mfbpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public String getJqhpayKey() {
+		try {
+			String qSql = "SELECT t_key FROM t_jqhpay_setup limit 1";
 			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -160,4 +160,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getMfbpayKey();
+	
+	/**
+	 * 获取金钱汇支付的密钥
+	 * @return
+	 */
+	public String getJqhpayKey();
 }

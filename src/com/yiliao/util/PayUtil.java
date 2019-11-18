@@ -355,4 +355,46 @@ public class PayUtil {
 		}
 		return new HashMap<String, String>();
 	}
+	
+	/**
+	 * 金钱汇支付
+	 */
+	public static Map<String, Object> jqhpay(String orderNo, String subject, String amount, String channel, String mchid, String returnUrl, String notifyUrl, String clientIp, String key) {
+		try {
+			SortedMap<String, Object> smap = new TreeMap<>();
+			smap.put("out_trade_no", orderNo);
+			smap.put("amount", amount);
+			smap.put("currency", "CNY");
+			smap.put("channel", channel);
+			smap.put("mchid", mchid);
+			smap.put("return_url", returnUrl);
+			smap.put("notify_url", notifyUrl);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			for(Entry<String, Object> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			sb.append("key=");
+			sb.append(key);
+
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("jqhpay, orderNo={}, sign={}", orderNo, sign);
+
+			Map<String, Object> map = new HashMap<>();
+			map.putAll(smap);
+			map.put("subject", subject);
+			map.put("extparam", "xxx");
+			map.put("sign_type", "2");
+			map.put("body", subject);
+			map.put("client_ip", clientIp);
+			map.put("sign", sign);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("jqhpay error, e={}", e.getMessage());
+		}
+		return new HashMap<String, Object>();
+	}
 }
