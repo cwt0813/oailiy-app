@@ -903,9 +903,10 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 						map.put("result_code", resultJso.getString("result_code"));
 						map.put("result_msg", resultJso.getString("result_msg"));
 						map.put("credential", resultJso.getJSONObject("charge").getString("credential"));
-						
+						logger.info("jqhpay success, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
 					}else {
-						logger.error("jqhpay fail, msg={}", resultJso.getString("result_msg"));
+						logger.info("jqhpay fail, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
+						logger.error("jqhpay fail, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
 					}
 				}catch (Exception e) {
 					logger.error("jqhpay error, e={}", e.getMessage());
@@ -1123,9 +1124,10 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 						map.put("result_code", resultJso.getString("result_code"));
 						map.put("result_msg", resultJso.getString("result_msg"));
 						map.put("credential", resultJso.getJSONObject("charge").getString("credential"));
-						
+						logger.info("jqhpay success, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
 					}else {
-						logger.error("jqhpay fail, msg={}", resultJso.getString("result_msg"));
+						logger.info("jqhpay fail, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
+						logger.error("jqhpay fail, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
 					}
 				}catch (Exception e) {
 					logger.error("jqhpay error, e={}", e.getMessage());
