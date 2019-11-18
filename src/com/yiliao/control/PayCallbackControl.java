@@ -678,7 +678,7 @@ public class PayCallbackControl {
 			StringBuilder sb = new StringBuilder();
 			
 			SortedMap<String, String> smap = new TreeMap<>();
-			smap.putAll(params);
+			smap.putAll((Map<String, String>)charge);
 			smap.remove("sign");
 			
 			for(Entry<String, String> e:smap.entrySet()) {
