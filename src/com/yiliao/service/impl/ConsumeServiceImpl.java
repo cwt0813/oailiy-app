@@ -1115,12 +1115,13 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				
 				Map<String, Object> params = PayUtil.jqhpay(orderNo, subject, amount, channel, mchid, returnUrl, notifyUrl, clientIp, key);
 				String gateway = jqhpay.get("t_gateway").toString();
+				map = new HashMap<String, String>();
 				// 调用接口
 				try {
 					String resultStr = HttpUtil.doPost(gateway, params);
+					logger.info("jqhpay resultStr={}", resultStr);
 					JSONObject resultJso = JSONObject.fromObject(resultStr);
 					if("OK".equals(resultJso.getString("result_code"))) {
-						map = new HashMap<String, String>();
 						map.put("result_code", resultJso.getString("result_code"));
 						map.put("result_msg", resultJso.getString("result_msg"));
 						map.put("credential", resultJso.getJSONObject("charge").getString("credential"));
