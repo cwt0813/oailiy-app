@@ -378,7 +378,9 @@ public class PayUtil {
 			sb.append("key=");
 			sb.append(key);
 
-			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			logger.info("jqhpay, orderNo={}, signsb={}", orderNo, sb.toString());
+			
+			String sign = MD5.stringToMD5(sb.toString());
 			
 			logger.info("jqhpay, orderNo={}, sign={}", orderNo, sign);
 

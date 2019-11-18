@@ -1121,14 +1121,14 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 					String resultStr = HttpUtil.doPost(gateway, params);
 					logger.info("jqhpay resultStr={}", resultStr);
 					JSONObject resultJso = JSONObject.fromObject(resultStr);
-					if("OK".equals(resultJso.getString("result_code"))) {
+					if(null!=resultJso.get("result_code")&&"OK".equals(resultJso.getString("result_code"))) {
 						map.put("result_code", resultJso.getString("result_code"));
 						map.put("result_msg", resultJso.getString("result_msg"));
 						map.put("credential", resultJso.getJSONObject("charge").getString("credential"));
 						logger.info("jqhpay success, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
 					}else {
-						logger.info("jqhpay fail, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
-						logger.error("jqhpay fail, msg={}, orderNo={},userId={}", resultJso.getString("result_msg"),orderNo,userId);
+						logger.info("jqhpay fail, code={},msg={}, orderNo={},userId={}", resultJso.getString("error_code"), resultJso.getString("error_msg"),orderNo,userId);
+						logger.error("jqhpay fail, code={},msg={}, orderNo={},userId={}", resultJso.getString("error_code"), resultJso.getString("error_msg"),orderNo,userId);
 					}
 				}catch (Exception e) {
 					logger.error("jqhpay error, e={}", e.getMessage());
