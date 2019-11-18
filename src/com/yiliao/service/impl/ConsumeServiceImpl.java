@@ -882,7 +882,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 			}else if(payType == 12||payType == 13){
 				orderNo = orderNo + "jqhpay_"+userId+"_"+System.currentTimeMillis();
 				
-				Map<String, Object> jqhpay = this.getMap("SELECT t_mchid,t_client_ip,t_key,t_return_url,t_notify_url,t_client_ip,t_gateway FROM t_mfbpay_setup limit 1");
+				Map<String, Object> jqhpay = this.getMap("SELECT t_mchid,t_client_ip,t_key,t_return_url,t_notify_url,t_client_ip,t_gateway FROM t_jqhpay_setup limit 1");
 				String subject = "VIP";
 				String amount = setMealMap.get("t_money").toString();
 				String channel = payType==13?"hs_wechat":"hs_alipay";
@@ -1103,7 +1103,7 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 			}else if(payType == 12||payType == 13){
 				orderNo = orderNo + "jqhpay_"+userId+"_"+System.currentTimeMillis();
 				
-				Map<String, Object> jqhpay = this.getMap("SELECT t_mchid,t_client_ip,t_key,t_return_url,t_notify_url,t_client_ip,t_gateway FROM t_mfbpay_setup limit 1");
+				Map<String, Object> jqhpay = this.getMap("SELECT t_mchid,t_client_ip,t_key,t_return_url,t_notify_url,t_client_ip,t_gateway FROM t_jqhpay_setup limit 1");
 				String subject = "coins";
 				String amount = smlMap.get("t_money").toString();
 				String channel = payType==13?"hs_wechat":"hs_alipay";
