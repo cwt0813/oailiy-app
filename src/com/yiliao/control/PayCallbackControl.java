@@ -671,8 +671,15 @@ public class PayCallbackControl {
 		logger.info("金钱汇支付回调，{}", params);
 		try {
 			
-			String chargeStr = params.get("charge");
-			JSONObject charge = JSONObject.fromObject(chargeStr);
+			JSONObject charge = new JSONObject();
+			charge.put("out_trade_no", params.get("charge[out_trade_no]"));
+			charge.put("amount", params.get("charge[amount]"));
+			charge.put("trade_no", params.get("charge[trade_no]"));
+			charge.put("currency", params.get("charge[currency]"));
+			charge.put("mchid", params.get("charge[mchid]"));
+			charge.put("channel", params.get("charge[channel]"));
+			charge.put("noncestr", params.get("charge[noncestr]"));
+			charge.put("sign", params.get("charge[sign]"));
 			String jqhpay_map_sign = charge.getString("sign");
 			
 			StringBuilder sb = new StringBuilder();
