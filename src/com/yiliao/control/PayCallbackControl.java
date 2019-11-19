@@ -667,18 +667,19 @@ public class PayCallbackControl {
 	@RequestMapping("jqhpay_callback")
 	@ResponseBody
 	public void jqhpayCallback(HttpServletRequest request,HttpServletResponse response) {
-		 
-		JSONObject params = convertRequestParamsToJSONObject(request); // 将异步通知中收到的待验证所有参数都存放到map中
-		logger.info("金钱汇支付回调，{}", params);
+		
+		String resultCode = request.getParameter("result_code");
+		String resultMsg = request.getParameter("result_msg");
+		String charge = request.getParameter("charge");
+		logger.info("金钱汇支付回调，resultCode={},resultMsg={},charge={}", resultCode, resultMsg, charge);
 		try {
-			
-			JSONObject charge = params.getJSONObject("charge");
-			String jqhpay_map_sign = charge.getString("sign");
+			JSONObject chargeJso = JSONObject.fromObject(charge);
+			String jqhpay_map_sign = chargeJso.getString("sign");
 			
 			StringBuilder sb = new StringBuilder();
 			
 			SortedMap<String, String> smap = new TreeMap<>();
-			smap.putAll((Map<String, String>)charge);
+			smap.putAll((Map<String, String>)chargeJso);
 			smap.remove("sign");
 			
 			for(Entry<String, String> e:smap.entrySet()) {
@@ -698,27 +699,27 @@ public class PayCallbackControl {
 			if (signVerified) {
 				logger.info("金钱汇支付回调签名认证成功");
 				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
-				this.jqhpayCheck(charge);
+				this.jqhpayCheck(chargeJso);
 				// 支付成功
-				if ("OK".equals(params.getString("result_code"))){
+				if ("OK".equals(resultCode)){
 					// 处理支付成功逻辑
 					try {
-						this.consumeService.payNotify(charge.getString("out_trade_no"), charge.getString("trade_no"));
+						this.consumeService.payNotify(chargeJso.getString("out_trade_no"), chargeJso.getString("trade_no"));
 					} catch (Exception e) {
-						logger.error("金钱汇支付回调业务处理报错,params:" + params, e);
+						logger.error("金钱汇支付回调业务处理报错,params:" + resultCode, e);
 					}
 				} else {
-					logger.error("没有处理金钱汇支付回调业务，金钱汇支付交易状态：{},params:{}",params.get("returncode"), params);
+					logger.error("没有处理金钱汇支付回调业务，金钱汇支付交易状态：{},params:{}",resultCode, charge);
 				}
 				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
 				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
 				PrintUtil.printWriStr("SUCCESS", response);
 			} else {
-				logger.info("金钱汇支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
+				logger.info("金钱汇支付回调签名认证失败，signVerified=false, paramsJson:{}",resultMsg);
 				PrintUtil.printWriStr("failure", response);
 			}
 		} catch (Exception e) {
-			logger.error("金钱汇支付回调认证失败,paramsJson:{},errorMsg:{}", params,
+			logger.error("金钱汇支付回调认证失败,paramsJson:{},errorMsg:{}", resultMsg,
 					e.getMessage());
 			PrintUtil.printWriStr("failure", response);
 		}
@@ -753,26 +754,6 @@ public class PayCallbackControl {
 		return retMap;
 	}
 	
-	// 将request中的参数转换成JSONObject
-	@SuppressWarnings("unchecked")
-	private static JSONObject convertRequestParamsToJSONObject(HttpServletRequest request) {
-		JSONObject jsonObject = null;
-		try {
-			BufferedReader streamReader = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
-			StringBuilder responseStrBuilder = new StringBuilder();
-			String inputStr;
-			while ((inputStr = streamReader.readLine()) != null) {
-				responseStrBuilder.append(inputStr);
-			}
-
-			jsonObject = JSONObject.fromObject(responseStrBuilder.toString());
-			logger.info("convertRequestParamsToJSONObject==>jsonObject=", jsonObject.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return jsonObject;
-	}
-
 	/**
 	 * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
 	 * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
