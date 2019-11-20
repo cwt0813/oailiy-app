@@ -1,6 +1,7 @@
 package com.yiliao.control;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -663,39 +664,34 @@ public class PayCallbackControl {
 	
 	/**
 	 * 金钱汇支付回调
+	 * @throws IOException 
 	 */
 	@RequestMapping("jqhpay_callback")
 	@ResponseBody
-	public void jqhpayCallback(HttpServletRequest request,HttpServletResponse response) {
-		final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
-		logger.info("金钱汇支付回调，{}", params);
+	public void jqhpayCallback(HttpServletRequest request,HttpServletResponse response){
+		
+		String paramStr = null;
 		try {
-			
-			JSONObject charge = new JSONObject();
-			charge.put("out_trade_no", params.get("charge[out_trade_no]"));
-			charge.put("amount", params.get("charge[amount]"));
-			charge.put("trade_no", params.get("charge[trade_no]"));
-			charge.put("currency", params.get("charge[currency]"));
-			charge.put("mchid", params.get("charge[mchid]"));
-			charge.put("channel", params.get("charge[channel]"));
-			charge.put("noncestr", params.get("charge[noncestr]"));
-			charge.put("sign", params.get("charge[sign]"));
+			paramStr = getRequestJsonString(request);
+			logger.info("金钱汇支付回调，{}", paramStr);
+			JSONObject params = JSONObject.fromObject(paramStr);
+ 			JSONObject charge = params.getJSONObject("charge");
 			String jqhpay_map_sign = charge.getString("sign");
 			
 			StringBuilder sb = new StringBuilder();
 			
-			SortedMap<String, String> smap = new TreeMap<>();
-			smap.putAll((Map<String, String>)charge);
+			SortedMap<String, Object> smap = new TreeMap<>();
+			smap.putAll((Map<String, Object>)charge);
 			smap.remove("sign");
 			
-			for(Entry<String, String> e:smap.entrySet()) {
-				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			for(Entry<String, Object> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue().toString()).append("&");
 			}
 			sb.append("key=");
 			String key = this.consumeService.getJqhpayKey();
 			sb.append(key);
 			
-			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			String sign = MD5.stringToMD5(sb.toString());
 			
 			logger.info("jqhpay_sign- >{}",sign);
 			logger.info("jqhpay_map_sign- >{}",jqhpay_map_sign);
@@ -725,7 +721,7 @@ public class PayCallbackControl {
 				PrintUtil.printWriStr("failure", response);
 			}
 		} catch (Exception e) {
-			logger.error("金钱汇支付回调认证失败,paramsJson:{},errorMsg:{}", params,
+			logger.error("金钱汇支付回调认证失败,paramsJson:{},errorMsg:{}", paramStr,
 					e.getMessage());
 			PrintUtil.printWriStr("failure", response);
 		}
@@ -760,6 +756,72 @@ public class PayCallbackControl {
 		return retMap;
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+    public static String getRequestJsonString(HttpServletRequest request)
+            throws IOException {
+        String submitMehtod = request.getMethod();
+        // GET
+        if (submitMehtod.equals("GET")) {
+            return new String(request.getQueryString().getBytes("iso-8859-1"),"utf-8").replaceAll("%22", "\"");
+        // POST
+        } else {
+            return getRequestPostStr(request);
+        }
+    }
+    
+
+    /**      
+     * 描述:获取 post 请求的 byte[] 数组
+     * <pre>
+     * 举例：
+     * </pre>
+     * @param request
+     * @return
+     * @throws IOException      
+     */
+    public static byte[] getRequestPostBytes(HttpServletRequest request)
+            throws IOException {
+        int contentLength = request.getContentLength();
+        if(contentLength<0){
+            return null;
+        }
+        byte buffer[] = new byte[contentLength];
+        for (int i = 0; i < contentLength;) {
+ 
+            int readlen = request.getInputStream().read(buffer, i,
+                    contentLength - i);
+            if (readlen == -1) {
+                break;
+            }
+            i += readlen;
+        }
+        return buffer;
+    }
+ 
+    /**      
+     * 描述:获取 post 请求内容
+     * <pre>
+     * 举例：
+     * </pre>
+     * @param request
+     * @return
+     * @throws IOException      
+     */
+    public static String getRequestPostStr(HttpServletRequest request)
+            throws IOException {
+        byte buffer[] = getRequestPostBytes(request);
+        String charEncoding = request.getCharacterEncoding();
+        if (charEncoding == null) {
+            charEncoding = "UTF-8";
+        }
+        return new String(buffer, charEncoding);
+    }
+    
 	/**
 	 * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
 	 * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
