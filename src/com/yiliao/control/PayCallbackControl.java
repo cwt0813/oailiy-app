@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -672,96 +670,68 @@ public class PayCallbackControl {
 	@ResponseBody
 	public void jqhpayCallback(HttpServletRequest request,HttpServletResponse response){
 		
+		final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		logger.info("金钱汇支付回调，{}", params);
 		try {
-			logger.info("金钱汇支付回调方法1");
-			final Map<String, String> params1 = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
-			logger.info("民付宝支付回调方法1，{}", params1);
-			logger.info("民付宝支付回调方法1，result_code={}", params1.get("result_code"));
-			logger.info("民付宝支付回调方法1，charge.sign{}", params1.get("charge.sign"));
-			logger.info("民付宝支付回调方法1，charge.sign{}", params1.get("charge[sign]"));
-		}catch (Exception e) {
-			logger.info("金钱汇支付回调方法1失败，e={}", e.getMessage());
-		}
-		
-		try {
-			logger.info("金钱汇支付回调方法2");
-			String paramStr = null;
-			paramStr = getRequestJsonString(request);
-			logger.info("金钱汇支付回调方法2，{}", paramStr);
-			JSONObject params2 = JSONObject.fromObject(paramStr);
-	 		JSONObject charge = params2.getJSONObject("charge");
+			System.out.println(params.get("result_code"));
+ 			JSONObject charge = new JSONObject();
+			charge.put("out_trade_no", params.get("charge.out_trade_no"));
+			charge.put("amount", params.get("charge.amount"));
+			charge.put("trade_no", params.get("charge.trade_no"));
+			charge.put("currency", params.get("charge.currency"));
+			charge.put("mchid", params.get("charge.mchid"));
+			charge.put("channel", params.get("charge.channel"));
+			charge.put("noncestr", params.get("charge.noncestr"));
+			charge.put("sign", params.get("charge.sign"));
 			String jqhpay_map_sign = charge.getString("sign");
-			logger.info("民付宝支付回调方法2，result_code={}", params2.getString("result_code"));
-			logger.info("民付宝支付回调方法2，charge.sign{}", jqhpay_map_sign);
-		}catch (Exception e) {
-			logger.info("金钱汇支付回调方法2失败，e={}", e.getMessage());
+			
+			StringBuilder sb = new StringBuilder();
+			
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.putAll((Map<String, String>)charge);
+			smap.remove("sign");
+			
+			for(Entry<String, String> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			sb.append("key=");
+			String key = this.consumeService.getJqhpayKey();
+			sb.append(key);
+			
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("jqhpay_sign- >{}",sign);
+			logger.info("jqhpay_map_sign- >{}",jqhpay_map_sign);
+			// 验证签名
+			boolean signVerified = sign.equals(jqhpay_map_sign);
+					
+			if (signVerified) {
+				logger.info("金钱汇支付回调签名认证成功");
+				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
+				this.jqhpayCheck(charge);
+				// 支付成功
+				if ("OK".equals(params.get("result_code"))){
+					// 处理支付成功逻辑
+					try {
+						this.consumeService.payNotify(charge.getString("out_trade_no"), charge.getString("trade_no"));
+					} catch (Exception e) {
+						logger.error("金钱汇支付回调业务处理报错,params:" + params, e);
+					}
+				} else {
+					logger.error("没有处理金钱汇支付回调业务，金钱汇支付交易状态：{},params:{}",params.get("result_code"), params);
+				}
+				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
+				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
+				PrintUtil.printWriStr("SUCCESS", response);
+			} else {
+				logger.info("金钱汇支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
+				PrintUtil.printWriStr("failure", response);
+			}
+		} catch (Exception e) {
+			logger.error("金钱汇支付回调认证失败,paramsJson:{},errorMsg:{}", params,
+					e.getMessage());
+			PrintUtil.printWriStr("failure", response);
 		}
-		
-		try {
-			logger.info("金钱汇支付回调方法3");
-			JSONObject params3 = getRequestPostJson(request);
-			logger.info("金钱汇支付回调方法3，{}", params3.toString());
-			logger.info("民付宝支付回调方法3，result_code={}", params3.getString("result_code"));
-			logger.info("民付宝支付回调方法3，charge.sign{}", params3.getJSONObject("charge").getString("sign"));
-		}catch (Exception e) {
-			logger.info("金钱汇支付回调方法3失败，e={}", e.getMessage());
-		}
-		
-//		String paramStr = null;
-//		try {
-//			paramStr = getRequestJsonString(request);
-//			logger.info("金钱汇支付回调，{}", paramStr);
-//			JSONObject params = JSONObject.fromObject(paramStr);
-// 			JSONObject charge = params.getJSONObject("charge");
-//			String jqhpay_map_sign = charge.getString("sign");
-//			
-//			StringBuilder sb = new StringBuilder();
-//			
-//			SortedMap<String, Object> smap = new TreeMap<>();
-//			smap.putAll((Map<String, Object>)charge);
-//			smap.remove("sign");
-//			
-//			for(Entry<String, Object> e:smap.entrySet()) {
-//				sb.append(e.getKey()).append("=").append(e.getValue().toString()).append("&");
-//			}
-//			sb.append("key=");
-//			String key = this.consumeService.getJqhpayKey();
-//			sb.append(key);
-//			
-//			String sign = MD5.stringToMD5(sb.toString());
-//			
-//			logger.info("jqhpay_sign- >{}",sign);
-//			logger.info("jqhpay_map_sign- >{}",jqhpay_map_sign);
-//			// 验证签名
-//			boolean signVerified = sign.equals(jqhpay_map_sign);
-//					
-//			if (signVerified) {
-//				logger.info("金钱汇支付回调签名认证成功");
-//				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
-//				this.jqhpayCheck(charge);
-//				// 支付成功
-//				if ("OK".equals(params.get("result_code"))){
-//					// 处理支付成功逻辑
-//					try {
-//						this.consumeService.payNotify(charge.getString("out_trade_no"), charge.getString("trade_no"));
-//					} catch (Exception e) {
-//						logger.error("金钱汇支付回调业务处理报错,params:" + params, e);
-//					}
-//				} else {
-//					logger.error("没有处理金钱汇支付回调业务，金钱汇支付交易状态：{},params:{}",params.get("result_code"), params);
-//				}
-//				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
-//				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
-//				PrintUtil.printWriStr("SUCCESS", response);
-//			} else {
-//				logger.info("金钱汇支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
-//				PrintUtil.printWriStr("failure", response);
-//			}
-//		} catch (Exception e) {
-//			logger.error("金钱汇支付回调认证失败,paramsJson:{},errorMsg:{}", paramStr,
-//					e.getMessage());
-//			PrintUtil.printWriStr("failure", response);
-//		}
 	}
 	
 	// 将request中的参数转换成Map
@@ -858,27 +828,6 @@ public class PayCallbackControl {
         }
         return new String(buffer, charEncoding);
     }
-    
-    public JSONObject getRequestPostJson(HttpServletRequest request) {  
-        try {  
-            BufferedReader br = new BufferedReader(new InputStreamReader(  
-                    request.getInputStream()));  
-            String line = null;  
-            StringBuilder sb = new StringBuilder();  
-            while ((line = br.readLine()) != null) {  
-                sb.append(line);  
-            }  
-  
-            String reqBody = URLDecoder.decode(sb.toString(), HTTP.UTF_8);  
-            logger.info("Request Body:" + reqBody);  
-            JSONObject json = JSONObject.fromObject(reqBody);
-            return json;  
-        } catch (Exception e) {  
-           
-            return null;  
-        }  
-  
-    }  
     
 	/**
 	 * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
