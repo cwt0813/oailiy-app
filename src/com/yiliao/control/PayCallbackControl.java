@@ -698,7 +698,7 @@ public class PayCallbackControl {
 			String key = this.consumeService.getJqhpayKey();
 			sb.append(key);
 			
-			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			String sign = MD5.stringToMD5(sb.toString());
 			
 			logger.info("jqhpay_sign- >{}",sign);
 			logger.info("jqhpay_map_sign- >{}",jqhpay_map_sign);
