@@ -675,14 +675,14 @@ public class PayCallbackControl {
 		try {
 			System.out.println(params.get("result_code"));
  			JSONObject charge = new JSONObject();
-			charge.put("out_trade_no", params.get("charge.out_trade_no"));
-			charge.put("amount", params.get("charge.amount"));
-			charge.put("trade_no", params.get("charge.trade_no"));
-			charge.put("currency", params.get("charge.currency"));
-			charge.put("mchid", params.get("charge.mchid"));
-			charge.put("channel", params.get("charge.channel"));
-			charge.put("noncestr", params.get("charge.noncestr"));
-			charge.put("sign", params.get("charge.sign"));
+			charge.put("out_trade_no", params.get("charge[out_trade_no]"));
+			charge.put("amount", params.get("charge[amount]"));
+			charge.put("trade_no", params.get("charge[trade_no]"));
+			charge.put("currency", params.get("charge[currency]"));
+			charge.put("mchid", params.get("charge[mchid]"));
+			charge.put("channel", params.get("charge[channel]"));
+			charge.put("noncestr", params.get("charge[noncestr]"));
+			charge.put("sign", params.get("charge[sign]"));
 			String jqhpay_map_sign = charge.getString("sign");
 			
 			StringBuilder sb = new StringBuilder();
@@ -722,7 +722,10 @@ public class PayCallbackControl {
 				}
 				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
 				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
-				PrintUtil.printWriStr("SUCCESS", response);
+				JSONObject respJso = new JSONObject();
+				respJso.put("result_msg", "SUCCESS");
+				respJso.put("result_code", "OK");
+				PrintUtil.printWriStr(respJso.toString(), response);
 			} else {
 				logger.info("金钱汇支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
 				PrintUtil.printWriStr("failure", response);
