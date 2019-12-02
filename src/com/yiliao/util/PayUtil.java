@@ -399,4 +399,44 @@ public class PayUtil {
 		}
 		return new HashMap<String, Object>();
 	}
+	
+	/**
+	 * 聚合支付
+	 */
+	public static Map<String, Object> juhepay(String orderNo, String service, String mchId, String paytype, String totalFee, String notifyUrl, String gateway, String key) {
+		try {
+			SortedMap<String, Object> smap = new TreeMap<>();
+			smap.put("service", service);
+			smap.put("mch_id", mchId);
+			smap.put("paytype", paytype);
+			smap.put("out_trade_no", orderNo);
+			smap.put("total_fee", totalFee);
+			smap.put("time", System.currentTimeMillis());
+			smap.put("notify_url", notifyUrl);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			for(Entry<String, Object> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			sb.append("key=");
+			sb.append(key);
+
+			logger.info("juhepay, orderNo={}, signsb={}", orderNo, sb.toString());
+			
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("juhepay, orderNo={}, sign={}", orderNo, sign);
+
+			Map<String, Object> map = new HashMap<>();
+			map.putAll(smap);
+			map.put("gateway", gateway);
+			map.put("sign", sign);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("juhepay error, e={}", e.getMessage());
+		}
+		return new HashMap<String, Object>();
+	}
 }

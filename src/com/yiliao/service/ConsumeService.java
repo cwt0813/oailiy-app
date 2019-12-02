@@ -166,4 +166,10 @@ public interface ConsumeService {
 	 * @return
 	 */
 	public String getJqhpayKey();
+	
+	/**
+	 * 获取聚合支付的密钥
+	 * @return
+	 */
+	public String getJuhepayKey();
 }

@@ -911,7 +911,21 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				}catch (Exception e) {
 					logger.error("jqhpay error, e={}", e.getMessage());
 				}
-			}	
+			}else if(payType == 14||payType == 15){
+				orderNo = orderNo + "juhepay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> juhepay = this.getMap("SELECT t_mch_id,t_key,t_gateway,t_notify_url FROM t_juhepay_setup limit 1");
+				String service = "placeOrder";
+				String mchId = juhepay.get("t_mch_id").toString();
+				String paytype = payType==15?"wxQrcode":"alipayJump";
+				String totalFee = setMealMap.get("t_money").toString();
+				String notifyUrl = juhepay.get("t_notify_url").toString();
+				String gateway = juhepay.get("t_gateway").toString();
+				String key = juhepay.get("t_key").toString();
+				
+				Map<String, Object> params = PayUtil.juhepay(orderNo, service, mchId, paytype, totalFee, notifyUrl, gateway, key);
+				
+			}
 		 
 			if(StringUtils.isNotBlank(aliPay) || !map.isEmpty()){
 				
@@ -1133,7 +1147,21 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 				}catch (Exception e) {
 					logger.error("jqhpay error, e={}", e.getMessage());
 				}
-			}	
+			}else if(payType == 14||payType == 15){
+				orderNo = orderNo + "juhepay_"+userId+"_"+System.currentTimeMillis();
+				
+				Map<String, Object> juhepay = this.getMap("SELECT t_mch_id,t_key,t_gateway,t_notify_url FROM t_juhepay_setup limit 1");
+				String service = "placeOrder";
+				String mchId = juhepay.get("t_mch_id").toString();
+				String paytype = payType==15?"wxQrcode":"alipayJump";
+				String totalFee = smlMap.get("t_money").toString();
+				String notifyUrl = juhepay.get("t_notify_url").toString();
+				String gateway = juhepay.get("t_gateway").toString();
+				String key = juhepay.get("t_key").toString();
+				
+				Map<String, Object> params = PayUtil.juhepay(orderNo, service, mchId, paytype, totalFee, notifyUrl, gateway, key);
+				
+			}
 		 
 			if(StringUtils.isNotBlank(alipay)||!map.isEmpty()){
 				//生产订单记录
@@ -1462,6 +1490,17 @@ public class ConsumeServiceImpl extends ICommServiceImpl implements
 	public String getJqhpayKey() {
 		try {
 			String qSql = "SELECT t_key FROM t_jqhpay_setup limit 1";
+			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public String getJuhepayKey() {
+		try {
+			String qSql = "SELECT t_key FROM t_juhepay_setup limit 1";
 			return this.getFinalDao().getIEntitySQLDAO().findBySQLUniqueResultToMap(qSql).get("t_key").toString();
 		} catch (Exception e) {
 			e.printStackTrace();

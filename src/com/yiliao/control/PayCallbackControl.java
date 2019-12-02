@@ -737,6 +737,67 @@ public class PayCallbackControl {
 		}
 	}
 	
+	/**
+	 * 聚合支付回调
+	 */
+	@RequestMapping("juhepay_callback")
+	@ResponseBody
+	public void juhepayCallback(HttpServletRequest request,HttpServletResponse response) {
+		 
+	    final Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		logger.info("聚合支付回调，{}", params);
+		try {
+			
+			String juhepay_map_sign = params.get("sign");
+			params.remove("sign");
+			StringBuilder sb = new StringBuilder();
+			
+			SortedMap<String, String> smap = new TreeMap<>();
+			smap.putAll(params);
+			
+			for(Entry<String, String> e:smap.entrySet()) {
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
+			sb.append("key=");
+			String key = this.consumeService.getYdpayKey();
+			sb.append(key);
+			
+			String sign = MD5.stringToMD5(sb.toString()).toUpperCase();
+			
+			logger.info("juhepay_sign- >{}",sign);
+			logger.info("juhepay_map_sign- >{}",juhepay_map_sign);
+			// 验证签名
+			boolean signVerified = sign.equals(juhepay_map_sign);
+					
+			if (signVerified) {
+				logger.info("云鼎支付回调签名认证成功");
+				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
+				this.juhepayCheck(params);
+				// 支付成功
+				if ("2".equals(params.get("returncode"))){
+					// 处理支付成功逻辑
+					try {
+						this.consumeService.payNotify(params.get("out_biz_no"), params.get("out_biz_no"));
+					} catch (Exception e) {
+						logger.error("聚合支付回调业务处理报错,params:" + params, e);
+					}
+				} else {
+					logger.error("没有处理聚合支付回调业务，聚合支付交易状态：{},params:{}",params.get("returncode"), params);
+				}
+				// 如果签名验证正确，立即返回OK，后续业务另起线程单独处理
+				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
+				PrintUtil.printWriStr("success", response);
+			} else {
+				logger.info("聚合支付回调签名认证失败，signVerified=false, paramsJson:{}",params);
+				PrintUtil.printWriStr("failure", response);
+			}
+		} catch (Exception e) {
+			logger.error("聚合支付回调认证失败,paramsJson:{},errorMsg:{}", params,
+					e.getMessage());
+			PrintUtil.printWriStr("failure", response);
+		}
+	}
+	
 	// 将request中的参数转换成Map
 	@SuppressWarnings("unchecked")
 	private static Map<String, String> convertRequestParamsToMap(
@@ -1041,6 +1102,31 @@ public class PayCallbackControl {
 		logger.info("amount", charge.getString("amount"));
 		logger.info("t_recharge_money={}", dataMap.get("t_recharge_money").toString());
 		BigDecimal payAmount = new BigDecimal(charge.getString("amount"));
+		if (payAmount.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
+			throw new AlipayApiException("error amount");
+		}
+		
+	}
+	
+	/**
+	 * 聚合支付回调校验
+	 * @param params
+	 * @throws AlipayApiException
+	 */
+	private void juhepayCheck(Map<String, String> params) throws AlipayApiException {
+		
+		String orderNo = params.get("out_biz_no");
+
+		// 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+		Map<String, Object> dataMap = this.callBackService.getOrderByOrderNo(orderNo);
+		if (null == dataMap) {
+			throw new AlipayApiException("out_biz_no错误");
+		}
+
+		// 2、判断amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+		logger.info("amount", params.get("amount"));
+		logger.info("t_recharge_money={}", dataMap.get("t_recharge_money").toString());
+		BigDecimal payAmount = new BigDecimal(params.get("amount"));
 		if (payAmount.compareTo(new BigDecimal(dataMap.get("t_recharge_money").toString()))!= 0) {
 			throw new AlipayApiException("error amount");
 		}
